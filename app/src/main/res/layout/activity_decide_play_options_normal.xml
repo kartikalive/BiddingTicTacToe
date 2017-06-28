@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_decide_game"
+    android:id="@+id/activity_decide_play_options_normal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mindsortlabs.biddingtictactoe.DecideGameActivity">
+    tools:context="com.mindsortlabs.biddingtictactoe.DecidePlayOptionsNormalActivity">
 
     <Button
-        android:text="Normal T3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="198dp"
-        android:id="@+id/btn_normal"
-        android:onClick="onClick"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/btn_bidding"
-        android:layout_alignEnd="@+id/btn_bidding" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="125dp"
+        android:id="@+id/btn_cpu"
+        android:text="vs CPU"
+        android:onClick="onClick" />
 
     <Button
-        android:text="Bidding T3"
+        android:text="Two Players"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:id="@+id/btn_bidding"
-        android:onClick="onClick"
-        android:layout_below="@+id/btn_normal"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/btn_two_players"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/btn_cpu"
+        android:layout_alignStart="@+id/btn_cpu"
+        android:onClick="onClick" />
+
 </RelativeLayout>

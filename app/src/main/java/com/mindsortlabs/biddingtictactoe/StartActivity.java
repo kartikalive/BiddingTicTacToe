@@ -24,12 +24,7 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = null;
         switch (v.getId()){
             case R.id.quick_play_btn:
-                if(SettingsActivity.animatedPlay==0){
-                    intent = new Intent(this, BoardPlayNormalActivity.class);
-                }
-                else {
-                    intent = new Intent(this, DrawingPlayNormalActivity.class);
-                }
+                intent = new Intent(this, DecideGameActivity.class);
                 break;
             case R.id.settings_btn:
                 intent = new Intent(this, SettingsActivity.class);
