@@ -12,9 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-/**
- * Created by kartik1 on 28-06-2017.
- */
 
 public class DrawingViewNormal extends View {
 
