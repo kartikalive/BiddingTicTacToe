@@ -10,11 +10,9 @@ public class NormalTicTacAi {
 
     Pair<Integer,Integer> solution;
 
-
-/*
-    Complete the function below to print 2 integers separated
-    by a single space which will be your next move
-   */
+    public NormalTicTacAi(){
+        solution = null;
+    }
 
 
     int first ;
@@ -91,9 +89,9 @@ public class NormalTicTacAi {
                 if(board[i][j]==0){
 
                     board[i][j]=player;
-                    Pair<Integer,Integer> p= nextMove(rev(player),board,depth + 1 );
-                    int x = p.first;
-                    int depth2 = p.second;
+                    Pair<Integer,Integer> pair= nextMove(rev(player),board,depth + 1 );
+                    int x = pair.first;
+                    int depth2 = pair.second;
                     board[i][j]=0;
                     if(depth ==0 ){
                         //cout<<i<<" "<<j<<"  "<<x<<endl;
@@ -126,8 +124,6 @@ public class NormalTicTacAi {
 
                     }
 
-
-
                 }
 
             }
@@ -138,8 +134,8 @@ public class NormalTicTacAi {
         }
         return Pair.create(c,max_depth);
 
-
     }
+
     Pair<Integer, Integer> getSolution(Vector<String> board) {
 
         char player = 'X';
@@ -163,21 +159,14 @@ public class NormalTicTacAi {
                 }else{
                     boards[i][j]=3;
                 }
-
-
             }
-
         }
-
 
         first = 5;
 
         nextMove(5,boards,0);
 
-
         return solution ;
     }
-
-
 
 }
