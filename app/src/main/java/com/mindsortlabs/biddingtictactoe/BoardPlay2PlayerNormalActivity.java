@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class BoardPlayNormalActivity extends AppCompatActivity {
+public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
     // 0 = Circle, 1 = Cross
 
@@ -28,7 +28,7 @@ public class BoardPlayNormalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board_play_normal);
+        setContentView(R.layout.activity_board_play2_player_normal);
 
         gridLayout = (GridLayout)findViewById(R.id.gridLayout);
     }
@@ -215,11 +215,12 @@ public class BoardPlayNormalActivity extends AppCompatActivity {
             winLine.animate().scaleX(1f).setDuration(200);
         }
 
-        try {
-            wait(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            wait(200);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         mergeImages(line);
     }

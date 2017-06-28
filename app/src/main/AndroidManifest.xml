@@ -16,9 +16,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".BoardPlayNormalActivity" />
-        <activity android:name=".DrawingPlayNormalActivity" />
-        <activity android:name=".DecideGameActivity"></activity>
+        <activity android:name=".BoardPlayCPUNormalActivity" />
+        <activity android:name=".DrawingPlayCPUNormalActivity" />
+        <activity android:name=".DecideGameActivity" />
+        <activity android:name=".DecidePlayOptionsNormalActivity" />
+        <activity android:name=".DecidePlayOptionsBiddingActivity" />
+        <activity android:name=".BoardPlay2PlayerNormalActivity" />
+        <activity android:name=".DrawingPlay2PlayerNormalActivity"></activity>
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class DrawingPlayNormalActivity extends AppCompatActivity {
+public class DrawingPlayCPUNormalActivity extends AppCompatActivity {
 
     DrawingViewNormal dv ;
 

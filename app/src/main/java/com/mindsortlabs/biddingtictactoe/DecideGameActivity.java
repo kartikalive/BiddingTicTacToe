@@ -1,5 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,9 +20,19 @@ public class DecideGameActivity extends AppCompatActivity {
     }
 
     public void onClick(View v){
+
+        Intent intent = null;
         switch (v.getId()){
             case R.id.btn_normal:
-
+                intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
+                break;
+            case R.id.btn_bidding:
+                intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+                break;
+            default:
+                break;
         }
+
+        startActivity(intent);
     }
 }

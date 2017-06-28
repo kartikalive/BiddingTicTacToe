@@ -28,7 +28,7 @@ public class DrawingViewNormal extends View {
     float topY;
     // float bottomY;
     private Paint mPaint;
-    DrawingPlayNormalActivity activity;
+    DrawingPlayCPUNormalActivity activity;
 
     int oldRow = 0;
     int oldCol = 0;
@@ -61,7 +61,7 @@ public class DrawingViewNormal extends View {
         View.inflate(context, R.layout.activity_drawing_play_normal, null);
     }
 
-    public DrawingViewNormal(Context c, DrawingPlayNormalActivity activity) {
+    public DrawingViewNormal(Context c, DrawingPlayCPUNormalActivity activity) {
         super(c);
 
         arr = new boolean[4][4];
