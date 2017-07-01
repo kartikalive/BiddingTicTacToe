@@ -163,7 +163,7 @@ public class BiddingTicTacToeAi {
 
 
     }
-    Pair < Integer ,Pair<Integer, Integer> >  getSolution(Vector<String> board,int mycoins) {
+    public Pair < Integer ,Pair<Integer, Integer> >  getSolution(Vector<String> board,int mycoins) {
 
         char player;
 

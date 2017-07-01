@@ -166,7 +166,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
         winLine = (ImageView) findViewById(R.id.win_line);
         winLine.setVisibility(View.VISIBLE);
-
+        winLine.setScaleX(0f);
         int line = 0;
 
         if(i<=2){
@@ -204,15 +204,15 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
             if(winningPosition[0]==0){
                 line = 6;
-                winLine.setRotation(-45);
+                winLine.setRotation(45);
             }
             else if(winningPosition[0]==2){
                 line = 7;
-                winLine.setRotation(45);
+                winLine.setRotation(-45);
             }
+            winLine.animate().scaleX(1.2f).setDuration(200);
 
-            winLine.setScaleX(0f);
-            winLine.animate().scaleX(1f).setDuration(200);
+
         }
 
 //        try {

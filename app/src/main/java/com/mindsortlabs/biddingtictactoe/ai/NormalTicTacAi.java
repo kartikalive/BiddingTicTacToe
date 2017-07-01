@@ -136,7 +136,7 @@ public class NormalTicTacAi {
 
     }
 
-    Pair<Integer, Integer> getSolution(Vector<String> board) {
+    public Pair<Integer, Integer> getSolution(Vector<String> board) {
 
         char player = 'X';
 

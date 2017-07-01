@@ -14,6 +14,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Bidding"
+        android:layout_alignParentTop="false"
+        android:id="@+id/btn_bidding"
+        android:layout_centerHorizontal="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:onClick="onClick"
+        android:visibility="gone"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Quick Play"
         android:layout_alignParentTop="false"
         android:id="@+id/quick_play_btn"
