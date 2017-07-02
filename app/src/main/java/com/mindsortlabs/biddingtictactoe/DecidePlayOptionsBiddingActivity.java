@@ -26,18 +26,18 @@ public class DecidePlayOptionsBiddingActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.btn_cpu:
                 if(SettingsActivity.animatedPlay==0){
-                    intent = new Intent(this, BoardPlayCPUNormalActivity.class);
+                    intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
                 }
                 else{
-                    intent = new Intent(this, DrawingPlayCPUNormalActivity.class);
+                    intent = new Intent(this, DrawingPlayCPUBiddingActivity.class);
                 }
                 break;
             case R.id.btn_two_players:
                 if(SettingsActivity.animatedPlay==0){
-                    intent = new Intent(this, BoardPlay2PlayerNormalActivity.class);
+                    intent = new Intent(this, BoardPlay2PlayerBiddingActivity.class);
                 }
                 else{
-                    intent = new Intent(this, DrawingPlay2PlayerNormalActivity.class);
+                    intent = new Intent(this, DrawingPlay2PlayerBiddingActivity.class);
                 }
                 break;
             default:

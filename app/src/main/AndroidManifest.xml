@@ -22,7 +22,11 @@
         <activity android:name=".DecidePlayOptionsNormalActivity" />
         <activity android:name=".DecidePlayOptionsBiddingActivity" />
         <activity android:name=".BoardPlay2PlayerNormalActivity" />
-        <activity android:name=".DrawingPlay2PlayerNormalActivity"></activity>
+        <activity android:name=".DrawingPlay2PlayerNormalActivity" />
+        <activity android:name=".BoardPlay2PlayerBiddingActivity" />
+        <activity android:name=".BoardPlayCPUBiddingActivity" />
+        <activity android:name=".DrawingPlay2PlayerBiddingActivity" />
+        <activity android:name=".DrawingPlayCPUBiddingActivity"></activity>
     </application>
 
 </manifest>
