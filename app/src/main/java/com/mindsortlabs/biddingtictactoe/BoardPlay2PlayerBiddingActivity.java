@@ -160,8 +160,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            layoutPlayer1.setBackgroundResource(R.drawable.cross);
-                            layoutPlayer2.setBackgroundResource(R.drawable.circle);
+                            layoutPlayer1.setBackgroundResource(R.drawable.lightcross);
+                            layoutPlayer2.setBackgroundResource(R.drawable.lightcircle);
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
@@ -176,8 +176,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            layoutPlayer1.setBackgroundResource(R.drawable.circle);
-                            layoutPlayer2.setBackgroundResource(R.drawable.cross);
+                            layoutPlayer1.setBackgroundResource(R.drawable.lightcircle);
+                            layoutPlayer2.setBackgroundResource(R.drawable.lightcross);
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
@@ -261,7 +261,17 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             gameActive = false;
         }
 
+        else{
+            Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT).show();
+        }
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+        startActivity(intent);
     }
 
     private void displayOptions(boolean display) {
