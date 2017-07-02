@@ -143,11 +143,13 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#fffaff0b"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
         android:id="@+id/playAgainLayout"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_centerHorizontal="false"
+        android:background="@android:color/black"
+        android:layout_gravity="center"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -155,7 +157,8 @@
             android:text="New Text"
             android:id="@+id/winnerMessage"
             android:layout_gravity="center_horizontal"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="@android:color/white" />
 
         <Button
             android:layout_width="wrap_content"
@@ -175,7 +178,7 @@
         android:id="@+id/radiogroup_symbol">
 
         <RadioButton
-            android:text="O"
+            android:text="X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radiobtn_cross"
@@ -184,7 +187,7 @@
             android:textSize="18sp" />
 
         <RadioButton
-            android:text="X"
+            android:text="O"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radiobtn_circle"

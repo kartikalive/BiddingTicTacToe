@@ -19,6 +19,12 @@ public class DecidePlayOptionsNormalActivity extends AppCompatActivity {
         btnTwoPlayers = (Button) findViewById(R.id.btn_two_players);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DecideGameActivity.class);
+        startActivity(intent);
+    }
+
     public void onClick(View v){
 
         Intent intent = null;

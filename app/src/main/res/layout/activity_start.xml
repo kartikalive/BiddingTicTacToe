@@ -54,6 +54,7 @@
         android:id="@+id/exit_btn"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:onClick="onClick" />
+        android:onClick="onClick"
+        android:visibility="gone" />
 
 </LinearLayout>

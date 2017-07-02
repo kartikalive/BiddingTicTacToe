@@ -19,6 +19,12 @@ public class DecideGameActivity extends AppCompatActivity {
         btnBidding = (Button) findViewById(R.id.btn_bidding);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+    }
+
     public void onClick(View v){
 
         Intent intent = null;

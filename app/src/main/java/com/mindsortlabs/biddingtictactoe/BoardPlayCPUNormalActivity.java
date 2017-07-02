@@ -1,9 +1,12 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
@@ -12,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
 
@@ -20,14 +24,16 @@ import java.util.Vector;
 public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
 
-    // 0 = Circle, 1 = Cross
 
     int activePlayer = 1;
+    int userTurn = 1;
+    char userSymbol = 'X';
 
     boolean gameIsActive = true;
     boolean gameStarted = false;
     boolean cpuTurn = false;
 
+    int line = 0;
     // 2 means unplayed
 
     int[] gameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
@@ -55,6 +61,8 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         board.add("___");
         board.add("___");
 
+        winLine = (ImageView) findViewById(R.id.win_line);
+
         radioGroupTurn = (RadioGroup) findViewById(R.id.radiogroup_turn);
         radioBtnFirstTurn = (RadioButton) findViewById(R.id.radiobtn_first_turn);
         radioBtnSecondTurn = (RadioButton) findViewById(R.id.radiobtn_second_turn);
@@ -69,13 +77,49 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(i==R.id.radiobtn_second_turn){
-                    //call CPU with empty board.
+
+                    userTurn = 2;
+
+                    char cpuSymbol = (char) ('X' + 'O' - userSymbol);
+
+                    cpuTurn = true;
+                    android.util.Pair<Integer, Integer> cpuTurnPair = normalAiObj.getSolution(board, cpuSymbol);
+
+                    int tag = 3 * cpuTurnPair.first + cpuTurnPair.second;
+
+                    View view = findViewById(R.id.activity_board_play_cpu_normal).findViewWithTag(tag + "");
+                    dropIn(view);
                     //visibility off function
+                    displayOptions(false);
                 }
             }
         });
 
         radioGroupSymbol = (RadioGroup) findViewById(R.id.radiogroup_symbol);
+
+        radioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i==R.id.radiobtn_cross){
+                    userSymbol = 'X';
+                }
+                if(i==R.id.radiobtn_circle){
+                    userSymbol = 'O';
+                }
+            }
+        });
+
+    }
+
+    private void displayOptions(boolean display) {
+        if(display) {
+            radioGroupTurn.animate().translationYBy(-1000f).setDuration(500);
+            radioGroupSymbol.animate().translationYBy(-1000f).setDuration(500);
+        }
+        else{
+            radioGroupTurn.animate().translationY(1000f).setDuration(500);
+            radioGroupSymbol.animate().translationY(1000f).setDuration(500);
+        }
 
 
     }
@@ -84,13 +128,14 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         if(cpuTurn){
             cpuTurn = false;
+            activePlayer = 1;
         }
         else{
             cpuTurn = true;
+            activePlayer = 0;
         }
 
         counter = (ImageView) view;
-
 
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
@@ -98,26 +143,26 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
             if(!gameStarted){
                 gameStarted = true;
-                //visibility off func
+                displayOptions(false);
             }
 
             setInitialPositions(counter, tappedCounter);
 
             gameState[tappedCounter] = activePlayer;
-            board = updateBoardConfig(board, tappedCounter, activePlayer);
+            board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
             Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
 
-            if (activePlayer == 1) {
+            if (userSymbol=='X'&&cpuTurn||userSymbol=='O'&&!cpuTurn) {
 
                 counter.setImageResource(R.drawable.cross);
 
-                activePlayer = 0;
+//                activePlayer = 0;
 
             } else {
 
                 counter.setImageResource(R.drawable.circle);
 
-                activePlayer = 1;
+//                activePlayer = 1;
 
             }
 
@@ -128,11 +173,21 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
             if(!checkWinner()) {
 
                 if (cpuTurn) {
-                    android.util.Pair<Integer, Integer> compTurn = normalAiObj.getSolution(board);
+
+                    char cpuSymbol = (char) ('X' + 'O' - userSymbol);
+
+                    android.util.Pair<Integer, Integer> compTurn = normalAiObj.getSolution(board,cpuSymbol);
                     int tag = 3 * compTurn.first + compTurn.second;
 
                     view = findViewById(R.id.activity_board_play_cpu_normal).findViewWithTag(tag + "");
-                    dropIn(view);
+                    Handler handler = new Handler();
+                    final View finalView = view;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            dropIn(finalView);
+                        }
+                    }, 500);
+
                 }
             }
 
@@ -141,7 +196,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     }
 
-    private Vector<String> updateBoardConfig(Vector<String> oldBoard, int tappedCounter, int activePlayer) {
+    private Vector<String> updateBoardConfig(Vector<String> oldBoard, int tappedCounter, int activePlayer, char userSymbol) {
 
         Vector<String> newBoard = oldBoard;
         int row = tappedCounter/3;
@@ -149,7 +204,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         char symbol;
 
         symbol = 'X';
-        if(activePlayer==1){
+        if(activePlayer==0&&userSymbol=='O'||activePlayer==1&&userSymbol=='X'){
             symbol = 'O';
         }
 
@@ -174,15 +229,21 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                 gameIsActive = false;
 
-                String winner = "Cross";
+                String winner = "CPU";
 
                 if (gameState[winningPosition[0]] == 0) {
 
-                    winner = "Circle";
+                    winner = "Player";
 
                 }
+                Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT).show();
 
-
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        gameOverMessage(1);
+                    }
+                }, 500);
                 declareWinner(winningPosition, winner, i);
                 return true;
 
@@ -199,14 +260,13 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                 }
 
                 if (gameIsOver) {
-
-                    TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
-
-                    winnerMessage.setText("It's a draw");
-
-                    LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
-
-                    layout.setVisibility(View.VISIBLE);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameOverMessage(2);
+                        }
+                    }, 500);
 
                 }
 
@@ -214,6 +274,22 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+
+    private void gameOverMessage(int i) {
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
+        layout.setVisibility(View.VISIBLE);
+        layout.setAlpha(0);
+
+        winnerMessage.setText("CPU Wins");
+
+        if(i==2) {
+            winnerMessage.setText("It's a draw");
+        }
+
+        layout.animate().alpha(1).setDuration(300);
     }
 
     private void animateCounters(ImageView counter, int tappedCounter) {
@@ -273,11 +349,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
 
-        winLine = (ImageView) findViewById(R.id.win_line);
         winLine.setVisibility(View.VISIBLE);
         winLine.setScaleX(0f);
 
-        int line = 0;
+        line = 0;
 
         if(i<=2){
             line = 1;
@@ -338,7 +413,17 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
+        startActivity(intent);
+    }
+
     public void playAgain(View view) {
+
+
+        Intent intent = new Intent(this, BoardPlayCPUNormalActivity.class);
+        startActivity(intent);
 
         gameIsActive = true;
 
@@ -346,14 +431,29 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         layout.setVisibility(View.INVISIBLE);
 
-        activePlayer = 0;
+        //PROBLEM WITH LINE IN NEXT GAME
+        //winLine = (ImageView) findViewById(R.id.win_line);
+//        winLine.setImageResource(R.drawable.linehorizontal);
+//        winLine.layout(15,190,15,0);
+        winLine.setVisibility(View.INVISIBLE);
+        displayOptions(true);
+
+        activePlayer = 1;
+        userTurn = 1;
+        userSymbol = 'X';
+        cpuTurn = false;
+        gameStarted = false;
+
+        board = new Vector<>();
+        board.add("___");
+        board.add("___");
+        board.add("___");
 
         for (int i = 0; i < gameState.length; i++) {
 
             gameState[i] = 2;
 
         }
-
 
         for (int i = 0; i< gridLayout.getChildCount(); i++) {
 
