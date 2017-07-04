@@ -83,7 +83,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                     char cpuSymbol = (char) ('X' + 'O' - userSymbol);
 
                     cpuTurn = true;
-                    android.util.Pair<Integer, Integer> cpuTurnPair = normalAiObj.getSolution(board, cpuSymbol);
+                    Pair<Integer, Integer> cpuTurnPair = normalAiObj.getSolution(board, cpuSymbol);
 
                     int tag = 3 * cpuTurnPair.first + cpuTurnPair.second;
 
@@ -176,7 +176,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                     char cpuSymbol = (char) ('X' + 'O' - userSymbol);
 
-                    android.util.Pair<Integer, Integer> compTurn = normalAiObj.getSolution(board,cpuSymbol);
+                    Pair<Integer, Integer> compTurn = normalAiObj.getSolution(board,cpuSymbol);
                     int tag = 3 * compTurn.first + compTurn.second;
 
                     view = findViewById(R.id.activity_board_play_cpu_normal).findViewWithTag(tag + "");

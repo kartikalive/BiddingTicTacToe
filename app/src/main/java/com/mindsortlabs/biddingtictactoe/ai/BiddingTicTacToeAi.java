@@ -1,8 +1,7 @@
 package com.mindsortlabs.biddingtictactoe.ai;
 
 
-import android.util.Pair;
-
+import android.support.v4.util.Pair;
 import java.util.Vector;
 
 public class BiddingTicTacToeAi {

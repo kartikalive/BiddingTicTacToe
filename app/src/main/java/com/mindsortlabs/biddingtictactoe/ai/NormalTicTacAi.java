@@ -1,8 +1,11 @@
 package com.mindsortlabs.biddingtictactoe.ai;
 
 
-import android.util.Pair;
 
+import android.support.v4.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 public class NormalTicTacAi {
@@ -65,7 +68,7 @@ public class NormalTicTacAi {
     Pair<Integer,Integer> nextMove(int player, int board[][], int depth){
 
         Pair<Integer,Integer> sol = null ;
-
+        ArrayList<Pair<Integer,Integer>> solutions = new ArrayList<>();
 
         int p = done(rev(player),board) ;
         if( p > 0 ){
@@ -98,25 +101,32 @@ public class NormalTicTacAi {
                     }
                     if(player==first){
                         if(c<=x){
-                            if(c==x&&depth2<=max_depth){
+                            if(c==x){
                                 sol = Pair.create(i,j);
+                                solutions.add(sol);
                                 c=x;
                                 max_depth=depth2;
                             }else if(c<x){
                                 sol = Pair.create(i,j);
+
+                                solutions.clear();
+                                solutions.add(sol);
                                 c=x;
                                 max_depth=depth2;
                             }
                         }
                     }else{
                         if(c>=x){
-                            if(depth2<=max_depth){
+                            if(c==x){
                                 sol = Pair.create(i,j);
+                                solutions.add(sol);
                                 c=x;
 
                                 max_depth=depth2;
                             }else if(c>x){
                                 sol = Pair.create(i,j);
+                                solutions.clear();
+                                solutions.add(sol);
                                 c=x;
                                 max_depth=depth2;
                             }
@@ -130,7 +140,11 @@ public class NormalTicTacAi {
 
         }
         if(depth ==0 ){
-           solution = sol ;
+
+            Random r = new Random();
+            int temp = r.nextInt(solutions.size());
+
+            solution = solutions.get(temp) ;
         }
         return Pair.create(c,max_depth);
 

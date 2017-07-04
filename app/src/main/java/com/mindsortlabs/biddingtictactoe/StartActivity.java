@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ai.BiddingTicTacToeAi;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
+import com.mindsortlabs.biddingtictactoe.custom.BoardChooser;
 
 import java.util.Vector;
 
@@ -62,6 +63,8 @@ public class StartActivity extends AppCompatActivity {
     public void onClick(View v){
         Intent intent = null;
         switch (v.getId()){
+
+
             case R.id.btn_bidding:
                 Vector<String> board = new Vector<String>(3);
                 board.add("O__");
@@ -74,9 +77,14 @@ public class StartActivity extends AppCompatActivity {
             case R.id.quick_play_btn:
                 intent = new Intent(this, DecideGameActivity.class);
                 break;
+            case R.id.btn_custom:
+                intent = new Intent(this, BoardChooser.class);
+                break;
+
             case R.id.settings_btn:
                 intent = new Intent(this, SettingsActivity.class);
                 break;
+
             case R.id.exit_btn:
                 backPressed = 1;
                 onBackPressed();

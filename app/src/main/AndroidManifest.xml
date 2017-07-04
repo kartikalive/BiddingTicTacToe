@@ -26,7 +26,11 @@
         <activity android:name=".BoardPlay2PlayerBiddingActivity" />
         <activity android:name=".BoardPlayCPUBiddingActivity" />
         <activity android:name=".DrawingPlay2PlayerBiddingActivity" />
-        <activity android:name=".DrawingPlayCPUBiddingActivity"></activity>
+        <activity android:name=".DrawingPlayCPUBiddingActivity" />
+        <activity android:name=".custom.BoardChooser" />
+        <activity android:name=".custom.TwoPlayerCustom"
+            android:theme="@style/NoActionBar"
+            ></activity>
     </application>
 
 </manifest>
