@@ -205,6 +205,7 @@ public class BiddingTicTacToeAi {
         int opponentBid = TOTAL_COINS - mycoins ;
 
         minBid = Math.min(minBid,opponentBid+1);
+        minBid = Math.min(minBid,mycoins);
 
         return Pair.create(minBid,favoured_child);
     }

@@ -47,8 +47,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
     int player2Score = 0 ;
 
 
-    int gameFinished = 1 ;//NOt finished
-
+    int gameFinished = 0 ;//NOt finished
+    int totalTurns =0 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
         Intent intent = getIntent();
         board_size = intent.getIntExtra("board_sizes",3);
         objectives  = intent.getIntExtra("objectives",3);
-
+        Log.d("OBJECTIVE",""+objectives);
 
 
         gridview = (GridView) findViewById(R.id.gridView);
@@ -90,10 +90,20 @@ public class TwoPlayerCustom extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-               // Toast.makeText(TwoPlayerCustom.this, "" + position,
+                // Toast.makeText(TwoPlayerCustom.this, "" + position,
                 //        Toast.LENGTH_SHORT).show();
 
                 moveTimer.cancel();
+
+                if(isgameFinished())
+                    return;
+                totalTurns++;
+                if(totalTurns==board_size*board_size){
+
+                    display.setText("ITS A DRAW");
+                    gameOverMessage(0);
+
+                }
                 Pair pos = getPositionPair(position);
 
                 //Replace with new Image according to player
@@ -104,6 +114,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
                     // This player Wins
                     increamentWins(playerTurn);
                     UpdateLayout();
+                    gameOverMessage(playerTurn);
                     //restartGame();
 
                 }else{
@@ -148,7 +159,66 @@ public class TwoPlayerCustom extends AppCompatActivity {
         moveTimer.start();
 }
 
+
+
+    public void playAgain(View view) {
+        gridview.setAdapter(new ImageAdapter(this,board_size));
+        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        layout.setVisibility(View.GONE);
+
+        player1Image = player1Image ^ player2Image ^ (player2Image = player1Image);
+
+       // layoutPlayer1.getBackground().setAlpha(40);
+        //layoutPlayer2.getBackground().setAlpha(40);
+
+
+        layoutPlayer1 = (LinearLayout) findViewById(R.id.Player1);
+        layoutPlayer2 = (LinearLayout) findViewById(R.id.Player2);
+
+        layoutPlayer1.setBackground(getResources().getDrawable(getPlayer1Image1()));
+        layoutPlayer2.setBackground(getResources().getDrawable(getPlayer2Image1()));
+
+        layoutPlayer1.getBackground().setAlpha(40);
+        layoutPlayer2.getBackground().setAlpha(40);
+
+
+
+        changePlayerTurn();
+
+        display.setText("Player "+playerTurn + "  Turn ");
+
+        gameFinished =0 ;
+        totalTurns =0 ;
+
+        moveTimer.start();
+    }
+
+    private void gameOverMessage(int i) {
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
+        layout.setVisibility(View.VISIBLE);
+        layout.setAlpha(0);
+
+        winnerMessage.setText("It's a draw");
+
+        if(i==1){
+            winnerMessage.setText("Player 1 wins");
+        }
+        else if(i==2) {
+            winnerMessage.setText("Player 2 wins");
+        }
+
+        layout.animate().alpha(1).setDuration(300);
+    }
+
     private void UpdateLayout() {
+
+        if(playerTurn==1){
+            display.setText( " PlAyer 1  Wins  ");
+        }else{
+            display.setText( " PlAyer 2  Wins  ");
+        }
 
 
     }
@@ -158,16 +228,29 @@ public class TwoPlayerCustom extends AppCompatActivity {
             player1Score++;
         else
             player2Score++;
+
+        TextView player2scoretv = (TextView)findViewById(R.id.player2score);
+        player2scoretv.setText(""+player2Score);
+
+        //Log.d("plaier1",""+player2score);
+
+
+        TextView player1scoretv = (TextView)findViewById(R.id.player1score);
+        player1scoretv.setText(""+player1Score);
     }
 
     private boolean checkForSolution(int playerTurn, Pair pos) {
         int counter = objectives ;
-        return checkForSolutionHelper(playerTurn,pos,counter);
+        boolean temp =  checkForSolutionHelper(playerTurn,pos,counter);
+        if(temp==true){
+            gameFinished=1;
+        }
+        return temp;
 
     }
 
-    int dx[] ={ 0, 0,-1,-1,-1,1, 1, 1};
-    int dy[] ={ -1,1,-1, 0, 1,-1,0, 1};
+    int dx[] ={ 0, 1, 1, 1};
+    int dy[] ={ 1, 0, 1,-1};
 
 
 
@@ -182,18 +265,49 @@ public class TwoPlayerCustom extends AppCompatActivity {
         boolean flag =false ;
 
         for(int i=0; i<dx.length ; i++){
-            int x= row_i+dx[i] , y =col_j+dy[i] ;
-            if( inRange(x,y) ){
+            int x= row_i , y =col_j ;
+            int tempcounter =counter ;
+            while(inRange(x,y)) {
 
-                ImageView img = (ImageView) gridview.getChildAt(getPosition(x,y));
-                if ( img!=null&& (int)img.getTag() ==  getPLayerTurnId() ){
-                    boolean temp = checkForSolutionHelper(playerTurn,Pair.create(x,y),counter-1);
-                    if(temp==true) {
+                //Log.d("PLayer Turn" + counter, " " + getPosition(x, y) + "   ::" + x + "  " + y);
+                ImageView img = (ImageView) gridview.getChildAt(getPosition(x, y));
+                if (img != null && (int) img.getTag() == getPLayerTurnId()) {
+                    tempcounter--;
+                }else{
+                    break;
+                }
+                x+=dx[i];y+=dy[i];
+            }
+            x=row_i-dx[i];y=col_j-dy[i];
+            while(inRange(x,y)) {
+
+                //Log.d("PLayer Turn" + counter, " " + getPosition(x, y) + "   ::" + x + "  " + y);
+                ImageView img = (ImageView) gridview.getChildAt(getPosition(x, y));
+                if (img != null && (int) img.getTag() == getPLayerTurnId()) {
+                    tempcounter--;
+                }else{
+                    break;
+                }
+                x-=dx[i];y-=dy[i];
+            }
+
+
+
+
+            x+=dx[i]; y+=dy[i];
+            if(tempcounter<=0){
+                flag=true;
+                while(inRange(x,y)   ) {
+                    ImageView img = (ImageView) gridview.getChildAt(getPosition(x, y));
+                    if (img != null && (int) img.getTag() == getPLayerTurnId()) {
                         img.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                        flag = flag | temp;
+                        x+=dx[i];y+=dy[i];
+                    }else{
+                        break;
                     }
                 }
             }
+
 
         }
 
@@ -201,13 +315,13 @@ public class TwoPlayerCustom extends AppCompatActivity {
     }
 
     private boolean inRange(int x, int y) {
-        if(x<board_size&&y<board_size)
+        if(x>=0&&y>=0&&x<board_size&&y<board_size)
             return true;
         return false;
     }
 
     private boolean isgameFinished() {
-        return gameFinished==0 ;
+        return gameFinished==1;
     }
 
     private void changeTextForPlayerTurn() {
@@ -234,7 +348,19 @@ public class TwoPlayerCustom extends AppCompatActivity {
         else
             return R.drawable.circle;
     }
+    public int getPlayer1Image1() {
+        if(player1Image == 1)
+            return R.drawable.lightcross;
+        else
+            return R.drawable.lightcircle;
+    }
 
+    public int getPlayer2Image1() {
+        if(player2Image == 1)
+            return R.drawable.lightcross;
+        else
+            return R.drawable.lightcircle;
+    }
 
     private void setImage(ImageView img) {
 
@@ -249,6 +375,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
                 img.setTag(getPlayer2Image());
             }
         }
+
+        //img.setAlpha(255);
     }
 
     int getPLayerTurnId()
