@@ -174,14 +174,14 @@ public class BiddingTicTacToeAi {
 //        player = 'X';
 
         //Read the board now. The board is a 3x3 array filled with X, O or _.
-
+        int count =0;
 
         for(int i=0; i<3; i++){
 
             for(int j=0; j<3; j++){
 
                 if(board.get(i).charAt(j)=='_'){
-                    boards[i][j]=0;
+                    boards[i][j]=0;count++;
                 }else if(board.get(i).charAt(j)==player){
                     boards[i][j]=5;
                 }else{
@@ -191,6 +191,9 @@ public class BiddingTicTacToeAi {
 
             }
 
+        }
+        if(count==9){
+            Pair.create(32,Pair.create(1,1));
         }
 
 
