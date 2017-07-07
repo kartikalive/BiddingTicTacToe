@@ -162,16 +162,16 @@ public class BiddingTicTacToeAi {
 
 
     }
-    public Pair < Integer ,Pair<Integer, Integer> >  getSolution(Vector<String> board,int mycoins) {
+    public Pair < Integer ,Pair<Integer, Integer> >  getSolution(Vector<String> board,int mycoins, char player) {
 
-        char player;
+//        char player;
 
         int boards[][]= new int[3][3];
 
         //If player is X, I'm the first player.
         //If player is O, I'm the second player.
         //cin >> player;
-        player = 'X';
+//        player = 'X';
 
         //Read the board now. The board is a 3x3 array filled with X, O or _.
 

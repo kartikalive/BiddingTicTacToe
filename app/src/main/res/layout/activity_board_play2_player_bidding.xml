@@ -7,15 +7,27 @@
     android:layout_height="match_parent"
     tools:context="com.mindsortlabs.biddingtictactoe.BoardPlay2PlayerBiddingActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:orientation="vertical"
+        android:layout_weight="8"
+        android:layout_height="0dp">
+
+        <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:columnCount="3"
         android:rowCount="3"
         android:background="@drawable/board"
         android:id="@+id/gridLayout"
-        android:layout_margin="12dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
 
         <ImageView
             android:layout_width="90dp"
@@ -127,6 +139,150 @@
 
 
     </GridLayout>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1.5"
+        android:layout_height="0dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_bid1"
+        android:text="00"
+        android:textSize="60sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_bid2"
+            android:textSize="60sp"
+            android:text="00"
+            android:textColor="@android:color/holo_red_dark"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2.5"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/lightcross"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_player1"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:layout_width="0dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_bid_title1"
+            android:layout_gravity="bottom|left"
+            android:textSize="18sp"
+            android:text="Player 1 Bid"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="20dp"
+            android:gravity="left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_total1"
+            android:layout_gravity="bottom|left"
+            android:textSize="24sp"
+            android:text="100"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_totalchips_title1"
+            android:textSize="18sp"
+            android:text="Total Chips"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/lightcircle"
+        android:id="@+id/layout_player2"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_width="0dp"
+        android:layout_marginLeft="90dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_bid_title2"
+            android:layout_gravity="bottom|right"
+            android:textSize="18sp"
+            android:text="Player 2 Bid"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="20dp" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_total2"
+            android:layout_gravity="bottom|right"
+            android:textSize="24sp"
+            android:text="100"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_totalchips_title2"
+            android:layout_gravity="bottom|right"
+            android:textSize="18sp"
+            android:text="Total Chips"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="20dp" />
+
+     </LinearLayout>
+
+            </LinearLayout>
+</LinearLayout>
+
+
+    <TextView
+        android:text="Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_bid_time"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="60sp"
+        android:visibility="gone" />
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -174,7 +330,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:id="@+id/radiogroup_symbol"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="70dp"
+        android:visibility="visible"
+        android:layout_marginRight="10dp">
 
         <RadioButton
             android:text="X"
@@ -222,134 +380,14 @@
     </RadioGroup>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_bid1"
-        android:layout_gravity="bottom"
-        android:text="00"
-        android:textSize="60sp"
-        android:textColor="@android:color/holo_red_dark"
-        android:layout_marginBottom="105dp"
-        android:layout_marginLeft="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_bid2"
-        android:layout_gravity="bottom|right"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="105dp"
-        android:textSize="60sp"
-        android:text="00"
-        android:textColor="@android:color/holo_red_dark"/>
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_gravity="bottom|left"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/lightcross"
-        android:layout_width="120dp"
-        android:layout_height="110dp"
-        android:id="@+id/layout_player1">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_bid_title1"
-            android:layout_gravity="bottom|left"
-            android:textSize="18sp"
-            android:text="Player 1 Bid"
-            android:textColor="@android:color/black"
-            android:layout_marginLeft="20dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_total1"
-            android:layout_gravity="bottom|left"
-            android:textSize="24sp"
-            android:text="100"
-            android:textColor="@android:color/holo_red_dark"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_totalchips_title1"
-            android:textSize="18sp"
-            android:text="Total Chips"
-            android:textColor="@android:color/black"
-            android:layout_marginLeft="20dp"
-            android:gravity="bottom" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="120dp"
-        android:orientation="vertical"
-        android:layout_gravity="bottom|right"
-        android:layout_height="110dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/lightcircle"
-        android:id="@+id/layout_player2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_bid_title2"
-            android:layout_gravity="bottom|right"
-            android:textSize="18sp"
-            android:text="Player 2 Bid"
-            android:textColor="@android:color/black"
-            android:layout_marginRight="20dp" />
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_total2"
-            android:layout_gravity="bottom|right"
-            android:textSize="24sp"
-            android:text="100"
-            android:textColor="@android:color/holo_red_dark"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_totalchips_title2"
-            android:layout_gravity="bottom|right"
-            android:textSize="18sp"
-            android:text="Total Chips"
-            android:textColor="@android:color/black"
-            android:layout_marginRight="20dp" />
-
-     </LinearLayout>
-    <TextView
         android:text="1st Player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_player_title"
         android:layout_marginBottom="40dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:textSize="18sp" />
-
-
-    <TextView
-        android:text="Number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_bid_time"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="60sp"
-        android:visibility="gone" />
-
+        android:textSize="18sp"
+        android:visibility="visible"
+        android:layout_marginRight="10dp" />
 
 </FrameLayout>

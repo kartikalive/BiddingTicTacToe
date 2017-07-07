@@ -15,22 +15,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".BoardPlayCPUNormalActivity" />
-        <activity android:name=".DrawingPlayCPUNormalActivity" />
-        <activity android:name=".DecideGameActivity" />
-        <activity android:name=".DecidePlayOptionsNormalActivity" />
-        <activity android:name=".DecidePlayOptionsBiddingActivity" />
-        <activity android:name=".BoardPlay2PlayerNormalActivity" />
-        <activity android:name=".DrawingPlay2PlayerNormalActivity" />
-        <activity android:name=".BoardPlay2PlayerBiddingActivity" />
-        <activity android:name=".BoardPlayCPUBiddingActivity" />
-        <activity android:name=".DrawingPlay2PlayerBiddingActivity" />
-        <activity android:name=".DrawingPlayCPUBiddingActivity" />
-        <activity android:name=".custom.BoardChooser" />
-        <activity android:name=".custom.TwoPlayerCustom"
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BoardPlayCPUNormalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DrawingPlayCPUNormalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DecideGameActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DecidePlayOptionsNormalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DecidePlayOptionsBiddingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BoardPlay2PlayerNormalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DrawingPlay2PlayerNormalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BoardPlay2PlayerBiddingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BoardPlayCPUBiddingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DrawingPlay2PlayerBiddingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DrawingPlayCPUBiddingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".custom.BoardChooser"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".custom.TwoPlayerCustom"
             android:theme="@style/NoActionBar"
-            ></activity>
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
