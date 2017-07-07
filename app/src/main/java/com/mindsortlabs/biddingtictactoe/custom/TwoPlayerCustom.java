@@ -59,7 +59,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
         board_size = intent.getIntExtra("board_sizes",3);
         objectives  = intent.getIntExtra("objectives",3);
         Log.d("OBJECTIVE",""+objectives);
-
+        TextView textView = (TextView) findViewById(R.id.objective);
+        textView.setText(" OBJECTIVE  :  "+ objectives);
 
         gridview = (GridView) findViewById(R.id.gridView);
 

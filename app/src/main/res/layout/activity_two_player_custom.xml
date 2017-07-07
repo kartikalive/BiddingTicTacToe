@@ -104,6 +104,14 @@
 
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/objective"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OBJECTIVE : 4"
+        android:gravity="center"
+        android:background="#FFF"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

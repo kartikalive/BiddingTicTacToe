@@ -2,9 +2,35 @@ package com.mindsortlabs.biddingtictactoe.ai;
 
 
 import android.support.v4.util.Pair;
+import android.util.Log;
+
 import java.util.Vector;
 
 public class BiddingTicTacToeAi {
+
+    double F[][] ;
+    double Bid[][] ;
+    Pair<Integer,Integer> Pairs[][];
+
+    public BiddingTicTacToeAi(){
+        F = new double[1024][1024];
+        Bid = new double[1024][1024];
+
+        Pairs = new Pair[1024][1024];
+
+        for(int i=0; i<1023; i++){
+            for(int j=0; j<1023; j++){
+                F[i][j]=-1.00;Bid[i][j]=-1.00;
+            }
+        }
+        int board[][] = new int[3][3];
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                board[i][j]=0;
+            }
+        }
+        nextMove(board,0,0,0);
+    }
 
     double bid= 0;
 
@@ -87,7 +113,10 @@ public class BiddingTicTacToeAi {
 
 
 
-    double nextMove(int board[][],int depth){
+    double nextMove(int board[][],int depth,int firstPlayer,int secondPlayer){
+
+        if(Math.abs(F[firstPlayer][secondPlayer]+1.00)>0.0001)
+            return F[firstPlayer][secondPlayer];
 
         Pair<Integer,Integer>  sol = null;
 
@@ -126,7 +155,7 @@ public class BiddingTicTacToeAi {
                 {
 
                     board[i][j]=first;
-                    double x= nextMove( board,depth + 1 );
+                    double x= nextMove( board,depth + 1 , firstPlayer|getSingleValue(i,j) ,secondPlayer );
                     board[i][j]=0;
 
                     if(Fmin >= x ){
@@ -140,11 +169,11 @@ public class BiddingTicTacToeAi {
                 {
 
                     board[i][j]=rev(first);
-                    double x= nextMove( board,depth + 1 );
+                    double x= nextMove( board,depth + 1, firstPlayer,secondPlayer|getSingleValue(i,j)  );
                     board[i][j]=0;
 
                     if(Fmax <= x ){
-                        sol = Pair.create(i,j);
+                        //sol = Pair.create(i,j);
                         Fmax=x;
                         max_depth=depth;
                     }
@@ -158,13 +187,25 @@ public class BiddingTicTacToeAi {
             favoured_child = sol ;
             bid = Math.abs(Fmax-Fmin)/2;
         }
-        return Math.abs(Fmax+Fmin)/2;
+        Pairs[firstPlayer][secondPlayer]=sol;
+        Bid[firstPlayer][secondPlayer]=Math.abs(Fmax-Fmin)/2;
+        return F[firstPlayer][secondPlayer] = Math.abs(Fmax+Fmin)/2;
 
 
     }
+
+    int getSingleValue(int i,int j){
+        return (int) Math.pow( 2 ,i*3 + j );
+    }
+
     public Pair < Integer ,Pair<Integer, Integer> >  getSolution(Vector<String> board,int mycoins, char player) {
 
 //        char player;
+        Log.d("BOARD ::","  "+board.toString());
+        Log.d("COINS ::","  "+mycoins);
+
+        if(mycoins==0)
+            return Pair.create(0,Pair.create(0,0));
 
         int boards[][]= new int[3][3];
 
@@ -176,6 +217,7 @@ public class BiddingTicTacToeAi {
         //Read the board now. The board is a 3x3 array filled with X, O or _.
         int count =0;
 
+        int firstPLayer = 0 ,secondPlayer =0;
         for(int i=0; i<3; i++){
 
             for(int j=0; j<3; j++){
@@ -183,23 +225,29 @@ public class BiddingTicTacToeAi {
                 if(board.get(i).charAt(j)=='_'){
                     boards[i][j]=0;count++;
                 }else if(board.get(i).charAt(j)==player){
-                    boards[i][j]=5;
+                    boards[i][j]=5;firstPLayer|=getSingleValue(i,j);
                 }else{
-                    boards[i][j]=3;
+                    boards[i][j]=3;secondPlayer|=getSingleValue(i,j);
                 }
 
 
             }
 
         }
-        if(count==9){
-            Pair.create(32,Pair.create(1,1));
-        }
+        //if(count==9){
+        //    Pair.create(32,Pair.create(1,1));
+        //}
 
 
         first = 5;
 
-        nextMove(boards,0);
+
+
+        if(Math.abs(F[firstPLayer][secondPlayer]+1.00)<0.0001)
+            nextMove(boards,0,firstPLayer,secondPlayer);
+
+        bid = Bid[firstPLayer][secondPlayer];
+        favoured_child = Pairs[firstPLayer][secondPlayer];
 
         bid = bid*200;
 
@@ -210,6 +258,11 @@ public class BiddingTicTacToeAi {
         minBid = Math.min(minBid,opponentBid+1);
         minBid = Math.min(minBid,mycoins);
 
+        Log.d("BIDDING ::","  "+minBid);
+       // Log.d("CHILDRENS ::","  "+favoured_child.first +"    "+favoured_child.second);
+        if(favoured_child==null){
+            return  Pair.create(minBid,Pair.create(0,0));
+        }
         return Pair.create(minBid,favoured_child);
     }
 }
