@@ -30,6 +30,7 @@ public class BiddingTicTacToeAi {
             }
         }
         nextMove(board,0,0,0);
+        Log.d("TAG1245","complete.");
     }
 
     double bid= 0;

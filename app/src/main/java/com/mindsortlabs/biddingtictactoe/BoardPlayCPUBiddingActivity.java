@@ -101,12 +101,12 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 //
 //        thread.start();
 
-        char cpuSymbol = (char) ('X' + 'O' - userSymbol);
-        Pair<Integer,Integer> temp = new Pair<>(1,1);
-        cpuTurnPair = new Pair<>(32,temp);
-
-        bid2 = cpuTurnPair.first;
-        updatedBid2 = true;
+//        char cpuSymbol = (char) ('X' + 'O' - userSymbol);
+//        Pair<Integer,Integer> temp = new Pair<>(1,1);
+//        cpuTurnPair = new Pair<>(32,temp);
+//
+//        bid2 = cpuTurnPair.first;
+//        updatedBid2 = true;
         //Set bid prompt.
 
         moveTimer = new CountDownTimer(3300,1000) {
@@ -234,7 +234,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 moveTimer.cancel();
                 tvBidTime.setVisibility(View.GONE);
                 setBid(1);
-                setBid(2);
+               // setBid(2);
             }
         });
 
@@ -319,23 +319,23 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         }, 2000);
 
         //getting new Solution
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
-                Log.d("checkBeforeCall", " board : \n"+board.get(0)+"\n"+board.get(1)+"\n"+board.get(2)+ "\n" + "total2 : "
-                        + total2 + " cpuSymbol : " + cpuSymbol);
-                cpuTurnPair = biddingAiObj.getSolution(board,total2,cpuSymbol);
-                Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
-                        cpuTurnPair.second.second);
-                bid2 = cpuTurnPair.first;
-                Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
-                updatedBid2 = true;
-                //callTimer(updatedBid1, updatedBid2);
-            }
-        });
-
-        thread.start();
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
+//                Log.d("checkBeforeCall", " board : \n"+board.get(0)+"\n"+board.get(1)+"\n"+board.get(2)+ "\n" + "total2 : "
+//                        + total2 + " cpuSymbol : " + cpuSymbol);
+//                cpuTurnPair = biddingAiObj.getSolution(board,total2,cpuSymbol);
+//                Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
+//                        cpuTurnPair.second.second);
+//                bid2 = cpuTurnPair.first;
+//                Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
+//                updatedBid2 = true;
+//                //callTimer(updatedBid1, updatedBid2);
+//            }
+//        });
+//
+//        thread.start();
 
     }
 
@@ -361,23 +361,23 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
 
                     //getting new computer solution
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
-                            Log.d("checkBeforeCall", " board : \n"+board.get(0)+"\n"+board.get(1)+"\n"+board.get(2)+ "\n" + "total2 : "
-                                    + total2 + " cpuSymbol : " + cpuSymbol);
-                            cpuTurnPair = biddingAiObj.getSolution(board,total2,cpuSymbol);
-                            Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
-                                    cpuTurnPair.second.second);
-                            bid2 = cpuTurnPair.first;
-                            Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
-                            updatedBid2 = true;
-                            //callTimer(updatedBid1, updatedBid2);
-                        }
-                    });
-
-                    thread.start();
+//                    Thread thread = new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
+//                            Log.d("checkBeforeCall", " board : \n"+board.get(0)+"\n"+board.get(1)+"\n"+board.get(2)+ "\n" + "total2 : "
+//                                    + total2 + " cpuSymbol : " + cpuSymbol);
+//                            cpuTurnPair = biddingAiObj.getSolution(board,total2,cpuSymbol);
+//                            Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
+//                                    cpuTurnPair.second.second);
+//                            bid2 = cpuTurnPair.first;
+//                            Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
+//                            updatedBid2 = true;
+//                            //callTimer(updatedBid1, updatedBid2);
+//                        }
+//                    });
+//
+//                    thread.start();
 
 
                     int symbol = R.drawable.cross;
@@ -714,6 +714,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                         bid1 = np.getValue();
                         updatedBid1 = true;
                     }
+
+                    char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
+                    Log.d("checkBeforeCall", " board : \n"+board.get(0)+"\n"+board.get(1)+"\n"+board.get(2)+ "\n" + "total2 : "
+                            + total2 + " cpuSymbol : " + cpuSymbol);
+                    cpuTurnPair = biddingAiObj.getSolution(board,total2,cpuSymbol);
+                    Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
+                            cpuTurnPair.second.second);
+                    bid2 = cpuTurnPair.first;
+                    Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
