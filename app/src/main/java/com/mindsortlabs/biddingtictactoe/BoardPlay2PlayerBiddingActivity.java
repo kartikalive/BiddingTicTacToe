@@ -2,6 +2,7 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     ImageView counter ,winLine;
     GridLayout gridLayout;
 
+    MediaPlayer turnMediaPlayer, winMediaPlayer;
+
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
     LinearLayout layoutPlayer1,layoutPlayer2;
@@ -46,6 +49,9 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_play2_player_bidding);
+
+        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 //        Log.d("TAG123","onCreate: ");
         tvBid1 = (TextView) findViewById(R.id.tv_bid1);
         tvBid2 = (TextView) findViewById(R.id.tv_bid2);
@@ -223,6 +229,11 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT).show();
             }
             else {
+
+                if(SettingsActivity.soundEffects==1){
+                    turnMediaPlayer.start();
+                }
+
                 int symbol = R.drawable.cross;
                 if (activePlayer == 0 && player1Symbol == 'O' || activePlayer == 1 && player1Symbol == 'X') {
                     symbol = R.drawable.circle;
@@ -375,6 +386,10 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
+
+        if(SettingsActivity.soundEffects==1){
+            winMediaPlayer.start();
+        }
 
         winLine.setVisibility(View.VISIBLE);
         winLine.setScaleX(0f);

@@ -2,6 +2,7 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.util.Pair;
@@ -53,11 +54,18 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     BiddingTicTacToeAi biddingAiObj;
 
+    MediaPlayer turnMediaPlayer, winMediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_play_cpubidding);
 //        Log.d("TAG123","onCreate: ");
+
+        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+
+
         tvBid1 = (TextView) findViewById(R.id.tv_bid1);
         tvBid2 = (TextView) findViewById(R.id.tv_bid2);
         tvBidTime = (TextView) findViewById(R.id.tv_bid_time);
@@ -285,6 +293,11 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             public void run() {
                 animateCounters(counter, tappedCounter);
                 gameActive = false;
+
+                if(SettingsActivity.soundEffects==1){
+                    turnMediaPlayer.start();
+                }
+
             }
         },1000);
 
@@ -356,6 +369,11 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 if (gameState[tappedCounter] != 2) {
                     Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT).show();
                 } else {
+
+
+                    if(SettingsActivity.soundEffects==1){
+                        turnMediaPlayer.start();
+                    }
 
                     board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
                     Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
@@ -557,6 +575,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
+
+        if(SettingsActivity.soundEffects==1){
+            winMediaPlayer.start();
+        }
 
         winLine.setVisibility(View.VISIBLE);
         winLine.setScaleX(0f);

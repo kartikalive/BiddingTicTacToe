@@ -1,6 +1,7 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -49,10 +50,15 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     NormalTicTacAi normalAiObj;
 
+    MediaPlayer turnMediaPlayer, winMediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_play_cpu_normal);
+
+        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 
         gridLayout = (GridLayout)findViewById(R.id.gridLayout);
         normalAiObj = new NormalTicTacAi();
@@ -140,6 +146,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
         if (gameState[tappedCounter] == 2 && gameIsActive) {
+
+            if(SettingsActivity.soundEffects==1){
+                turnMediaPlayer.start();
+            }
 
             if(!gameStarted){
                 gameStarted = true;
@@ -348,6 +358,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
+
+        if(SettingsActivity.soundEffects==1){
+            winMediaPlayer.start();
+        }
 
         winLine.setVisibility(View.VISIBLE);
         winLine.setScaleX(0f);

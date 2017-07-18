@@ -1,5 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
     int activePlayer = 0;
 
     boolean gameIsActive = true;
+    MediaPlayer turnMediaPlayer, winMediaPlayer;
 
     // 2 means unplayed
 
@@ -31,17 +33,21 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_play2_player_normal);
 
         gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
     }
 
     public void dropIn(View view) {
 
         ImageView counter = (ImageView) view;
 
-
-
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
         if (gameState[tappedCounter] == 2 && gameIsActive) {
+
+            if(SettingsActivity.soundEffects==1){
+                turnMediaPlayer.start();
+            }
 
             gameState[tappedCounter] = activePlayer;
 
@@ -163,6 +169,10 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
+
+        if(SettingsActivity.soundEffects==1){
+            winMediaPlayer.start();
+        }
 
         winLine = (ImageView) findViewById(R.id.win_line);
         winLine.setVisibility(View.VISIBLE);

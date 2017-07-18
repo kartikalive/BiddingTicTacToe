@@ -36,4 +36,26 @@
         android:textSize="18sp"
         android:textColor="@android:color/black" />
 
+    <ToggleButton
+        android:text="ToggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/animated_play_btn"
+        android:layout_alignLeft="@+id/animated_play_btn"
+        android:layout_alignStart="@+id/animated_play_btn"
+        android:layout_marginTop="49dp"
+        android:id="@+id/sound_toggle_btn" />
+
+    <TextView
+        android:text="Sound Effects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/sound_toggle_btn"
+        android:layout_alignLeft="@+id/animate_title"
+        android:layout_alignStart="@+id/animate_title"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/textView2"
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
+
 </RelativeLayout>
