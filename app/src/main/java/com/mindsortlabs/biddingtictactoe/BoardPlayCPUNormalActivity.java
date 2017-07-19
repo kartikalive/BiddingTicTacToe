@@ -148,7 +148,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         if (gameState[tappedCounter] == 2 && gameIsActive) {
 
             if(SettingsActivity.soundEffects==1){
-                turnMediaPlayer.start();
+                if(turnMediaPlayer.isPlaying()){
+                    turnMediaPlayer.stop();
+                    turnMediaPlayer.start();
+                }
             }
 
             if(!gameStarted){
@@ -360,7 +363,12 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     private void declareWinner(int[] winningPosition, String winner, int i) {
 
         if(SettingsActivity.soundEffects==1){
-            winMediaPlayer.start();
+            if(SettingsActivity.soundEffects==1) {
+                if (turnMediaPlayer.isPlaying()) {
+                    turnMediaPlayer.stop();
+                    winMediaPlayer.start();
+                }
+            }
         }
 
         winLine.setVisibility(View.VISIBLE);

@@ -46,7 +46,10 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
         if (gameState[tappedCounter] == 2 && gameIsActive) {
 
             if(SettingsActivity.soundEffects==1){
-                turnMediaPlayer.start();
+                if(turnMediaPlayer.isPlaying()){
+                    turnMediaPlayer.stop();
+                    turnMediaPlayer.start();
+                }
             }
 
             gameState[tappedCounter] = activePlayer;
@@ -171,7 +174,10 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
     private void declareWinner(int[] winningPosition, String winner, int i) {
 
         if(SettingsActivity.soundEffects==1){
-            winMediaPlayer.start();
+            if (turnMediaPlayer.isPlaying()) {
+                turnMediaPlayer.stop();
+                winMediaPlayer.start();
+            }
         }
 
         winLine = (ImageView) findViewById(R.id.win_line);

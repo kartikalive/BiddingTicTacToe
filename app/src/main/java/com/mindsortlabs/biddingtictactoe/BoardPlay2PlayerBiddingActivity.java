@@ -231,7 +231,10 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             else {
 
                 if(SettingsActivity.soundEffects==1){
-                    turnMediaPlayer.start();
+                    if(turnMediaPlayer.isPlaying()){
+                        turnMediaPlayer.stop();
+                        turnMediaPlayer.start();
+                    }
                 }
 
                 int symbol = R.drawable.cross;
@@ -388,7 +391,10 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     private void declareWinner(int[] winningPosition, String winner, int i) {
 
         if(SettingsActivity.soundEffects==1){
-            winMediaPlayer.start();
+            if (turnMediaPlayer.isPlaying()) {
+                turnMediaPlayer.stop();
+                winMediaPlayer.start();
+            }
         }
 
         winLine.setVisibility(View.VISIBLE);
