@@ -4,6 +4,7 @@ package com.mindsortlabs.biddingtictactoe.ai;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
+import java.util.Random;
 import java.util.Vector;
 
 public class BiddingTicTacToeAi {
@@ -13,7 +14,7 @@ public class BiddingTicTacToeAi {
     //Pair<Integer,Integer> Pairs[][];
 
     public BiddingTicTacToeAi() {
-        F = new double[1024][1024];
+        F = new double[513][513];
         //Bid = new double[1024][1024];
 
         //Pairs = new Pair[1024][1024];
@@ -258,6 +259,9 @@ public class BiddingTicTacToeAi {
             bid = bid * 200;
 
             minBid = (int) bid;
+            Random r = new Random();
+            minBid = minBid + (r.nextBoolean()==true?r.nextInt(4):-r.nextInt(4));
+
         }
 
 

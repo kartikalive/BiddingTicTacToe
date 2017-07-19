@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.DecideGameActivity;
 import com.mindsortlabs.biddingtictactoe.R;
@@ -72,9 +73,14 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
 
     public void customPlay(View view) {
 
-        Intent intent = new Intent(this, TwoPlayerCustom.class);
-        intent.putExtra("board_sizes",board_sizes);
-        intent.putExtra("objectives",objectives);
-        startActivity(intent);
+        if(objectives>board_sizes){
+            Toast.makeText(getBaseContext(),"Board Size should be greater than Objective",Toast.LENGTH_SHORT).show();
+        }else {
+
+            Intent intent = new Intent(this, TwoPlayerCustom.class);
+            intent.putExtra("board_sizes", board_sizes);
+            intent.putExtra("objectives", objectives);
+            startActivity(intent);
+        }
     }
 }

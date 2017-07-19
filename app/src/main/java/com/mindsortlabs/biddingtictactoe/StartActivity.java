@@ -1,5 +1,7 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.util.Pair;
@@ -31,7 +33,7 @@ public class StartActivity extends AppCompatActivity {
         exitBtn = (Button) findViewById(R.id.exit_btn);
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         if(backPressed==0) {
             backPressed = 1;
@@ -58,7 +60,7 @@ public class StartActivity extends AppCompatActivity {
         };
 
         timer.start();
-    }
+    }*/
 
     public void onClick(View v){
         Intent intent = null;
@@ -94,5 +96,25 @@ public class StartActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Want To Quit ?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+        builder.show();
+
     }
 }
