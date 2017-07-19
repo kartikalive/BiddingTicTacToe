@@ -295,7 +295,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 gameActive = false;
 
                 if(SettingsActivity.soundEffects==1){
-                    turnMediaPlayer.start();
+                    if(turnMediaPlayer.isPlaying()){
+                        turnMediaPlayer.stop();
+                        turnMediaPlayer.start();
+                    }
                 }
 
             }
@@ -372,7 +375,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
 
                     if(SettingsActivity.soundEffects==1){
-                        turnMediaPlayer.start();
+                        if(turnMediaPlayer.isPlaying()){
+                            turnMediaPlayer.stop();
+                            turnMediaPlayer.start();
+                        }
                     }
 
                     board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
@@ -577,7 +583,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     private void declareWinner(int[] winningPosition, String winner, int i) {
 
         if(SettingsActivity.soundEffects==1){
-            winMediaPlayer.start();
+            if (turnMediaPlayer.isPlaying()) {
+                turnMediaPlayer.stop();
+                winMediaPlayer.start();
+            }
         }
 
         winLine.setVisibility(View.VISIBLE);
