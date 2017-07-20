@@ -4,67 +4,131 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="1dp"
-    android:background="@drawable/bg_basic"
+
     tools:context="com.mindsortlabs.biddingtictactoe.custom.BoardChooser">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="@drawable/bg_basic"
+        />
+
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="20dp"
-        android:id="@+id/linearLayout">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BOARD SIZE"
-            android:layout_weight="1"
-            android:textSize="24dp"
-            />
+        android:layout_gravity="center_vertical"
+        android:layout_margin="30dp"
+        android:elevation="10dp"
+        card_view:cardCornerRadius="4dp">
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            />
-    </LinearLayout>
 
-    <LinearLayout
+            <RelativeLayout
+                android:id="@+id/linearLayout3"
+                android:background="@drawable/bg_basic"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="82dp"
+                    android:layout_marginStart="52dp"
+                    android:foregroundGravity="center_vertical|center_horizontal"
+                    android:text="2 PLAYER GAME"
+                    android:textSize="24dp" />
+
+            </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardView"
+        style="@style/MyCardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OBJECTIVE"
-            android:layout_weight="1"
-            android:textSize="24dp"
-            />
+        android:layout_gravity="center_vertical"
+        android:layout_margin="30dp"
+        android:elevation="10dp"
+        android:layout_below="@+id/cardView2"
+        card_view:cardCornerRadius="4dp">
 
-        <Spinner
-            android:id="@+id/objective"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            />
-    </LinearLayout>
+        <RelativeLayout
 
-    <Button
-        android:id="@+id/play"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:freezesText="false"
-        android:text="play"
-        android:onClick="customPlay"
-        android:textStyle="bold|italic"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            android:layout_width="wrap_content"
+            android:layout_height="229dp"
+            android:background="@drawable/bg_basic">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="BOARD SIZE"
+                    android:textSize="24dp" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout"
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="OBJECTIVE"
+                    android:textSize="24dp" />
+
+
+                <Spinner
+                    android:id="@+id/objective"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/linearLayout2"
+                android:layout_alignRight="@+id/linearLayout2"
+                android:layout_alignTop="@+id/linearLayout2"
+                android:layout_marginTop="60dp"
+                android:freezesText="false"
+                android:onClick="customPlay"
+                android:text="play"
+                android:textStyle="bold|italic" />
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
 
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -29,9 +30,12 @@ public class SplashScreen extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashScreen.this, StartActivity.class);
-                startActivity(i);
-
+                //Intent i = new Intent(SplashScreen.this, StartActivity.class);
+                //startActivity(i);
+                Intent myIntent = new Intent(SplashScreen.this, StartActivity.class);
+                ActivityOptions options =
+                        ActivityOptions.makeCustomAnimation(SplashScreen.this, R.anim.fade_in, R.anim.fade_out);
+                startActivity(myIntent, options.toBundle());
                 // close this activity
                 finish();
             }
