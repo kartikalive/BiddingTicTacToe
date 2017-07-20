@@ -34,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
 
         primitiveGameBtn = (Button) findViewById(R.id.btn_primitive_game);
         biddingGameBtn = (ImageButton) findViewById(R.id.btn_bidding_game);
-        customGameBtn = (Button) findViewById(R.id.btn_custom_game);
+        //customGameBtn = (Button) findViewById(R.id.btn_custom_game);
         settingsBtn = (Button) findViewById(R.id.settings_btn);
         exitBtn = (Button) findViewById(R.id.exit_btn);
 
@@ -99,20 +99,8 @@ public class StartActivity extends AppCompatActivity {
                 intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
                 break;
             case R.id.btn_primitive_game:
-                //intent = new Intent(this, DecideGameActivity.class);
-
-                if(SettingsActivity.animatedPlay==0){
-                    intent = new Intent(this, BoardPlayCPUNormalActivity.class);
-                }
-                else{
-                    intent = new Intent(this, DrawingPlayCPUNormalActivity.class);
-                }
-
+                intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
                 break;
-            case R.id.btn_custom_game:
-                intent = new Intent(this, BoardChooser.class);
-                break;
-
             case R.id.settings_btn:
                 intent = new Intent(this, SettingsActivity.class);
                 break;

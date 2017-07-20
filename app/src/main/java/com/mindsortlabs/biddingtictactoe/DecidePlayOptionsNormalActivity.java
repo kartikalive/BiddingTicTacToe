@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.mindsortlabs.biddingtictactoe.custom.BoardChooser;
+
 public class DecidePlayOptionsNormalActivity extends AppCompatActivity {
 
     Button btnCPU, btnTwoPlayers;
@@ -39,12 +41,8 @@ public class DecidePlayOptionsNormalActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_two_players:
-                if(SettingsActivity.animatedPlay==0){
-                    intent = new Intent(this, BoardPlay2PlayerNormalActivity.class);
-                }
-                else{
-                    intent = new Intent(this, DrawingPlay2PlayerNormalActivity.class);
-                }
+
+                intent = new Intent(this, BoardChooser.class);
                 break;
             default:
                 break;
@@ -52,5 +50,6 @@ public class DecidePlayOptionsNormalActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
+        finish();
     }
 }
