@@ -12,6 +12,19 @@
         <item> 10 * 10 </item>
     </string-array>
 
+
+    <string name="description">
+     \n
+        In regular tic tac toe, both the players get alternate chances. Bidding Tic Tac Toe is a variant of that.
+    \n\n
+    Player A has $x amount and player B has $y amount as initial balance. Assume that y>x.
+\n\n
+    Both the players bid some amount from the available amount to them. whichever bids higher will get the turn to put a mark on the board and the winner for that bid has to subtract the bidding amount from his/her available balance.
+\n\n
+    Player A does not know the bidding amount of player B and vice versa but a referee is there who will announce the remaining balance amount of each player after each move. Both the players know initial amount of each other.
+\n\n\n
+    </string>
+
     <string-array name="objective">
         <item> 3 </item>
         <item> 4  </item>

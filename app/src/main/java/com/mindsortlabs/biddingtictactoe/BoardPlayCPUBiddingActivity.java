@@ -499,6 +499,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        biddingAiObj = null;
+        System.gc();
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
         startActivity(intent);
     }
@@ -579,7 +581,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
-
+        biddingAiObj = null;
+        System.gc();
         Intent intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
         startActivity(intent);
     }

@@ -458,7 +458,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
+        Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
     }
 

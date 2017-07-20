@@ -8,54 +8,106 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/bg_basic"
     tools:context="com.mindsortlabs.biddingtictactoe.SettingsActivity">
 
-    <ToggleButton
-        android:text="ToggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="26dp"
-        android:id="@+id/animated_play_btn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:text="Animated Play"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardView"
+        style="@style/MyCardViewStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/animated_play_btn"
-        android:layout_toRightOf="@+id/animated_play_btn"
-        android:layout_toEndOf="@+id/animated_play_btn"
-        android:layout_marginLeft="49dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginBottom="13dp"
-        android:id="@+id/animate_title"
-        android:textSize="18sp"
-        android:textColor="@android:color/black" />
+        android:layout_gravity="center_vertical"
 
-    <ToggleButton
-        android:text="ToggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/animated_play_btn"
-        android:layout_alignLeft="@+id/animated_play_btn"
-        android:layout_alignStart="@+id/animated_play_btn"
-        android:layout_marginTop="49dp"
-        android:id="@+id/sound_toggle_btn" />
+        android:elevation="10dp"
+        android:layout_below="@+id/cardView2"
+        card_view:cardCornerRadius="4dp">
 
-    <TextView
-        android:text="Sound Effects"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/sound_toggle_btn"
-        android:layout_alignLeft="@+id/animate_title"
-        android:layout_alignStart="@+id/animate_title"
-        android:layout_marginBottom="12dp"
-        android:id="@+id/textView2"
-        android:textSize="18sp"
-        android:textColor="@android:color/black" />
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_basic">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/close_black"
+                android:onClick="onClose"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:textSize="32dp"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp"
+                >
+
+                <ToggleButton
+                    android:text="ToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="26dp"
+                    android:id="@+id/animated_play_btn"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:text="Animated Play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/animated_play_btn"
+                    android:layout_toRightOf="@+id/animated_play_btn"
+                    android:layout_toEndOf="@+id/animated_play_btn"
+                    android:layout_marginLeft="49dp"
+                    android:layout_marginStart="49dp"
+                    android:layout_marginBottom="13dp"
+                    android:id="@+id/animate_title"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black" />
+
+                <ToggleButton
+                    android:text="ToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/animated_play_btn"
+                    android:layout_alignLeft="@+id/animated_play_btn"
+                    android:layout_alignStart="@+id/animated_play_btn"
+                    android:layout_marginTop="49dp"
+                    android:id="@+id/sound_toggle_btn" />
+
+                <TextView
+                    android:text="Sound Effects"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/sound_toggle_btn"
+                    android:layout_alignLeft="@+id/animate_title"
+                    android:layout_alignStart="@+id/animate_title"
+                    android:layout_marginBottom="12dp"
+                    android:id="@+id/textView2"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black" />
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
 
 </RelativeLayout>

@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:manageSpaceActivity=".DataClearDisableActivity"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:manageSpaceActivity=".DataClearDisableActivity">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".StartActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
@@ -65,7 +65,8 @@
             android:name=".custom.TwoPlayerCustom"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".DataClearDisableActivity"></activity>
+        <activity android:name=".DataClearDisableActivity" />
+        <activity android:name=".InstructionActivity"></activity>
     </application>
 
 </manifest>

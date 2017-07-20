@@ -96,10 +96,18 @@ public class StartActivity extends AppCompatActivity {
 
             case R.id.btn_bidding_game:
                 Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, DecideGameActivity.class);
+                intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
                 break;
             case R.id.btn_primitive_game:
-                intent = new Intent(this, DecideGameActivity.class);
+                //intent = new Intent(this, DecideGameActivity.class);
+
+                if(SettingsActivity.animatedPlay==0){
+                    intent = new Intent(this, BoardPlayCPUNormalActivity.class);
+                }
+                else{
+                    intent = new Intent(this, DrawingPlayCPUNormalActivity.class);
+                }
+
                 break;
             case R.id.btn_custom_game:
                 intent = new Intent(this, BoardChooser.class);
@@ -108,6 +116,10 @@ public class StartActivity extends AppCompatActivity {
             case R.id.settings_btn:
                 intent = new Intent(this, SettingsActivity.class);
                 break;
+            case R.id.instruction:
+                intent = new Intent(this, InstructionActivity.class);
+                break;
+
 
             case R.id.exit_btn:
                 backPressed = 1;

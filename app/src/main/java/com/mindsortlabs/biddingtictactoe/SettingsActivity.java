@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
@@ -82,5 +83,9 @@ public class SettingsActivity extends AppCompatActivity {
         else if(variable==2){
             prefs.edit().putBoolean(animatePrefAccessKey, b).apply();
         }
+    }
+
+    public void onClose(View view) {
+        finish();
     }
 }
