@@ -19,8 +19,8 @@ public class BiddingTicTacToeAi {
 
         //Pairs = new Pair[1024][1024];
 
-        for (int i = 0; i < 1023; i++) {
-            for (int j = 0; j < 1023; j++) {
+        for (int i = 0; i < 513; i++) {
+            for (int j = 0; j < 513; j++) {
                 F[i][j] = -1.00;
                 //Bid[i][j]=-1.00;
             }
@@ -260,7 +260,7 @@ public class BiddingTicTacToeAi {
 
             minBid = (int) bid;
             Random r = new Random();
-            minBid = minBid + (r.nextBoolean()==true?r.nextInt(4):-r.nextInt(4));
+            minBid = minBid + (r.nextBoolean()==true?r.nextInt(3):-r.nextInt(3));
 
         }
 

@@ -98,6 +98,15 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
                 if(isgameFinished())
                     return;
+
+                Pair pos = getPositionPair(position);
+
+                //Replace with new Image according to player
+                ImageView img = (ImageView)v;
+
+                if(!img.getTag().equals(R.drawable.back))
+                    return;
+
                 totalTurns++;
                 if(totalTurns==board_size*board_size){
 
@@ -105,10 +114,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
                     gameOverMessage(0);
 
                 }
-                Pair pos = getPositionPair(position);
 
-                //Replace with new Image according to player
-                ImageView img = (ImageView)v;
                 setImage(img);
 
                 if ( checkForSolution(playerTurn,pos) ){

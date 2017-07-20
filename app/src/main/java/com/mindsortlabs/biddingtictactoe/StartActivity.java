@@ -115,7 +115,7 @@ public class StartActivity extends AppCompatActivity {
         builder.setMessage("Want To Quit ?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        finish();
+                        finishAffinity();
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
