@@ -2,6 +2,9 @@ package com.mindsortlabs.biddingtictactoe.custom;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.util.Pair;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.BoardPlay2PlayerBiddingActivity;
 import com.mindsortlabs.biddingtictactoe.R;
+import com.mindsortlabs.biddingtictactoe.SoundActivity;
 
 public class TwoPlayerCustom extends AppCompatActivity {
 
@@ -49,6 +53,10 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
     int gameFinished = 0 ;//NOt finished
     int totalTurns =0 ;
+
+    SoundPool turnSound, winSound , drawSound ,loseSound;
+    boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
+    int turnSoundId, winSoundId, drawSoundId, loseSoundId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +133,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
                     //restartGame();
 
                 }else{
-
+                    SoundActivity.playSound(TwoPlayerCustom.this,turnSound,turnSoundLoaded,turnSoundId);
                     // Update for Second player Turn
 
 
@@ -164,6 +172,39 @@ public class TwoPlayerCustom extends AppCompatActivity {
     };
         tvView.setVisibility(View.VISIBLE);
         moveTimer.start();
+
+        loadSound();
+
+        turnSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                turnSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        winSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                winSoundLoaded = true;
+            }
+        });
+
+        drawSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                drawSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        loseSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                loseSoundLoaded = true;
+//                playSound(1);
+            }
+        });
 }
 
 
@@ -207,13 +248,18 @@ public class TwoPlayerCustom extends AppCompatActivity {
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
-        winnerMessage.setText("It's a draw");
-
         if(i==1){
             winnerMessage.setText("Player 1 wins");
+            SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
         }
         else if(i==2) {
             winnerMessage.setText("Player 2 wins");
+            SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
+        }
+
+        else{
+            winnerMessage.setText("It's a draw");
+            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
         }
 
         layout.animate().alpha(1).setDuration(300);
@@ -222,9 +268,9 @@ public class TwoPlayerCustom extends AppCompatActivity {
     private void UpdateLayout() {
 
         if(playerTurn==1){
-            display.setText( " PlAyer 1  Wins  ");
+            display.setText( " Player 1  Wins  ");
         }else{
-            display.setText( " PlAyer 2  Wins  ");
+            display.setText( " Player 2  Wins  ");
         }
 
 
@@ -409,6 +455,30 @@ public class TwoPlayerCustom extends AppCompatActivity {
     }
 
 
+    private void loadSound() {
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            turnSound = new SoundPool.Builder().build();
+            winSound = new SoundPool.Builder().build();
+            drawSound = new SoundPool.Builder().build();
+            loseSound = new SoundPool.Builder().build();
+        }
+
+        else {
+            turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            drawSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            loseSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        turnSoundId = turnSound.load(this, R.raw.sound1, 1);
+
+        //Change -------------------------------------------------
+        winSoundId = winSound.load(this, R.raw.sound2, 2);
+        drawSoundId = drawSound.load(this, R.raw.sound2, 2);
+        loseSoundId = loseSound.load(this, R.raw.sound2, 2);
+    }
 
 
 }

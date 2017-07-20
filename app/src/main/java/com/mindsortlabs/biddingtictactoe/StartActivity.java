@@ -1,8 +1,10 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,17 @@ public class StartActivity extends AppCompatActivity {
         customGameBtn = (Button) findViewById(R.id.btn_custom_game);
         settingsBtn = (Button) findViewById(R.id.settings_btn);
         exitBtn = (Button) findViewById(R.id.exit_btn);
+
+
+        SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
+
+        if(prefs.getBoolean(SettingsActivity.soundPrefAccessKey,false)){
+            SettingsActivity.soundEffects = 1;
+        }
+        if(prefs.getBoolean(SettingsActivity.animatePrefAccessKey,false)){
+            SettingsActivity.animatedPlay = 1;
+        }
+//        SettingsActivity.animatedPlay =
     }
 
    /* @Override
@@ -103,6 +116,7 @@ public class StartActivity extends AppCompatActivity {
             default:
                 break;
         }
+
 
         startActivity(intent);
     }

@@ -1,7 +1,10 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -50,15 +53,45 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     NormalTicTacAi normalAiObj;
 
-    MediaPlayer turnMediaPlayer, winMediaPlayer;
+    SoundPool turnSound, winSound , drawSound;
+    boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded;
+    int turnSoundId, winSoundId, drawSoundId ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_play_cpu_normal);
 
-        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
-        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+        loadSound();
+
+        turnSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                turnSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        winSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                winSoundLoaded = true;
+            }
+        });
+
+        drawSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                drawSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+
+
+//        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+//        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 
         gridLayout = (GridLayout)findViewById(R.id.gridLayout);
         normalAiObj = new NormalTicTacAi();
@@ -147,13 +180,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         if (gameState[tappedCounter] == 2 && gameIsActive) {
 
-            if(SettingsActivity.soundEffects==1){
-                if(turnMediaPlayer.isPlaying()){
-                    turnMediaPlayer.stop();
-                    turnMediaPlayer.start();
-                }
-            }
-
             if(!gameStarted){
                 gameStarted = true;
                 displayOptions(false);
@@ -184,6 +210,8 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 //            counter.animate().translationYBy(1000f).rotation(360).setDuration(300);
 
             if(!checkWinner()) {
+
+                SoundActivity.playSound(this,turnSound,turnSoundLoaded,turnSoundId);
 
                 if (cpuTurn) {
 
@@ -296,9 +324,11 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
+        SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
         winnerMessage.setText("CPU Wins");
 
         if(i==2) {
+            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
             winnerMessage.setText("It's a draw");
         }
 
@@ -361,15 +391,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
-
-        if(SettingsActivity.soundEffects==1){
-            if(SettingsActivity.soundEffects==1) {
-                if (turnMediaPlayer.isPlaying()) {
-                    turnMediaPlayer.stop();
-                    winMediaPlayer.start();
-                }
-            }
-        }
 
         winLine.setVisibility(View.VISIBLE);
         winLine.setScaleX(0f);
@@ -484,4 +505,25 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         }
 
     }
+
+    private void loadSound() {
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            turnSound = new SoundPool.Builder().build();
+            winSound = new SoundPool.Builder().build();
+            drawSound = new SoundPool.Builder().build();
+        }
+
+        else {
+            turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            drawSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        turnSoundId = turnSound.load(this, R.raw.sound1, 1);
+        winSoundId = winSound.load(this, R.raw.sound2, 2);
+        drawSoundId = drawSound.load(this, R.raw.sound2, 2);
+    }
+
 }

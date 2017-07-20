@@ -2,7 +2,10 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.util.Pair;
@@ -54,17 +57,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     BiddingTicTacToeAi biddingAiObj;
 
-    MediaPlayer turnMediaPlayer, winMediaPlayer;
+    SoundPool turnSound, winSound , drawSound ,loseSound;
+    boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
+    int turnSoundId, winSoundId, drawSoundId, loseSoundId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_play_cpubidding);
 //        Log.d("TAG123","onCreate: ");
-
-        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
-        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-
 
         tvBid1 = (TextView) findViewById(R.id.tv_bid1);
         tvBid2 = (TextView) findViewById(R.id.tv_bid2);
@@ -246,6 +247,39 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             }
         });
 
+//----------------------------------------SOUND---------------------------------------
+        loadSound();
+        turnSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                turnSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        winSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                winSoundLoaded = true;
+            }
+        });
+
+        drawSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                drawSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        loseSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                loseSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
     }
 
     private void computerPlaying() {
@@ -278,6 +312,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (!checkWinner()) {
+                    SoundActivity.playSound(BoardPlayCPUBiddingActivity.this,turnSound,turnSoundLoaded,turnSoundId);
                     flag[0] = 1;
                 }
             }
@@ -294,12 +329,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 animateCounters(counter, tappedCounter);
                 gameActive = false;
 
-                if(SettingsActivity.soundEffects==1){
-                    if(turnMediaPlayer.isPlaying()){
-                        turnMediaPlayer.stop();
-                        turnMediaPlayer.start();
-                    }
-                }
+
 
             }
         },1000);
@@ -373,14 +403,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT).show();
                 } else {
 
-
-                    if(SettingsActivity.soundEffects==1){
-                        if(turnMediaPlayer.isPlaying()){
-                            turnMediaPlayer.stop();
-                            turnMediaPlayer.start();
-                        }
-                    }
-
                     board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
                     Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
 
@@ -416,6 +438,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     animateCounters(counter, tappedCounter);
 
                     if (!checkWinner()) {
+                        SoundActivity.playSound(this,turnSound,turnSoundLoaded,turnSoundId);
                         Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT).show();
                     }
 
@@ -568,26 +591,24 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
-        winnerMessage.setText("Player wins");
-
         if(i==1){
+            SoundActivity.playSound(this,loseSound,loseSoundLoaded,loseSoundId);
             winnerMessage.setText("Computer wins");
         }
         else if(i==2) {
+            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
             winnerMessage.setText("It's a draw");
+        }
+
+        else{
+            winnerMessage.setText("Player wins");
+            SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
         }
 
         layout.animate().alpha(1).setDuration(300);
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
-
-        if(SettingsActivity.soundEffects==1){
-            if (turnMediaPlayer.isPlaying()) {
-                turnMediaPlayer.stop();
-                winMediaPlayer.start();
-            }
-        }
 
         winLine.setVisibility(View.VISIBLE);
         winLine.setScaleX(0f);
@@ -795,5 +816,31 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             moveTimer.start();
         }
     }
+
+    private void loadSound() {
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            turnSound = new SoundPool.Builder().build();
+            winSound = new SoundPool.Builder().build();
+            drawSound = new SoundPool.Builder().build();
+            loseSound = new SoundPool.Builder().build();
+        }
+
+        else {
+            turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            drawSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            loseSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        turnSoundId = turnSound.load(this, R.raw.sound1, 1);
+
+        //Change -------------------------------------------------
+        winSoundId = winSound.load(this, R.raw.sound2, 2);
+        drawSoundId = drawSound.load(this, R.raw.sound2, 2);
+        loseSoundId = loseSound.load(this, R.raw.sound2, 2);
+    }
+
 }
 
