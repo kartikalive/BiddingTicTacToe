@@ -280,7 +280,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
                 int symbol = R.drawable.cross;
                 if (activePlayer == 0 && player1Symbol == 'O' || activePlayer == 1 && player1Symbol == 'X') {
-                    symbol = R.drawable.circle;
+                    symbol = R.drawable.circletwo;
                 }
 
                 counter.setImageResource(symbol);

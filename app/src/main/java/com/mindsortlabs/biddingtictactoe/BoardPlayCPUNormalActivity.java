@@ -212,7 +212,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
             } else {
 
-                counter.setImageResource(R.drawable.circle);
+                counter.setImageResource(R.drawable.circletwo);
 
 //                activePlayer = 1;
 

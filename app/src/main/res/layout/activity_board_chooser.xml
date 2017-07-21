@@ -26,7 +26,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="300dp"
-            android:background="@android:color/darker_gray">
+            android:background="@drawable/bg_basic">
 
 
             <TextView
@@ -61,7 +61,7 @@
                     android:layout_weight="2"
                     android:text="BOARD SIZE"
                     android:textSize="24dp"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/holo_white2" />
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -85,7 +85,8 @@
                     android:layout_weight="2"
                     android:text="OBJECTIVE"
                     android:textSize="24dp"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/holo_white2"
+                    />
 
 
                 <Spinner

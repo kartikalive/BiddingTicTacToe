@@ -5,6 +5,12 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="indigo">#800080</color>
+    <color name="holo_white">#DDD</color>
+    <color name="holo_white2">#DDD</color>
 
+    <color name="holo_white3">#EEE</color>
+    <color name="holo_white4">#FFF</color>
+
+    <color name="lime">#00FF00</color>
 
 </resources>

@@ -360,7 +360,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
                 while(inRange(x,y)   ) {
                     ImageView img = (ImageView) gridview.getChildAt(getPosition(x, y));
                     if (img != null && (int) img.getTag() == getPLayerTurnId()) {
-                        img.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        img.setBackgroundColor(getResources().getColor(R.color.lime));
                         x+=dx[i];y+=dy[i];
                     }else{
                         break;
@@ -399,14 +399,14 @@ public class TwoPlayerCustom extends AppCompatActivity {
         if(player1Image == 1)
             return R.drawable.cross;
         else
-            return R.drawable.circle;
+            return R.drawable.circletwo;
     }
 
     public int getPlayer2Image() {
         if(player2Image == 1)
             return R.drawable.cross;
         else
-            return R.drawable.circle;
+            return R.drawable.circletwo;
     }
     public int getPlayer1Image1() {
         if(player1Image == 1)

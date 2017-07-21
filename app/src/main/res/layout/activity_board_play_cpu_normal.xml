@@ -161,8 +161,8 @@
             android:layout_weight="1"
             android:elevation="1dp"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
-            app:buttonTint="@android:color/white" />
+            android:textColor="@color/holo_white2"
+            app:buttonTint="@color/holo_white2" />
 
         <RadioButton
             android:text="O"
@@ -171,8 +171,8 @@
             android:id="@+id/radiobtn_circle"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:textColor="@android:color/white"
-            app:buttonTint="@android:color/white" />
+            android:textColor="@color/holo_white2"
+            app:buttonTint="@color/holo_white2" />
     </RadioGroup>
 
             <RadioGroup
@@ -190,8 +190,8 @@
                     android:layout_weight="1"
                     android:elevation="1dp"
                     android:textSize="18sp"
-                    android:textColor="@android:color/white"
-                    app:buttonTint="@android:color/white" />
+                    android:textColor="@color/holo_white2"
+                    app:buttonTint="@color/holo_white2"/>
 
                 <RadioButton
                     android:text="Second Turn"
@@ -200,8 +200,8 @@
                     android:id="@+id/radiobtn_second_turn"
                     android:layout_weight="1"
                     android:textSize="18sp"
-                    android:textColor="@android:color/white"
-                    app:buttonTint="@android:color/white" />
+                    android:textColor="@color/holo_white2"
+                    app:buttonTint="@color/holo_white2"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -231,9 +231,10 @@
             android:textSize="24sp"
             android:text="Player 1"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
             android:gravity="center_vertical"
             android:layout_weight="1"
+            android:textAllCaps="true"
+            android:textColor="@color/holo_white4"
             android:alpha="0.8" />
 
         <TextView
@@ -268,7 +269,8 @@
             android:textSize="24sp"
             android:textAlignment="center"
             android:text="Player 2"
-            android:textColor="@android:color/white"
+            android:textAllCaps="true"
+            android:textColor="@color/holo_white4"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:alpha="0.8" />

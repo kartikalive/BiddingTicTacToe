@@ -62,7 +62,7 @@
                     android:layout_weight="2"
                     android:text="@string/description"
 
-                    android:textColor="@android:color/white"
+                    android:textColor="#DDD"
                     android:textSize="20sp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp" />

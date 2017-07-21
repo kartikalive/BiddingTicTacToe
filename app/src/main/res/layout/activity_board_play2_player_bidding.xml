@@ -156,7 +156,7 @@
         android:id="@+id/tv_bid1"
         android:text="00"
         android:textSize="60sp"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/holo_white"
         android:layout_marginLeft="20dp"
         android:layout_weight="1" />
 
@@ -166,7 +166,7 @@
             android:id="@+id/tv_bid2"
             android:textSize="60sp"
             android:text="00"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@color/holo_white"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_marginRight="20dp" />
@@ -207,7 +207,7 @@
             android:layout_gravity="bottom|left"
             android:textSize="24sp"
             android:text="100"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@color/holo_white"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp" />
 
@@ -253,7 +253,7 @@
             android:layout_gravity="bottom|right"
             android:textSize="24sp"
             android:text="100"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@color/holo_white"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp" />
 
@@ -280,7 +280,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_bid_time"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/holo_white"
         android:textSize="60sp"
         android:visibility="gone" />
 

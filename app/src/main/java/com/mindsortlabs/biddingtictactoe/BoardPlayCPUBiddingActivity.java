@@ -37,6 +37,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     ImageView counter ,winLine;
     GridLayout gridLayout;
 
+    Boolean isBackPressed= false;
+
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
     LinearLayout layoutPlayer1,layoutPlayer2;
@@ -151,6 +153,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        if(isBackPressed==true)
+                            return;
+
                         tvBid1 = (TextView) findViewById(R.id.tv_bid1);
                         tvBid2 = (TextView) findViewById(R.id.tv_bid2);
 
@@ -293,7 +299,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     private void computerPlaying() {
 
         char compSymbol = (char) ('X' + 'O' - userSymbol);
-        int symbol = R.drawable.circle;
+        int symbol = R.drawable.circletwo;
         if (userSymbol=='O') {
             symbol = R.drawable.cross;
         }
@@ -436,7 +442,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
                     int symbol = R.drawable.cross;
                     if (userSymbol=='O') {
-                        symbol = R.drawable.circle;
+                        symbol = R.drawable.circletwo;
                     }
 
                     counter.setImageResource(symbol);
@@ -508,17 +514,22 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         biddingAiObj = null;
+        isBackPressed=true;
         System.gc();
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
-        Handler handler = new Handler();
+       /* Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 finish();
                 Log.d("TAG125","here:");
             }
-        },500);
+        },500);*/
         startActivity(intent);
+        finish();
+
+
+
     }
 
     private void displayOptions(boolean display) {
