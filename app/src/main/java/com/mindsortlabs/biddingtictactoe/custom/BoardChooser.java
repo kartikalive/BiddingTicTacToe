@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.DecideGameActivity;
+import com.mindsortlabs.biddingtictactoe.DecidePlayOptionsNormalActivity;
 import com.mindsortlabs.biddingtictactoe.R;
 
 public class BoardChooser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -27,6 +29,7 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_board_chooser);
 
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -54,6 +57,18 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
         objective.setOnItemSelectedListener(this);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

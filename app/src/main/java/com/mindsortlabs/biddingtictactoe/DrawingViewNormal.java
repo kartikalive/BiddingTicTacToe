@@ -96,17 +96,17 @@ public class DrawingViewNormal extends View {
         circlePaint.setColor(Color.BLUE);
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setStrokeJoin(Paint.Join.MITER);
-        circlePaint.setStrokeWidth(4f);
+        circlePaint.setStrokeWidth(7f);
 
-        x1 = (float) 0.14*getWidth();
-        x2 = (float) (0.38*getWidth());
-        x3 = (float) (0.62*getWidth());
-        x4 = (float) (0.86*getWidth());
+        x1 = (float) 0.08*getWidth();
+        x2 = (float) (0.36*getWidth());
+        x3 = (float) (0.64*getWidth());
+        x4 = (float) (0.92*getWidth());
 
         y1 = (float) (0.24*getWidth());
-        y2 = (float) (0.48*getWidth());
-        y3 = (float) (0.72*getWidth());
-        y4 = (float) (0.96*getWidth());
+        y2 = (float) (0.52*getWidth());
+        y3 = (float) (0.80*getWidth());
+        y4 = (float) (1.08*getWidth());
 
 
         leftX = x1;
@@ -151,15 +151,15 @@ public class DrawingViewNormal extends View {
 
 
 
-        x1 = (float) 0.14*getWidth();
-        x2 = (float) (0.38*getWidth());
-        x3 = (float) (0.62*getWidth());
-        x4 = (float) (0.86*getWidth());
+        x1 = (float) 0.08*getWidth();
+        x2 = (float) (0.36*getWidth());
+        x3 = (float) (0.64*getWidth());
+        x4 = (float) (0.92*getWidth());
 
         y1 = (float) (0.24*getWidth());
-        y2 = (float) (0.48*getWidth());
-        y3 = (float) (0.72*getWidth());
-        y4 = (float) (0.96*getWidth());
+        y2 = (float) (0.52*getWidth());
+        y3 = (float) (0.80*getWidth());
+        y4 = (float) (1.08*getWidth());
 
         canvas.drawLine(x1,y2,leftX,y2,paint);
         canvas.drawLine(x1,y3,leftX,y3,paint);
@@ -186,12 +186,12 @@ public class DrawingViewNormal extends View {
             boolean reachedEnd = false;
             leftX = leftX + 10;
 //            rightX = rightX + 10;
-            topY = (float) (topY + 11.5);
+            topY = (float) (topY + 12);
 //            bottomY = bottomY - 10;
 
             invalidate();
 
-            x4 = (float) (0.86*getWidth());
+            x4 = (float) (0.92*getWidth());
             if(leftX<=x4){
                 invalidate();
             } else reachedEnd = true;
@@ -248,24 +248,24 @@ public class DrawingViewNormal extends View {
 
 
         int width = getWidth();
-        final float x1 = (float) 0.14*width;
-        final float x2 = (float) (0.38*width);
-        final float x3 = (float) (0.62*width);
-        final float x4 = (float) (0.86*width);
+        final float x1 = (float) 0.08*getWidth();
+        final float x2 = (float) (0.36*getWidth());
+        final float x3 = (float) (0.64*getWidth());
+        final float x4 = (float) (0.92*getWidth());
 
         final float y1 = (float) (0.24*width);
-        final float y2 = (float) (0.48*width);
-        final float y3 = (float) (0.72*width);
-        final float y4 = (float) (0.96*width);
+        final float y2 = (float) (0.52*width);
+        final float y3 = (float) (0.80*width);
+        final float y4 = (float) (1.08*width);
 
         float x = event.getX();
         float y = event.getY();
 
         Log.d("TAG123", "insideTouchEvent1: " + "x : " + x + "  y: " + y);
-        float cell  = (float) (0.24*getWidth());
+        float cell  = (float) (0.28*getWidth());
         float margin = (float) (0.1*getWidth());
 
-        float posX = (float) (x-0.14*getWidth());
+        float posX = (float) (x-0.08*getWidth());
         float posY = (float) (y-0.24*getWidth());
         newRow = (int) (posY/cell)+1;
         newCol = (int) (posX/cell)+1;
@@ -390,6 +390,6 @@ public class DrawingViewNormal extends View {
 
     public void compTurn(int row, int col, int turn){  //TO BE HANDLED
         Log.d("compTurn", "row: " + row + " col : " + col + " turn : " + turn);
-        Toast.makeText(context, "Computer turn = row: " + row + " col : " + col + " turn : " + turn , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "Computer turn = row: " + row + " col : " + col + " turn : " + turn , Toast.LENGTH_SHORT).show();
     }
 }

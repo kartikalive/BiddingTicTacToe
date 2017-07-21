@@ -13,75 +13,74 @@
     tools:context="com.mindsortlabs.biddingtictactoe.StartActivity"
     android:background="@drawable/bg_basic">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/bidding_tictactoe_small"
+        android:id="@+id/imageView10"
+        android:adjustViewBounds="true"
+        android:layout_weight="2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
     <ImageButton
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/btn_bidding_game"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/img_bidding"
         android:id="@+id/btn_bidding_game"
         android:baselineAlignBottom="false"
         android:scaleType="fitCenter"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_marginTop="100dp"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
+        android:onClick="onClick"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/img_primitive"
+        android:id="@+id/btn_primitive_game"
+        android:background="@android:color/transparent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
         android:onClick="onClick" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bidding"
-        android:layout_alignParentTop="false"
-        android:id="@+id/btn_bidding"
-        android:layout_centerHorizontal="false"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="150dp"
-        android:onClick="onClick"
-        android:visibility="gone"/>
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/img_options"
+        android:id="@+id/btn_options"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:onClick="onClick" />
 
+    <ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/img_instructions"
+        android:id="@+id/btn_instructions"
+        android:background="@android:color/transparent"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="20dp"
+        android:onClick="onClick" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:text="Primitive Game"
-        android:layout_alignParentTop="false"
-        android:id="@+id/btn_primitive_game"
-        android:layout_centerHorizontal="false"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClick"
-        android:visibility="visible"
-        android:layout_height="wrap_content" />
-
-
-
-    <Button
-        android:id="@+id/instruction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Instruction"
-        android:onClick="onClick"
-        />
-
-    <Button
-        android:text="Options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:id="@+id/settings_btn"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:onClick="onClick"
-        android:visibility="visible" />
-
-    <Button
-        android:text="Exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/exit_btn"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:onClick="onClick"
-        android:visibility="gone" />
 
 </LinearLayout>

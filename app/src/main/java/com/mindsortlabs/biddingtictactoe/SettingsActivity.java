@@ -5,7 +5,11 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -16,21 +20,26 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String soundPrefAccessKey = "com.mindsortlabs.biddingtictactoe.sound";
     public static final String animatePrefAccessKey = "com.mindsortlabs.biddingtictactoe.animate";
     ToggleButton animatedPlayBtn, soundToggleBtn;
+    TextView tvNote;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_settings);
 
         animatedPlayBtn = (ToggleButton) findViewById(R.id.animated_play_btn);
         soundToggleBtn = (ToggleButton) findViewById(R.id.sound_toggle_btn);
+        tvNote = (TextView) findViewById(R.id.tv_note);
 
         if(animatedPlay==0){
             animatedPlayBtn.setChecked(false);
+            tvNote.setVisibility(View.INVISIBLE);
         }
         else{
             animatedPlayBtn.setChecked(true);
+            tvNote.setVisibility(View.VISIBLE);
         }
 
         animatedPlayBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -38,10 +47,12 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     animatedPlay = 1;
+                    tvNote.setVisibility(View.VISIBLE);
                 }
 
                 else{
                     animatedPlay = 0;
+                    tvNote.setVisibility(View.INVISIBLE);
                 }
 
                 saveData(b,2);
@@ -71,6 +82,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void saveData(boolean b, int variable) {

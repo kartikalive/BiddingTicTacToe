@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.mindsortlabs.biddingtictactoe.custom.BoardChooser">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.9"
-        android:background="@drawable/bg_basic"
-        />
+    tools:context="com.mindsortlabs.biddingtictactoe.custom.BoardChooser"
+    android:background="@drawable/bg_splash">
 
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -20,12 +14,11 @@
         style="@style/MyCardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="100dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:elevation="10dp"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="4dp"
+        android:layout_gravity="center">
 
 
         <RelativeLayout
@@ -33,7 +26,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="300dp"
-            android:background="@drawable/bg_basic">
+            android:background="@android:color/darker_gray">
 
 
             <TextView
@@ -44,9 +37,11 @@
                 android:layout_height="wrap_content"
                 android:foregroundGravity="center_vertical|center_horizontal"
                 android:text="2 PLAYER GAME"
-                android:textSize="24dp"
+                android:textSize="28sp"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:typeface="normal" />
 
 
             <LinearLayout
@@ -65,7 +60,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="BOARD SIZE"
-                    android:textSize="24dp" />
+                    android:textSize="24dp"
+                    android:textColor="@android:color/white" />
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -88,7 +84,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="OBJECTIVE"
-                    android:textSize="24dp" />
+                    android:textSize="24dp"
+                    android:textColor="@android:color/white" />
 
 
                 <Spinner
@@ -117,4 +114,4 @@
     </android.support.v7.widget.CardView>
 
 
-</RelativeLayout>
+</LinearLayout>

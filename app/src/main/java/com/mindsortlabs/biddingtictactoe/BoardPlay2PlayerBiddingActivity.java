@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -54,6 +56,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_board_play2_player_bidding);
 
 //        Log.d("TAG123","onCreate: ");
@@ -250,6 +253,11 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     }
 
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
 
     public void dropIn(View view){  //set in XML
 
@@ -319,7 +327,15 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        },500);
         startActivity(intent);
+
     }
 
     private void displayOptions(boolean display) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mindsortlabs.biddingtictactoe.custom.TwoPlayerCustom" >
+    tools:context="com.mindsortlabs.biddingtictactoe.custom.TwoPlayerCustom">
 
 
 
@@ -15,7 +15,8 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/bg_basic">
 
 
 
@@ -27,9 +28,7 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="4"
-        android:paddingTop="0dp"
-        android:background="#FFF"
-        >
+        android:paddingTop="0dp">
 
         <LinearLayout
             android:id="@+id/Player1"
@@ -109,16 +108,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OBJECTIVE : 4"
-        android:gravity="center"
-        android:background="#FFF"
-        />
+        android:gravity="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#FFF"
-        >
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="match_parent"
@@ -141,12 +136,12 @@
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_height="4dp"
         android:layout_margin="10dp"
         android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
         android:background="#e5e5e5"
-        android:stretchMode="columnWidth"/>
+        android:stretchMode="columnWidth"
+        android:layout_height="0dp" />
 
 </LinearLayout>
 
@@ -160,8 +155,7 @@
         android:textAlignment="center"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="60sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"

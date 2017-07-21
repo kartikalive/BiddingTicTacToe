@@ -5,17 +5,26 @@
     android:id="@+id/activity_board_play_cpu_normal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mindsortlabs.biddingtictactoe.BoardPlayCPUNormalActivity">
+    tools:context="com.mindsortlabs.biddingtictactoe.BoardPlayCPUNormalActivity"
+    android:background="@drawable/bg_basic">
 
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="8"
+    android:layout_margin="10dp">
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="match_parent"
         android:columnCount="3"
         android:rowCount="3"
         android:background="@drawable/board"
-        android:id="@+id/gridLayout"
-        android:layout_margin="12dp">
+        android:id="@+id/gridLayout">
 
         <ImageView
             android:layout_width="90dp"
@@ -27,7 +36,7 @@
             android:tag="0"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             />
 
         <ImageView
@@ -38,7 +47,7 @@
             android:tag="1"
             android:layout_gravity="center"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="25dp" />
 
         <ImageView
             android:layout_width="90dp"
@@ -49,7 +58,7 @@
             android:onClick="dropIn"
             android:tag="2"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp" />
 
         <ImageView
@@ -61,7 +70,7 @@
             android:onClick="dropIn"
             android:tag="3"
             android:layout_gravity="center"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp" />
 
         <ImageView
@@ -73,7 +82,7 @@
             android:onClick="dropIn"
             android:tag="4"
             android:layout_gravity="center"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="25dp" />
 
         <ImageView
@@ -85,7 +94,7 @@
             android:onClick="dropIn"
             android:tag="5"
             android:layout_gravity="center"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp" />
 
         <ImageView
@@ -127,6 +136,158 @@
 
 
     </GridLayout>
+</LinearLayout>
+
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_marginLeft="20dp">
+
+    <RadioGroup
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/radiogroup_symbol"
+        android:layout_weight="1">
+
+        <RadioButton
+            android:text="X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radiobtn_cross"
+            android:layout_weight="1"
+            android:elevation="1dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            app:buttonTint="@android:color/white" />
+
+        <RadioButton
+            android:text="O"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radiobtn_circle"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            app:buttonTint="@android:color/white" />
+    </RadioGroup>
+
+            <RadioGroup
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|center_horizontal"
+                android:id="@+id/radiogroup_turn"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:text="First Turn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radiobtn_first_turn"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    app:buttonTint="@android:color/white" />
+
+                <RadioButton
+                    android:text="Second Turn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radiobtn_second_turn"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    app:buttonTint="@android:color/white" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="3"
+        android:paddingTop="0dp"
+        android:layout_height="0dp"
+            android:layout_marginBottom="10dp">
+
+    <LinearLayout
+        android:id="@+id/layout_player1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/lightcross"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="Player 1"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:alpha="0.8" />
+
+        <TextView
+            android:id="@+id/player1score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="32sp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:text="0"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_player2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/circle"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:text="Player 2"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:alpha="0.8" />
+        <TextView
+            android:id="@+id/player2score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="32sp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:text="0"
+            android:visibility="gone" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -140,85 +301,32 @@
         android:layout_marginTop="190dp" />
 
     <LinearLayout
-        android:orientation="vertical"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="false"
+    android:id="@+id/playAgainLayout"
+    android:visibility="gone"
+    android:layout_centerHorizontal="false"
+    android:background="@android:color/black"
+    android:layout_gravity="center"
+    android:padding="10dp">
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="false"
-        android:id="@+id/playAgainLayout"
-        android:visibility="gone"
-        android:layout_centerHorizontal="false"
-        android:background="@android:color/black"
-        android:layout_gravity="center"
-        android:padding="10dp">
+        android:text="New Text"
+        android:id="@+id/winnerMessage"
+        android:layout_gravity="center_horizontal"
+        android:textSize="30sp"
+        android:textColor="@android:color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/winnerMessage"
-            android:layout_gravity="center_horizontal"
-            android:textSize="30sp"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play Again"
-            android:id="@+id/playAgainButton"
-            android:layout_gravity="center_horizontal"
-            android:onClick="playAgain" />
-    </LinearLayout>
-
-    <RadioGroup
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/radiogroup_symbol">
-
-        <RadioButton
-            android:text="X"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radiobtn_cross"
-            android:layout_weight="1"
-            android:elevation="1dp"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:text="O"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radiobtn_circle"
-            android:layout_weight="1"
-            android:textSize="18sp" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/radiogroup_turn">
-
-        <RadioButton
-            android:text="First Turn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radiobtn_first_turn"
-            android:layout_weight="1"
-            android:elevation="1dp"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:text="Second Turn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radiobtn_second_turn"
-            android:layout_weight="1"
-            android:textSize="18sp" />
-    </RadioGroup>
-
+        android:text="Play Again"
+        android:id="@+id/playAgainButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="playAgain" />
+</LinearLayout>
 </FrameLayout>

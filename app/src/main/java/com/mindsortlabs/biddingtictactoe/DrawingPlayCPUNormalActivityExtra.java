@@ -3,7 +3,7 @@ package com.mindsortlabs.biddingtictactoe;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class DrawingPlay2PlayerNormalActivity extends AppCompatActivity {
+public class DrawingPlayCPUNormalActivityExtra extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

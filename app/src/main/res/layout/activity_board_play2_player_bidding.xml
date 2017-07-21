@@ -5,7 +5,8 @@
     android:id="@+id/activity_board_play_cpu_normal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mindsortlabs.biddingtictactoe.BoardPlay2PlayerBiddingActivity">
+    tools:context="com.mindsortlabs.biddingtictactoe.BoardPlay2PlayerBiddingActivity"
+    android:background="@drawable/bg_basic">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_weight="8"
+        android:layout_weight="7"
         android:layout_height="0dp">
 
         <GridLayout
@@ -39,7 +40,7 @@
             android:tag="0"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             />
 
         <ImageView
@@ -49,8 +50,8 @@
             android:onClick="dropIn"
             android:tag="1"
             android:layout_gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="25dp" />
 
         <ImageView
             android:layout_width="90dp"
@@ -61,7 +62,7 @@
             android:onClick="dropIn"
             android:tag="2"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:layout_marginLeft="15dp" />
 
         <ImageView

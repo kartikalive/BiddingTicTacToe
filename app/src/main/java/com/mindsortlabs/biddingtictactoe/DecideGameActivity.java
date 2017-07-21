@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+
+//------------------------------------------Not used for now---------------------------------
 public class DecideGameActivity extends AppCompatActivity {
 
     Button btnNormal, btnBidding;

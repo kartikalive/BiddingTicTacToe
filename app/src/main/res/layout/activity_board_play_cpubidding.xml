@@ -5,7 +5,8 @@
     android:id="@+id/activity_board_play_cpubidding"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mindsortlabs.biddingtictactoe.BoardPlayCPUBiddingActivity">
+    tools:context="com.mindsortlabs.biddingtictactoe.BoardPlayCPUBiddingActivity"
+    android:background="@drawable/bg_basic">
 
     <!--<ImageView-->
         <!--android:layout_width="90dp"-->

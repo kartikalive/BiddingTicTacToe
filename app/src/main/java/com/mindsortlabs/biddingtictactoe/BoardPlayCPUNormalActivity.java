@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -26,8 +28,6 @@ import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
 import java.util.Vector;
 
 public class BoardPlayCPUNormalActivity extends AppCompatActivity {
-
-
 
     int activePlayer = 1;
     int userTurn = 1;
@@ -57,10 +57,12 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded;
     int turnSoundId, winSoundId, drawSoundId ;
 
+    LinearLayout layoutPlayer1,layoutPlayer2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_board_play_cpu_normal);
 
         loadSound();
@@ -88,6 +90,12 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
             }
         });
 
+
+        layoutPlayer1 = (LinearLayout) findViewById(R.id.layout_player1);
+        layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
+
+        layoutPlayer1.getBackground().setAlpha(40);
+        layoutPlayer2.getBackground().setAlpha(40);
 
 
 //        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
@@ -148,6 +156,11 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void displayOptions(boolean display) {
@@ -458,8 +471,9 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, StartActivity.class);
+        Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void playAgain(View view) {

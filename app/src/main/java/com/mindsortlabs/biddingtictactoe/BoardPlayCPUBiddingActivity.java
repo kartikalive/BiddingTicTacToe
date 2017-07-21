@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -64,6 +66,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_board_play_cpubidding);
 //        Log.d("TAG123","onCreate: ");
 
@@ -280,6 +283,11 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     private void computerPlaying() {
@@ -502,6 +510,14 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         biddingAiObj = null;
         System.gc();
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+                Log.d("TAG125","here:");
+            }
+        },500);
         startActivity(intent);
     }
 

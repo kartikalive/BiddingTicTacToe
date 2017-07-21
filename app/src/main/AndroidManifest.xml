@@ -44,7 +44,7 @@
             android:name=".BoardPlay2PlayerNormalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DrawingPlay2PlayerNormalActivity"
+            android:name=".DrawingPlayCPUNormalActivityExtra"
             android:screenOrientation="portrait" />
         <activity
             android:name=".BoardPlay2PlayerBiddingActivity"

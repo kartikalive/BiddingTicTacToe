@@ -16,6 +16,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -61,6 +63,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hideStatusBar();
         setContentView(R.layout.activity_two_player_custom);
 
         Intent intent = getIntent();
@@ -265,6 +268,10 @@ public class TwoPlayerCustom extends AppCompatActivity {
         layout.animate().alpha(1).setDuration(300);
     }
 
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
     private void UpdateLayout() {
 
         if(playerTurn==1){

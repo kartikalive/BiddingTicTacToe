@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_drawing_play_normal"
     android:layout_width="match_parent"
@@ -8,15 +9,21 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mindsortlabs.biddingtictactoe.DrawingPlayCPUNormalActivity">
+    tools:context="com.mindsortlabs.biddingtictactoe.DrawingPlayCPUNormalActivity"
+    android:background="@drawable/bg_basic">
 
-    <Button
-        android:text="Button"
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:onClick="onClickBtn"
+        app:srcCompat="@drawable/img_cleanup"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_cleanup"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:alpha="1"
+        android:onClick="onClick"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
 </RelativeLayout>

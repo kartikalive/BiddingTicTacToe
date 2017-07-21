@@ -1,5 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,8 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -22,23 +25,24 @@ import java.util.Vector;
 
 public class StartActivity extends AppCompatActivity {
 
-    Button primitiveGameBtn , customGameBtn, settingsBtn, exitBtn;
-    ImageButton biddingGameBtn;
+    ImageButton biddingGameBtn, primitiveGameBtn, settingsBtn, instructionsBtn, exitBtn;
     NormalTicTacAi obj;
     int backPressed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        hideStatusBar();
         setContentView(R.layout.activity_start);
 
-        primitiveGameBtn = (Button) findViewById(R.id.btn_primitive_game);
+        primitiveGameBtn = (ImageButton) findViewById(R.id.btn_primitive_game);
         biddingGameBtn = (ImageButton) findViewById(R.id.btn_bidding_game);
         //customGameBtn = (Button) findViewById(R.id.btn_custom_game);
-        settingsBtn = (Button) findViewById(R.id.settings_btn);
-        exitBtn = (Button) findViewById(R.id.exit_btn);
+        settingsBtn = (ImageButton) findViewById(R.id.btn_options);
+        instructionsBtn = (ImageButton) findViewById(R.id.btn_instructions);
 
-
+//        hideStatusBar();
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
 
         if(prefs.getBoolean(SettingsActivity.soundPrefAccessKey,false)){
@@ -48,6 +52,11 @@ public class StartActivity extends AppCompatActivity {
             SettingsActivity.animatedPlay = 1;
         }
 //        SettingsActivity.animatedPlay =
+    }
+
+    private void hideStatusBar() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
    /* @Override
@@ -83,36 +92,20 @@ public class StartActivity extends AppCompatActivity {
         Intent intent = null;
         switch (v.getId()){
 
-
-            case R.id.btn_bidding:
-                Vector<String> board = new Vector<String>(3);
-                board.add("O__");
-                board.add("___");
-                board.add("___");
-                obj = new NormalTicTacAi();
-//                android.util.Pair<Integer, Integer> p  = obj.getSolution(board);
-//                Toast.makeText(this, "row: " + p.first + " col: "+p.second, Toast.LENGTH_SHORT).show();
-                break;
-
             case R.id.btn_bidding_game:
-                Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
                 break;
             case R.id.btn_primitive_game:
                 intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
                 break;
-            case R.id.settings_btn:
+            case R.id.btn_options:
                 intent = new Intent(this, SettingsActivity.class);
                 break;
-            case R.id.instruction:
+            case R.id.btn_instructions:
                 intent = new Intent(this, InstructionActivity.class);
                 break;
 
-
-            case R.id.exit_btn:
-                backPressed = 1;
-                onBackPressed();
-                break;
             default:
                 break;
         }
@@ -135,9 +128,15 @@ public class StartActivity extends AppCompatActivity {
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
+//                        hideStatusBar();
                     }
-                });
+                }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+//                hideStatusBar();
+            }
+        });
         builder.show();
-
+//        hideStatusBar();
     }
 }

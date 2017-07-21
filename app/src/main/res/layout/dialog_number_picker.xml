@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray">
 
 
     <NumberPicker
@@ -10,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="false"
         android:layout_centerHorizontal="true"
-        android:id="@+id/num_picker" />
+        android:id="@+id/num_picker"
+        android:solidColor="@android:color/holo_blue_dark"
+        android:foregroundTint="@color/cardview_light_background" />
 
     <Button
         android:text="Set"
@@ -18,5 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/num_picker"
         android:layout_centerHorizontal="true"
-        android:id="@+id/btn_set_bid" />
+        android:id="@+id/btn_set_bid"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@color/cardview_light_background" />
 </RelativeLayout>
