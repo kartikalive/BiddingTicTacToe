@@ -96,18 +96,18 @@
                     android:layout_weight="2" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/play"
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:freezesText="false"
-                android:onClick="customPlay"
-                android:text="play"
-                android:textStyle="bold|italic"
-                android:layout_marginBottom="11dp"
+                app:srcCompat="@drawable/img_start"
                 android:layout_alignParentBottom="true"
-                android:layout_alignRight="@+id/linearLayout2"
-                android:layout_alignEnd="@+id/linearLayout2" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/play"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                android:onClick="customPlay" />
 
         </RelativeLayout>
 

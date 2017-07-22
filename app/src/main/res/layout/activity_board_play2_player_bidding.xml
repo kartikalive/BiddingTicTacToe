@@ -306,7 +306,8 @@
         android:background="@drawable/custom_background"
         android:layout_height="110dp"
         android:id="@+id/playAgainLayout"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:orientation="vertical">
         <LinearLayout
             android:orientation="vertical"
             android:layout_centerVertical="false"
@@ -314,7 +315,7 @@
             android:layout_centerHorizontal="false"
             android:background="@drawable/bg_basic"
             android:layout_gravity="center"
-            android:padding="10dp"
+            android:padding="7dp"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:focusable="false"
@@ -329,12 +330,15 @@
                 android:textSize="30sp"
                 android:textColor="@android:color/white" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Play Again"
-                android:id="@+id/playAgainButton"
-                android:layout_gravity="center_horizontal"
+                app:srcCompat="@drawable/img_play_again"
+                android:id="@+id/imageButton"
+                android:layout_margin="2dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
                 android:onClick="playAgain" />
         </LinearLayout>
 
