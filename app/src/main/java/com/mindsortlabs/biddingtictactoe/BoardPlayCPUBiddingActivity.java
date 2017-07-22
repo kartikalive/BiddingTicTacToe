@@ -88,8 +88,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         layoutPlayer1 = (LinearLayout) findViewById(R.id.layout_player1);
         layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
 
-        layoutPlayer1.getBackground().setAlpha(40);
-        layoutPlayer2.getBackground().setAlpha(40);
+        layoutPlayer1.getBackground().setAlpha(65);
+        layoutPlayer2.getBackground().setAlpha(65);
 
         radioBtnCross.setChecked(true);
 
@@ -513,6 +513,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        releaseSound();
         biddingAiObj = null;
         isBackPressed=true;
         System.gc();
@@ -527,8 +528,18 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         },500);*/
         startActivity(intent);
         finish();
+    }
 
-
+    private void releaseSound() {
+        if(turnSound!=null){
+            turnSound.release();
+        }
+        if(winSound!=null){
+            winSound.release();
+        }
+        if(drawSound!=null){
+            drawSound.release();
+        }
 
     }
 
@@ -608,6 +619,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
+
+        releaseSound();
         biddingAiObj = null;
         System.gc();
         Intent intent = new Intent(this, BoardPlayCPUBiddingActivity.class);

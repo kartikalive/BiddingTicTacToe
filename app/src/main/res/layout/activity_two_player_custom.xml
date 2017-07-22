@@ -151,7 +151,7 @@
         android:layout_margin="10dp"
         android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
-        android:background="#e5e5e5"
+        android:background="@android:color/transparent"
         android:layout_height="0dp" />
 
 </LinearLayout>
@@ -167,34 +167,43 @@
         android:textSize="60sp"
         android:textStyle="bold" />
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/playAgainLayout"
-        android:visibility="gone"
-        android:background="@android:color/black"
+        android:layout_width="180dp"
         android:layout_gravity="center"
-        android:padding="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="154dp">
+        android:background="@drawable/custom_background"
+        android:layout_height="110dp"
+        android:id="@+id/playAgainLayout"
+        android:visibility="gone">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_centerVertical="false"
+            android:visibility="visible"
+            android:layout_centerHorizontal="false"
+            android:background="@drawable/bg_basic"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:focusable="false"
+            android:layout_margin="3dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/winnerMessage"
-            android:layout_gravity="center_horizontal"
-            android:textSize="30sp"
-            android:textColor="@android:color/white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/winnerMessage"
+                android:layout_gravity="center_horizontal"
+                android:textSize="30sp"
+                android:textColor="@android:color/white" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play Again"
-            android:id="@+id/playAgainButton"
-            android:layout_gravity="center_horizontal"
-            android:onClick="playAgain" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play Again"
+                android:id="@+id/playAgainButton"
+                android:layout_gravity="center_horizontal"
+                android:onClick="playAgain" />
+        </LinearLayout>
+
     </LinearLayout>
 
 

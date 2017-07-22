@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.util.Log;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -26,6 +27,7 @@ public class SoundActivity {
                     .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             float volume = actualVolume / maxVolume;
             // Is the sound loaded already?
+            Log.d("Soundcheck", soundLoaded+"");
             if (soundLoaded) {
                 soundPool.play(soundId, volume, volume, 1, 0, 1f);
             }

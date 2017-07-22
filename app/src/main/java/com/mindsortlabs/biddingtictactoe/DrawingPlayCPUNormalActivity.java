@@ -85,14 +85,28 @@ public class DrawingPlayCPUNormalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        releaseSound();
         Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
         startActivity(intent);
         finish();
     }
 
+    private void releaseSound() {
+        if(turnSound!=null){
+            turnSound.release();
+        }
+        if(winSound!=null){
+            winSound.release();
+        }
+        if(drawSound!=null){
+            drawSound.release();
+        }
+
+    }
+
     public void onClick(View v){
 
-
+        releaseSound();
         ((ViewManager)dv.getParent()).removeView(dv);
 //        RelativeLayout parentLyt = (RelativeLayout) findViewById(R.id.activity_drawing_play_normal);
 //        parentLyt.removeView(dv);

@@ -76,8 +76,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         layoutPlayer1 = (LinearLayout) findViewById(R.id.layout_player1);
         layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
 
-        layoutPlayer1.getBackground().setAlpha(40);
-        layoutPlayer2.getBackground().setAlpha(40);
+        layoutPlayer1.getBackground().setAlpha(65);
+        layoutPlayer2.getBackground().setAlpha(65);
 
         radioBtnCross.setChecked(true);
 
@@ -326,6 +326,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        releaseSound();
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -414,9 +415,24 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
-
+        releaseSound();
         Intent intent = new Intent(this, BoardPlay2PlayerBiddingActivity.class);
         startActivity(intent);
+        Log.d("finishCheck","called: ");
+        finish();
+    }
+
+    private void releaseSound() {
+        if(turnSound!=null){
+            turnSound.release();
+        }
+        if(winSound!=null){
+            winSound.release();
+        }
+        if(drawSound!=null){
+            drawSound.release();
+        }
+
     }
 
     private void gameOverMessage(int i) {
@@ -557,8 +573,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             counter.setTranslationY(1000f);
         }
         if(tappedCounter==4){
-            counter.setScaleX(0.1f);
-            counter.setScaleY(0.1f);
+            counter.setScaleX(0);
+            counter.setScaleY(0);
         }
 
     }

@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/bidding_tictactoe_small"
         android:id="@+id/imageView10"
         android:adjustViewBounds="true"
-        android:layout_weight="2"
+        android:layout_weight="3.5"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />
 
@@ -36,7 +36,6 @@
         android:onClick="onClick"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
         android:layout_weight="1" />
 
     <ImageButton

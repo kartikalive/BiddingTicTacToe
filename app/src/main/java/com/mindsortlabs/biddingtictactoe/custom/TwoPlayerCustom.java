@@ -81,8 +81,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
         layoutPlayer1 = (LinearLayout) findViewById(R.id.Player1);
         layoutPlayer2 = (LinearLayout) findViewById(R.id.Player2);
 
-        layoutPlayer1.getBackground().setAlpha(40);
-        layoutPlayer2.getBackground().setAlpha(40);
+        layoutPlayer1.getBackground().setAlpha(65);
+        layoutPlayer2.getBackground().setAlpha(65);
 
 
         gridview.setNumColumns(board_size);
@@ -213,6 +213,9 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
 
     public void playAgain(View view) {
+
+        releaseSound();
+        loadSound();
         gridview.setAdapter(new ImageAdapter(this,board_size));
         LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
@@ -229,8 +232,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
         layoutPlayer1.setBackground(getResources().getDrawable(getPlayer1Image1()));
         layoutPlayer2.setBackground(getResources().getDrawable(getPlayer2Image1()));
 
-        layoutPlayer1.getBackground().setAlpha(40);
-        layoutPlayer2.getBackground().setAlpha(40);
+        layoutPlayer1.getBackground().setAlpha(65);
+        layoutPlayer2.getBackground().setAlpha(65);
 
 
 
@@ -242,6 +245,19 @@ public class TwoPlayerCustom extends AppCompatActivity {
         totalTurns =0 ;
 
         moveTimer.start();
+    }
+
+    private void releaseSound() {
+        if(turnSound!=null){
+            turnSound.release();
+        }
+        if(winSound!=null){
+            winSound.release();
+        }
+        if(drawSound!=null){
+            drawSound.release();
+        }
+
     }
 
     private void gameOverMessage(int i) {
@@ -281,6 +297,12 @@ public class TwoPlayerCustom extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        releaseSound();
+        super.onBackPressed();
     }
 
     private void increamentWins(int playerTurn) {
@@ -385,7 +407,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
     }
 
     private void changeTextForPlayerTurn() {
-        display.setText("Player" + Integer.toString(playerTurn) + "  Turn");
+        display.setText("Player " + Integer.toString(playerTurn) + "  Turn");
     }
 
     private void changePlayerTurn() {

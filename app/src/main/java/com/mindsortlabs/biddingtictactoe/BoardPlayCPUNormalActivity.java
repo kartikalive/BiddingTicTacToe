@@ -94,8 +94,14 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         layoutPlayer1 = (LinearLayout) findViewById(R.id.layout_player1);
         layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
 
-        layoutPlayer1.getBackground().setAlpha(40);
-        layoutPlayer2.getBackground().setAlpha(40);
+//        gridContainerLayout = (LinearLayout) findViewById(R.id.full_container);
+
+//        int height = gridContainerLayout.getWidth();
+//        Log.d("checkHeight: ", height+"");
+//        gridContainerLayout.setMinimumHeight(height);
+
+        layoutPlayer1.getBackground().setAlpha(65);
+        layoutPlayer2.getBackground().setAlpha(65);
 
 
 //        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
@@ -149,9 +155,35 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(i==R.id.radiobtn_cross){
                     userSymbol = 'X';
+
+                    layoutPlayer1.animate().alpha(0).setDuration(200);
+                    layoutPlayer2.animate().alpha(0).setDuration(200);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            layoutPlayer1.setBackgroundResource(R.drawable.lightcross);
+                            layoutPlayer2.setBackgroundResource(R.drawable.lightcircle);
+                            layoutPlayer1.animate().alpha(1f).setDuration(200);
+                            layoutPlayer2.animate().alpha(1f).setDuration(200);
+                        }
+                    },200);
                 }
                 if(i==R.id.radiobtn_circle){
                     userSymbol = 'O';
+
+                    layoutPlayer1.animate().alpha(0).setDuration(200);
+                    layoutPlayer2.animate().alpha(0).setDuration(200);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            layoutPlayer1.setBackgroundResource(R.drawable.lightcircle);
+                            layoutPlayer2.setBackgroundResource(R.drawable.lightcross);
+                            layoutPlayer1.animate().alpha(1f).setDuration(200);
+                            layoutPlayer2.animate().alpha(1f).setDuration(200);
+                        }
+                    },200);
                 }
             }
         });
@@ -223,7 +255,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 //            counter.animate().translationYBy(1000f).rotation(360).setDuration(300);
 
             if(!checkWinner()) {
-
+                Log.d("Soundcheck1","here: ");
                 SoundActivity.playSound(this,turnSound,turnSoundLoaded,turnSoundId);
 
                 if (cpuTurn) {
@@ -287,10 +319,11 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                 if (gameState[winningPosition[0]] == 0) {
 
-                    winner = "Player";
+//                    winner = "Player";
+                    winner = "CPU";
 
                 }
-                Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT).show();
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -337,11 +370,13 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
-        SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
-        winnerMessage.setText("CPU Wins");
+        if(i==1) {
+            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            winnerMessage.setText("CPU Wins");
+        }
 
         if(i==2) {
-            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
+//            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
             winnerMessage.setText("It's a draw");
         }
 
@@ -471,16 +506,33 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        releaseSound();
         Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
         startActivity(intent);
         finish();
     }
 
+    private void releaseSound() {
+        if(turnSound!=null){
+            turnSound.release();
+        }
+        if(winSound!=null){
+            winSound.release();
+        }
+        if(drawSound!=null){
+            drawSound.release();
+        }
+
+    }
+
     public void playAgain(View view) {
 
 
-        Intent intent = new Intent(this, BoardPlayCPUNormalActivity.class);
-        startActivity(intent);
+        releaseSound();
+        loadSound();
+//        Intent intent = new Intent(this, BoardPlayCPUNormalActivity.class);
+//        startActivity(intent);
 
         gameIsActive = true;
 
@@ -489,10 +541,12 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         layout.setVisibility(View.INVISIBLE);
 
         //PROBLEM WITH LINE IN NEXT GAME
-        //winLine = (ImageView) findViewById(R.id.win_line);
+        winLine = null;
+        winLine = (ImageView) findViewById(R.id.win_line);
+        setContentView(R.layout.activity_board_play_cpu_normal);
 //        winLine.setImageResource(R.drawable.linehorizontal);
 //        winLine.layout(15,190,15,0);
-        winLine.setVisibility(View.INVISIBLE);
+        winLine.setVisibility(View.GONE);
         displayOptions(true);
 
         activePlayer = 1;
@@ -524,11 +578,11 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            turnSound = new SoundPool.Builder().build();
-            winSound = new SoundPool.Builder().build();
-            drawSound = new SoundPool.Builder().build();
+            turnSound = new SoundPool.Builder().setMaxStreams(10).build();
+            winSound = new SoundPool.Builder().setMaxStreams(10).build();
+            drawSound = new SoundPool.Builder().setMaxStreams(10).build();
         }
-
+//
         else {
             turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
