@@ -3,13 +3,12 @@ package com.mindsortlabs.biddingtictactoe;
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -25,17 +24,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+
 public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     TextView tvBid1, tvBid2, tvBidTime, tvTotal1, tvTotal2, tvPlayerTitle;
     Button btnSetBid;
-    ImageView counter ,winLine;
+    ImageView counter, winLine;
     GridLayout gridLayout;
-
+    Toast mToast;
 
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
-    LinearLayout layoutPlayer1,layoutPlayer2;
+    LinearLayout layoutPlayer1, layoutPlayer2;
     char player1Symbol = 'X';
     int activePlayer = 0;  //First Player
     CountDownTimer moveTimer;
@@ -47,11 +48,11 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
     boolean updatedBid1 = false, updatedBid2 = false;   // put it to zero again when player moves.
-    int[][] winningPositions = {{0,1,2}, {3,4,5}, {6,7,8}, {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6}};
+    int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
 
-    SoundPool turnSound, winSound , drawSound ,loseSound;
+    SoundPool turnSound, winSound, drawSound, loseSound;
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
-    int turnSoundId, winSoundId, drawSoundId, loseSoundId ;
+    int turnSoundId, winSoundId, drawSoundId, loseSoundId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         tvTotal2 = (TextView) findViewById(R.id.tv_total2);
         tvPlayerTitle = (TextView) findViewById(R.id.tv_player_title);
 
-        gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         winLine = (ImageView) findViewById(R.id.win_line);
 
         radioBtnCross = (RadioButton) findViewById(R.id.radiobtn_cross);
@@ -82,18 +83,18 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         radioBtnCross.setChecked(true);
 
 
-
-        moveTimer = new CountDownTimer(3300,1000) {
+        moveTimer = new CountDownTimer(3300, 1000) {
             @Override
             public void onTick(long l) {
 
-                int time = (int) (l/1000);
-                Log.d("TAG123",(time)+"");
-                tvBidTime.setAlpha(1f);
-                if(time>1) {
-                    tvBidTime.setText(String.valueOf(time));
+                int time = (int) (l / 1000);
+                if (LogUtil.islogOn()) {
+                    Log.d("TAG123", (time) + "");
                 }
-                else{
+                tvBidTime.setAlpha(1f);
+                if (time > 1) {
+                    tvBidTime.setText(String.valueOf(time));
+                } else {
                     tvBidTime.setText("Play");
                 }
 
@@ -105,7 +106,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 gameActive = true;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
-                if(bid1!=bid2) {
+                if (bid1 != bid2) {
                     tvTotal1.animate().alpha(0).setDuration(200);
                     tvTotal2.animate().alpha(0).setDuration(200);
                 }
@@ -116,21 +117,24 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                         tvBid1 = (TextView) findViewById(R.id.tv_bid1);
                         tvBid2 = (TextView) findViewById(R.id.tv_bid2);
 
-                        tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
-                        tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
+                        tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
+                        tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                         tvBid1.setText(String.valueOf(bid1));
                         tvBid2.setText(String.valueOf(bid2));
                         tvBid1.animate().alpha(1f).setDuration(200);
                         tvBid2.animate().alpha(1f).setDuration(200);
-                        if(bid1==bid2){
+
+                        cancelToast();
+                        if (bid1 == bid2) {
                             gameActive = false;
-                            Toast.makeText(BoardPlay2PlayerBiddingActivity.this, "What a coincidence! Please choose again",
-                                    Toast.LENGTH_SHORT).show();
+                            mToast = Toast.makeText(BoardPlay2PlayerBiddingActivity.this, "What a coincidence! Please choose again",
+                                    Toast.LENGTH_SHORT);
+                            mToast.show();
                             updatedBid1 = false;
                             updatedBid2 = false;
-                        }
-                        else if(bid1>bid2){
-                            Toast.makeText(BoardPlay2PlayerBiddingActivity.this, "Player 1 turn", Toast.LENGTH_SHORT).show();
+                        } else if (bid1 > bid2) {
+                            mToast = Toast.makeText(BoardPlay2PlayerBiddingActivity.this, "Player 1 turn", Toast.LENGTH_SHORT);
+                            mToast.show();
                             total1 = total1 - bid1;
                             total2 = total2 + bid1;
                             tvTotal1.setText(String.valueOf(total1));
@@ -140,9 +144,9 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                             tvTotal2.animate().alpha(1f).setDuration(200);
                             tvBid1.setClickable(false);
                             tvBid2.setClickable(false);
-                        }
-                        else{
-                            Toast.makeText(BoardPlay2PlayerBiddingActivity.this, "Player 2 turn", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mToast = Toast.makeText(BoardPlay2PlayerBiddingActivity.this, "Player 2 turn", Toast.LENGTH_SHORT);
+                            mToast.show();
                             total1 = total1 + bid2;
                             total2 = total2 - bid2;
                             tvTotal1.setText(String.valueOf(total1));
@@ -154,7 +158,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                             tvBid2.setClickable(false);
                         }
                     }
-                },200);
+                }, 200);
 
                 tvBidTime.setVisibility(View.GONE);
                 //hide/display Options
@@ -165,7 +169,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         radioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i==R.id.radiobtn_cross){
+                if (i == R.id.radiobtn_cross) {
                     player1Symbol = 'X';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
@@ -178,10 +182,10 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
-                    },200);
+                    }, 200);
                 }
 
-                if(i==R.id.radiobtn_circle){
+                if (i == R.id.radiobtn_circle) {
                     player1Symbol = 'O';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
@@ -194,7 +198,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
-                    },200);
+                    }, 200);
                 }
             }
         });
@@ -259,23 +263,24 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     }
 
 
-    public void dropIn(View view){  //set in XML
+    public void dropIn(View view) {  //set in XML
 
         counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if(gameActive){
+        if (gameActive) {
 
-            if(!gameStarted){
+            if (!gameStarted) {
                 gameStarted = true;
                 radioGroupSymbol.setClickable(false);
                 displayOptions(false);
             }
 
-            if(gameState[tappedCounter]!=2){
-                Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            if (gameState[tappedCounter] != 2) {
+                cancelToast();
+                mToast = Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT);
+                mToast.show();
+            } else {
 
 
                 int symbol = R.drawable.cross;
@@ -289,9 +294,11 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 gameState[tappedCounter] = activePlayer;
                 animateCounters(counter, tappedCounter);
 
-                if(!checkWinner()){
-                    SoundActivity.playSound(this,turnSound,turnSoundLoaded,turnSoundId);
-                    Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT).show();
+                if (!checkWinner()) {
+                    SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+                    cancelToast();
+                    mToast = Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT);
+                    mToast.show();
                 }
 
                 tvBid1.setClickable(true);
@@ -311,14 +318,14 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                         tvBid2.setText("00");
                         tvBid2.animate().alpha(1f).setDuration(200);
                     }
-                },200);
+                }, 200);
             }
 
             gameActive = false;
-        }
-
-        else{
-            Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT).show();
+        } else {
+            cancelToast();
+            mToast = Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT);
+            mToast.show();
         }
 
 
@@ -334,17 +341,16 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             public void run() {
                 finish();
             }
-        },500);
+        }, 500);
         startActivity(intent);
 
     }
 
     private void displayOptions(boolean display) {
-        if(display) {
+        if (display) {
             radioGroupSymbol.animate().translationYBy(-1000f).setDuration(500);
             tvPlayerTitle.animate().translationYBy(-1000f).setDuration(500);
-        }
-        else{
+        } else {
             radioGroupSymbol.animate().translationY(1000f).setDuration(500);
             tvPlayerTitle.animate().translationYBy(1000f).setDuration(500);
         }
@@ -371,7 +377,9 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                     winner = "Player 1";
 
                 }
-                Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT).show();
+                cancelToast();
+                mToast = Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT);
+                mToast.show();
 
 
                 final int winnerPlayer = gameState[winningPosition[0]];
@@ -418,18 +426,20 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         releaseSound();
         Intent intent = new Intent(this, BoardPlay2PlayerBiddingActivity.class);
         startActivity(intent);
-        Log.d("finishCheck","called: ");
+        if (LogUtil.islogOn()) {
+            Log.d("finishCheck", "called: ");
+        }
         finish();
     }
 
     private void releaseSound() {
-        if(turnSound!=null){
+        if (turnSound != null) {
             turnSound.release();
         }
-        if(winSound!=null){
+        if (winSound != null) {
             winSound.release();
         }
-        if(drawSound!=null){
+        if (drawSound != null) {
             drawSound.release();
         }
 
@@ -437,22 +447,20 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private void gameOverMessage(int i) {
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
         TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
-        if(i==1){
-            SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
+        if (i == 1) {
+            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
             winnerMessage.setText("Player 2 wins");
-        }
-        else if(i==2) {
+        } else if (i == 2) {
             winnerMessage.setText("It's a draw");
-            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
-        }
-        else{
+            SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
+        } else {
             winnerMessage.setText("Player 1 wins");
-            SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
+            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         }
 
         layout.animate().alpha(1).setDuration(300);
@@ -465,44 +473,37 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
         line = 0;
 
-        if(i<=2){
+        if (i <= 2) {
             line = 1;
-            if(winningPosition[0]==0){
-                line  = 0;
+            if (winningPosition[0] == 0) {
+                line = 0;
                 winLine.setTranslationY(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==6){
-                line  = 2;
+            } else if (winningPosition[0] == 6) {
+                line = 2;
                 winLine.setTranslationY((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
-        }
-
-        else if(i<=5){
+        } else if (i <= 5) {
             line = 4;
             winLine.setRotation(90);
 
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 3;
                 winLine.setTranslationX(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 5;
                 winLine.setTranslationX((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
 
-        }
+        } else {
 
-        else{
-
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 6;
                 winLine.setRotation(45);
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 7;
                 winLine.setRotation(-45);
             }
@@ -526,7 +527,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private void animateCounters(ImageView counter, int tappedCounter) {
 
-        switch (tappedCounter){
+        switch (tappedCounter) {
             case 0:
                 counter.animate().translationYBy(1000f).translationXBy(1000f).rotation(360).setDuration(300);
                 break;
@@ -560,26 +561,26 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private void setInitialPositions(ImageView counter, int tappedCounter) {
 
-        if(tappedCounter==0||tappedCounter==1||tappedCounter==2) {
+        if (tappedCounter == 0 || tappedCounter == 1 || tappedCounter == 2) {
             counter.setTranslationY(-1000f);
         }
-        if(tappedCounter==0||tappedCounter==3||tappedCounter==6){
+        if (tappedCounter == 0 || tappedCounter == 3 || tappedCounter == 6) {
             counter.setTranslationX(-1000f);
         }
-        if(tappedCounter==2||tappedCounter==5||tappedCounter==8){
+        if (tappedCounter == 2 || tappedCounter == 5 || tappedCounter == 8) {
             counter.setTranslationX(1000f);
         }
-        if(tappedCounter==6||tappedCounter==7||tappedCounter==8){
+        if (tappedCounter == 6 || tappedCounter == 7 || tappedCounter == 8) {
             counter.setTranslationY(1000f);
         }
-        if(tappedCounter==4){
+        if (tappedCounter == 4) {
             counter.setScaleX(0);
             counter.setScaleY(0);
         }
 
     }
 
-    public void setBid(final int bidNumber){
+    public void setBid(final int bidNumber) {
         final Dialog d = new Dialog(this);
         d.setTitle("NumberPicker");
         d.setContentView(R.layout.dialog_number_picker);
@@ -588,7 +589,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         np.setMaxValue(total1); // max value 100
         np.setMinValue(1);   // min value 0
         np.setValue(bid1);
-        if(bidNumber==2) {
+        if (bidNumber == 2) {
             np.setMaxValue(total2);
             np.setValue(bid2);
         }
@@ -609,15 +610,14 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 tvBid1 = (TextView) findViewById(R.id.tv_bid1);
                 tvBid2 = (TextView) findViewById(R.id.tv_bid2);
 
-                if(bidNumber==1){
+                if (bidNumber == 1) {
                     tvBid1.setText("Hidden");
-                    tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP,35);
+                    tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
                     bid1 = np.getValue();
                     updatedBid1 = true;
-                }
-                else{
+                } else {
                     tvBid2.setText("Hidden");
-                    tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP,35);
+                    tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
                     bid2 = np.getValue();
                     updatedBid2 = true;
                 }
@@ -632,7 +632,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private void callTimer(boolean updatedBid1, boolean updatedBid2) {
 
-        if(updatedBid1&&updatedBid2){
+        if (updatedBid1 && updatedBid2) {
             tvBidTime.setVisibility(View.VISIBLE);
             moveTimer.start();
         }
@@ -646,9 +646,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             winSound = new SoundPool.Builder().build();
             drawSound = new SoundPool.Builder().build();
             loseSound = new SoundPool.Builder().build();
-        }
-
-        else {
+        } else {
             turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             drawSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -661,5 +659,11 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         winSoundId = winSound.load(this, R.raw.sound2, 2);
         drawSoundId = drawSound.load(this, R.raw.sound2, 2);
         loseSoundId = loseSound.load(this, R.raw.sound2, 2);
+    }
+
+    void cancelToast() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
     }
 }

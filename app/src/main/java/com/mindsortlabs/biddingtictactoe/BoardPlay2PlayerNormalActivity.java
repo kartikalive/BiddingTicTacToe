@@ -1,8 +1,8 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,7 +24,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
     int[] gameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
 
-    int[][] winningPositions = {{0,1,2}, {3,4,5}, {6,7,8}, {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6}};
+    int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
 
     ImageView winLine;
     GridLayout gridLayout;
@@ -35,7 +35,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
         hideStatusBar();
         setContentView(R.layout.activity_board_play2_player_normal);
 
-        gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
         winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
     }
@@ -53,8 +53,8 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
         if (gameState[tappedCounter] == 2 && gameIsActive) {
 
-            if(SettingsActivity.soundEffects==1){
-                if(turnMediaPlayer.isPlaying()){
+            if (SettingsActivity.soundEffects == 1) {
+                if (turnMediaPlayer.isPlaying()) {
                     turnMediaPlayer.stop();
                     turnMediaPlayer.start();
                 }
@@ -62,19 +62,19 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
             gameState[tappedCounter] = activePlayer;
 
-            if(tappedCounter==0||tappedCounter==1||tappedCounter==2) {
+            if (tappedCounter == 0 || tappedCounter == 1 || tappedCounter == 2) {
                 counter.setTranslationY(-1000f);
             }
-            if(tappedCounter==0||tappedCounter==3||tappedCounter==6){
+            if (tappedCounter == 0 || tappedCounter == 3 || tappedCounter == 6) {
                 counter.setTranslationX(-1000f);
             }
-            if(tappedCounter==2||tappedCounter==5||tappedCounter==8){
+            if (tappedCounter == 2 || tappedCounter == 5 || tappedCounter == 8) {
                 counter.setTranslationX(1000f);
             }
-            if(tappedCounter==6||tappedCounter==7||tappedCounter==8){
+            if (tappedCounter == 6 || tappedCounter == 7 || tappedCounter == 8) {
                 counter.setTranslationY(1000f);
             }
-            if(tappedCounter==4){
+            if (tappedCounter == 4) {
                 counter.setScaleX(0.1f);
                 counter.setScaleY(0.1f);
             }
@@ -94,7 +94,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
             }
 
-            switch (tappedCounter){
+            switch (tappedCounter) {
                 case 0:
                     counter.animate().translationYBy(1000f).translationXBy(1000f).rotation(360).setDuration(300);
                     break;
@@ -165,7 +165,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
                         winnerMessage.setText("It's a draw");
 
-                        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+                        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
 
                         layout.setVisibility(View.VISIBLE);
 
@@ -181,7 +181,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
 
-        if(SettingsActivity.soundEffects==1){
+        if (SettingsActivity.soundEffects == 1) {
             if (turnMediaPlayer.isPlaying()) {
                 turnMediaPlayer.stop();
                 winMediaPlayer.start();
@@ -193,44 +193,37 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
         winLine.setScaleX(0f);
         int line = 0;
 
-        if(i<=2){
+        if (i <= 2) {
             line = 1;
-            if(winningPosition[0]==0){
-                line  = 0;
+            if (winningPosition[0] == 0) {
+                line = 0;
                 winLine.setTranslationY(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==6){
-                line  = 2;
+            } else if (winningPosition[0] == 6) {
+                line = 2;
                 winLine.setTranslationY((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
-        }
-
-        else if(i<=5){
+        } else if (i <= 5) {
             line = 4;
             winLine.setRotation(90);
 
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 3;
                 winLine.setTranslationX(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 5;
                 winLine.setTranslationX((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
 
-        }
+        } else {
 
-        else{
-
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 6;
                 winLine.setRotation(45);
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 7;
                 winLine.setRotation(-45);
             }
@@ -257,7 +250,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
         gameIsActive = true;
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
 
         layout.setVisibility(View.INVISIBLE);
 
@@ -270,7 +263,7 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
         }
 
 
-        for (int i = 0; i< gridLayout.getChildCount(); i++) {
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
 
             ((ImageView) gridLayout.getChildAt(i)).setImageResource(0);
 

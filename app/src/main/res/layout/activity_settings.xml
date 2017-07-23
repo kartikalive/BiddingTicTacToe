@@ -68,7 +68,7 @@
                     android:layout_marginRight="20dp" />
 
                 <TextView
-                    android:text="Animated Play"
+                    android:text="Drawing Play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/animate_title"

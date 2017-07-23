@@ -3,7 +3,6 @@ package com.mindsortlabs.biddingtictactoe;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
@@ -17,7 +16,7 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        ImageView imageView= (ImageView)findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
         imageView.animate().alpha(1f).setDuration(1500);
         new Handler().postDelayed(new Runnable() {
 

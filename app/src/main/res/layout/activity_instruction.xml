@@ -23,7 +23,6 @@
         android:layout_gravity="center_vertical"
 
         android:elevation="10dp"
-        android:layout_below="@+id/cardView2"
         card_view:cardCornerRadius="4dp">
 
         <RelativeLayout

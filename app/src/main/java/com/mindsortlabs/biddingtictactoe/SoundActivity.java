@@ -6,20 +6,18 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.Log;
 
-import static android.content.Context.AUDIO_SERVICE;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 
-/**
- * Created by kartik1 on 09-07-2017.
- */
+import static android.content.Context.AUDIO_SERVICE;
 
 public class SoundActivity {
 
-    MediaPlayer mediaPlayer;
     public static int soundNumber = 0;
+    MediaPlayer mediaPlayer;
 
     public static void playSound(Context context, SoundPool soundPool, boolean soundLoaded, int soundId) {
 
-        if(SettingsActivity.soundEffects==1) {
+        if (SettingsActivity.soundEffects == 1) {
             AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
             float actualVolume = (float) audioManager
                     .getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -27,7 +25,9 @@ public class SoundActivity {
                     .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             float volume = actualVolume / maxVolume;
             // Is the sound loaded already?
-            Log.d("Soundcheck", soundLoaded+"");
+            if (LogUtil.islogOn()) {
+                Log.d("Soundcheck", soundLoaded + "");
+            }
             if (soundLoaded) {
                 soundPool.play(soundId, volume, volume, 1, 0, 1f);
             }

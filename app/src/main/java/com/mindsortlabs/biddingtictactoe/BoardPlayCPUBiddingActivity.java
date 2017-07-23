@@ -3,14 +3,13 @@ package com.mindsortlabs.biddingtictactoe;
 import android.app.Dialog;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ai.BiddingTicTacToeAi;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 
 import java.util.Vector;
 
@@ -34,15 +34,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     TextView tvBid1, tvBid2, tvBidTime, tvTotal1, tvTotal2, tvPlayerTitle;
     Button btnSetBid;
-    ImageView counter ,winLine;
+    ImageView counter, winLine;
     GridLayout gridLayout;
-
-    Boolean isBackPressed= false;
+    Toast mToast;
+    Boolean isBackPressed = false;
 
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
-    LinearLayout layoutPlayer1,layoutPlayer2;
-//    char player1Symbol = 'X';
+    LinearLayout layoutPlayer1, layoutPlayer2;
+    //    char player1Symbol = 'X';
     int activePlayer = 0;  //Player = 0, Computer = 1
     CountDownTimer moveTimer;
     boolean gameActive = false;
@@ -57,13 +57,13 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
     boolean updatedBid1 = false, updatedBid2 = false;   // put it to zero again when player moves.
-    int[][] winningPositions = {{0,1,2}, {3,4,5}, {6,7,8}, {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6}};
+    int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
 
     BiddingTicTacToeAi biddingAiObj;
 
-    SoundPool turnSound, winSound , drawSound ,loseSound;
+    SoundPool turnSound, winSound, drawSound, loseSound;
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
-    int turnSoundId, winSoundId, drawSoundId, loseSoundId ;
+    int turnSoundId, winSoundId, drawSoundId, loseSoundId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         tvTotal2 = (TextView) findViewById(R.id.tv_total2);
         tvPlayerTitle = (TextView) findViewById(R.id.tv_player_title);
 
-        gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         winLine = (ImageView) findViewById(R.id.win_line);
 
         radioBtnCross = (RadioButton) findViewById(R.id.radiobtn_cross);
@@ -123,17 +123,18 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 //        updatedBid2 = true;
         //Set bid prompt.
 
-        moveTimer = new CountDownTimer(3300,1000) {
+        moveTimer = new CountDownTimer(3300, 1000) {
             @Override
             public void onTick(long l) {
 
-                int time = (int) (l/1000);
-                Log.d("TAG123",(time)+"");
-                tvBidTime.setAlpha(1f);
-                if(time>1) {
-                    tvBidTime.setText(String.valueOf(time));
+                int time = (int) (l / 1000);
+                if (LogUtil.islogOn()) {
+                    Log.d("TAG123", (time) + "");
                 }
-                else{
+                tvBidTime.setAlpha(1f);
+                if (time > 1) {
+                    tvBidTime.setText(String.valueOf(time));
+                } else {
                     tvBidTime.setText("Play");
                 }
 
@@ -145,7 +146,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 gameActive = true;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
-                if(bid1!=bid2) {
+                if (bid1 != bid2) {
                     tvTotal1.animate().alpha(0).setDuration(200);
                     tvTotal2.animate().alpha(0).setDuration(200);
                 }
@@ -154,27 +155,30 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        if(isBackPressed==true)
+                        if (isBackPressed == true)
                             return;
 
                         tvBid1 = (TextView) findViewById(R.id.tv_bid1);
                         tvBid2 = (TextView) findViewById(R.id.tv_bid2);
 
-                        tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
-                        tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP,60);
+                        tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
+                        tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                         tvBid1.setText(String.valueOf(bid1));
                         tvBid2.setText(String.valueOf(bid2));
                         tvBid1.animate().alpha(1f).setDuration(200);
                         tvBid2.animate().alpha(1f).setDuration(200);
-                        if(bid1==bid2){
+                        cancelToast();
+                        if (bid1 == bid2) {
                             gameActive = false;
-                            Toast.makeText(BoardPlayCPUBiddingActivity.this, "What a coincidence! Please choose again",
-                                    Toast.LENGTH_SHORT).show();
+
+                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "What a coincidence! Please choose again",
+                                    Toast.LENGTH_SHORT);
+                            mToast.show();
                             updatedBid1 = false;
                             updatedBid2 = false;
-                        }
-                        else if(bid1>bid2){
-                            Toast.makeText(BoardPlayCPUBiddingActivity.this, "Player turn", Toast.LENGTH_SHORT).show();
+                        } else if (bid1 > bid2) {
+                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Player turn", Toast.LENGTH_SHORT);
+                            mToast.show();
                             total1 = total1 - bid1;
                             total2 = total2 + bid1;
                             tvTotal1.setText(String.valueOf(total1));
@@ -183,9 +187,9 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             tvTotal1.animate().alpha(1f).setDuration(200);
                             tvTotal2.animate().alpha(1f).setDuration(200);
                             tvBid1.setClickable(false);
-                        }
-                        else{
-                            Toast.makeText(BoardPlayCPUBiddingActivity.this, "Computer turn", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Computer turn", Toast.LENGTH_SHORT);
+                            mToast.show();
                             total1 = total1 + bid2;
                             total2 = total2 - bid2;
                             tvTotal1.setText(String.valueOf(total1));
@@ -194,12 +198,16 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             tvTotal1.animate().alpha(1f).setDuration(200);
                             tvTotal2.animate().alpha(1f).setDuration(200);
                             tvBid1.setClickable(false);
-                            Log.d("checkBeforePlay: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
-                                    cpuTurnPair.second.second);
+                            if (LogUtil.islogOn()) {
+                                Log.d("checkBeforePlay: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
+                                        cpuTurnPair.second.second);
+                            }
                             computerPlaying();
                         }
+
                     }
-                },200);
+                }, 200);
+
 
                 tvBidTime.setVisibility(View.GONE);
                 //hide/display Options
@@ -210,7 +218,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         radioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i==R.id.radiobtn_cross){
+                if (i == R.id.radiobtn_cross) {
 //                    player1Symbol = 'X';
                     userSymbol = 'X';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
@@ -224,10 +232,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
-                    },200);
+                    }, 200);
                 }
 
-                if(i==R.id.radiobtn_circle){
+                if (i == R.id.radiobtn_circle) {
 //                    player1Symbol = 'O';
                     userSymbol = 'O';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
@@ -241,7 +249,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
-                    },200);
+                    }, 200);
                 }
             }
         });
@@ -252,7 +260,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 moveTimer.cancel();
                 tvBidTime.setVisibility(View.GONE);
                 setBid(1);
-               // setBid(2);
+                // setBid(2);
             }
         });
 
@@ -300,17 +308,19 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
         char compSymbol = (char) ('X' + 'O' - userSymbol);
         int symbol = R.drawable.circletwo;
-        if (userSymbol=='O') {
+        if (userSymbol == 'O') {
             symbol = R.drawable.cross;
         }
         final ImageView counter;
 
         int compRow = cpuTurnPair.second.first;
         int compCol = cpuTurnPair.second.second;
-        int tag = compRow*3 + compCol;
-        Log.d("TAG124","row: "+ compRow + " col: "+compCol + " tag: " + tag);
+        int tag = compRow * 3 + compCol;
+        if (LogUtil.islogOn()) {
+            Log.d("TAG124", "row: " + compRow + " col: " + compCol + " tag: " + tag);
+        }
 //        String string = "imageView"+tag;
-        counter = (ImageView) findViewById(R.id.activity_board_play_cpubidding).findViewWithTag(tag+"");
+        counter = (ImageView) findViewById(R.id.activity_board_play_cpubidding).findViewWithTag(tag + "");
         counter.setImageResource(symbol);
 
         final int tappedCounter = tag;
@@ -318,19 +328,20 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         setInitialPositions(counter, tappedCounter);
         gameState[tappedCounter] = activePlayer;
         board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
-        Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
-
+        if (LogUtil.islogOn()) {
+            Log.d("boardConfig: ", board.get(0) + "\n" + board.get(1) + "\n" + board.get(2));
+        }
         final int[] flag = {0};
         Handler handler0 = new Handler();
         handler0.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (!checkWinner()) {
-                    SoundActivity.playSound(BoardPlayCPUBiddingActivity.this,turnSound,turnSoundLoaded,turnSoundId);
+                    SoundActivity.playSound(BoardPlayCPUBiddingActivity.this, turnSound, turnSoundLoaded, turnSoundId);
                     flag[0] = 1;
                 }
             }
-        },1000);
+        }, 1000);
 
 
         updatedBid1 = false;
@@ -344,10 +355,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 gameActive = false;
 
 
-
             }
-        },1000);
-
+        }, 1000);
 
 
         Handler handler2 = new Handler();
@@ -365,8 +374,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         handler3.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(finalFlag ==1){
-                    Toast.makeText(BoardPlayCPUBiddingActivity.this, "Time to Bid", Toast.LENGTH_SHORT).show();
+                if (finalFlag == 1) {
+                    cancelToast();
+                    Toast mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Time to Bid", Toast.LENGTH_SHORT);
+                    mToast.show();
                 }
                 tvBid1.setClickable(true);
                 tvBid1 = (TextView) findViewById(R.id.tv_bid1);
@@ -400,13 +411,13 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     }
 
 
-    public void dropIn(View view){  //set in XML
+    public void dropIn(View view) {  //set in XML
 
         counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if(gameActive){
-            if(activePlayer==0) {
+        if (gameActive) {
+            if (activePlayer == 0) {
                 if (!gameStarted) {
                     gameStarted = true;
                     radioGroupSymbol.setClickable(false);
@@ -414,12 +425,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 }
 
                 if (gameState[tappedCounter] != 2) {
-                    Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT).show();
+                    cancelToast();
+                    mToast = Toast.makeText(this, "Play somewhere else", Toast.LENGTH_SHORT);
+                    mToast.show();
                 } else {
 
                     board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
-                    Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
-
+                    if (LogUtil.islogOn()) {
+                        Log.d("boardConfig: ", board.get(0) + "\n" + board.get(1) + "\n" + board.get(2));
+                    }
                     //getting new computer solution
 //                    Thread thread = new Thread(new Runnable() {
 //                        @Override
@@ -441,7 +455,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
 
                     int symbol = R.drawable.cross;
-                    if (userSymbol=='O') {
+                    if (userSymbol == 'O') {
                         symbol = R.drawable.circletwo;
                     }
 
@@ -452,8 +466,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     animateCounters(counter, tappedCounter);
 
                     if (!checkWinner()) {
-                        SoundActivity.playSound(this,turnSound,turnSoundLoaded,turnSoundId);
-                        Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT).show();
+                        SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+                        cancelToast();
+                        mToast = Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT);
+                        mToast.show();
                     }
 
                     tvBid1.setClickable(true);
@@ -476,14 +492,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 }
 
                 gameActive = false;
+            } else {
+                cancelToast();
+                mToast = Toast.makeText(this, "Computer's turn. Please wait.", Toast.LENGTH_SHORT);
+                mToast.show();
             }
-            else{
-                Toast.makeText(this, "Computer's turn. Please wait.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        else{
-            Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT).show();
+        } else {
+            cancelToast();
+            mToast = Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT);
+            mToast.show();
         }
 
 
@@ -492,12 +509,12 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     private Vector<String> updateBoardConfig(Vector<String> oldBoard, int tappedCounter, int activePlayer, char userSymbol) {
         Vector<String> newBoard = oldBoard;
 
-        int row = tappedCounter/3;
-        int col = tappedCounter%3;
+        int row = tappedCounter / 3;
+        int col = tappedCounter % 3;
         char symbol;
 
         symbol = 'X';
-        if(activePlayer==0&&userSymbol=='O'||activePlayer==1&&userSymbol=='X'){
+        if (activePlayer == 0 && userSymbol == 'O' || activePlayer == 1 && userSymbol == 'X') {
             symbol = 'O';
         }
 
@@ -515,7 +532,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     public void onBackPressed() {
         releaseSound();
         biddingAiObj = null;
-        isBackPressed=true;
+        isBackPressed = true;
         System.gc();
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
        /* Handler handler = new Handler();
@@ -531,24 +548,23 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     }
 
     private void releaseSound() {
-        if(turnSound!=null){
+        if (turnSound != null) {
             turnSound.release();
         }
-        if(winSound!=null){
+        if (winSound != null) {
             winSound.release();
         }
-        if(drawSound!=null){
+        if (drawSound != null) {
             drawSound.release();
         }
 
     }
 
     private void displayOptions(boolean display) {
-        if(display) {
+        if (display) {
             radioGroupSymbol.animate().translationYBy(-1000f).setDuration(500);
             tvPlayerTitle.animate().translationYBy(-1000f).setDuration(500);
-        }
-        else{
+        } else {
             radioGroupSymbol.animate().translationY(1000f).setDuration(500);
             tvPlayerTitle.animate().translationYBy(1000f).setDuration(500);
         }
@@ -575,7 +591,9 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     winner = "Player";
 
                 }
-                Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT).show();
+                cancelToast();
+                mToast = Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT);
+                mToast.show();
 
 
                 final int winnerPlayer = gameState[winningPosition[0]];
@@ -629,23 +647,20 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     private void gameOverMessage(int i) {
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
         TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
-        if(i==1){
-            SoundActivity.playSound(this,loseSound,loseSoundLoaded,loseSoundId);
+        if (i == 1) {
+            SoundActivity.playSound(this, loseSound, loseSoundLoaded, loseSoundId);
             winnerMessage.setText("Computer wins");
-        }
-        else if(i==2) {
-            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
+        } else if (i == 2) {
+            SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
             winnerMessage.setText("It's a draw");
-        }
-
-        else{
+        } else {
             winnerMessage.setText("Player wins");
-            SoundActivity.playSound(this,winSound,winSoundLoaded,winSoundId);
+            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         }
 
         layout.animate().alpha(1).setDuration(300);
@@ -658,44 +673,37 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
         line = 0;
 
-        if(i<=2){
+        if (i <= 2) {
             line = 1;
-            if(winningPosition[0]==0){
-                line  = 0;
+            if (winningPosition[0] == 0) {
+                line = 0;
                 winLine.setTranslationY(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==6){
-                line  = 2;
+            } else if (winningPosition[0] == 6) {
+                line = 2;
                 winLine.setTranslationY((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
-        }
-
-        else if(i<=5){
+        } else if (i <= 5) {
             line = 4;
             winLine.setRotation(90);
 
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 3;
                 winLine.setTranslationX(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 5;
                 winLine.setTranslationX((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
 
-        }
+        } else {
 
-        else{
-
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 6;
                 winLine.setRotation(45);
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 7;
                 winLine.setRotation(-45);
             }
@@ -719,7 +727,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     private void animateCounters(ImageView counter, int tappedCounter) {
 
-        switch (tappedCounter){
+        switch (tappedCounter) {
             case 0:
                 counter.animate().translationYBy(1000f).translationXBy(1000f).rotation(360).setDuration(300);
                 break;
@@ -753,28 +761,28 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     private void setInitialPositions(ImageView counter, int tappedCounter) {
 
-        if(tappedCounter==0||tappedCounter==1||tappedCounter==2) {
+        if (tappedCounter == 0 || tappedCounter == 1 || tappedCounter == 2) {
             counter.setTranslationY(-1000f);
         }
-        if(tappedCounter==0||tappedCounter==3||tappedCounter==6){
+        if (tappedCounter == 0 || tappedCounter == 3 || tappedCounter == 6) {
             counter.setTranslationX(-1000f);
         }
-        if(tappedCounter==2||tappedCounter==5||tappedCounter==8){
+        if (tappedCounter == 2 || tappedCounter == 5 || tappedCounter == 8) {
             counter.setTranslationX(1000f);
         }
-        if(tappedCounter==6||tappedCounter==7||tappedCounter==8){
+        if (tappedCounter == 6 || tappedCounter == 7 || tappedCounter == 8) {
             counter.setTranslationY(1000f);
         }
-        if(tappedCounter==4){
+        if (tappedCounter == 4) {
             counter.setScaleX(0.1f);
             counter.setScaleY(0.1f);
         }
 
     }
 
-    public void setBid(final int bidNumber){
+    public void setBid(final int bidNumber) {
 
-        if(bidNumber==1) {
+        if (bidNumber == 1) {
             final Dialog d = new Dialog(this);
             d.setTitle("NumberPicker");
             d.setContentView(R.layout.dialog_number_picker);
@@ -811,13 +819,19 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     }
 
                     char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
-                    Log.d("checkBeforeCall", " board : \n"+board.get(0)+"\n"+board.get(1)+"\n"+board.get(2)+ "\n" + "total2 : "
-                            + total2 + " cpuSymbol : " + cpuSymbol);
-                    cpuTurnPair = biddingAiObj.getSolution(board,total2,cpuSymbol);
-                    Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
-                            cpuTurnPair.second.second);
+                    if (LogUtil.islogOn()) {
+                        Log.d("checkBeforeCall", " board : \n" + board.get(0) + "\n" + board.get(1) + "\n" + board.get(2) + "\n" + "total2 : "
+                                + total2 + " cpuSymbol : " + cpuSymbol);
+                    }
+                    cpuTurnPair = biddingAiObj.getSolution(board, total2, cpuSymbol);
+                    if (LogUtil.islogOn()) {
+                        Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
+                                cpuTurnPair.second.second);
+                    }
                     bid2 = cpuTurnPair.first;
-                    Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
+                    if (LogUtil.islogOn()) {
+                        Log.d("TAG124", "bid1: " + bid1 + "  bid2: " + bid2);
+                    }
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -834,7 +848,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 //                    updatedBid2 = true;
                             callTimer(updatedBid1);
                         }
-                    },1000);
+                    }, 1000);
 
 //                    else {
 //                        tvBid2.setText("Hidden");
@@ -853,8 +867,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     private void callTimer(boolean updatedBid1) {
 
-        if(updatedBid1){
-            Log.d("TAG124","Calling Timer: ");
+        if (updatedBid1) {
+            if (LogUtil.islogOn()) {
+                Log.d("TAG124", "Calling Timer: ");
+            }
             tvBidTime.setVisibility(View.VISIBLE);
             moveTimer.start();
         }
@@ -868,9 +884,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             winSound = new SoundPool.Builder().build();
             drawSound = new SoundPool.Builder().build();
             loseSound = new SoundPool.Builder().build();
-        }
-
-        else {
+        } else {
             turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             drawSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -883,6 +897,13 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         winSoundId = winSound.load(this, R.raw.sound2, 2);
         drawSoundId = drawSound.load(this, R.raw.sound2, 2);
         loseSoundId = loseSound.load(this, R.raw.sound2, 2);
+    }
+
+
+    void cancelToast() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
     }
 
 }

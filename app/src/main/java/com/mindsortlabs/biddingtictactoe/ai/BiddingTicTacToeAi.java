@@ -4,6 +4,8 @@ package com.mindsortlabs.biddingtictactoe.ai;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+
 import java.util.Random;
 import java.util.Vector;
 
@@ -12,6 +14,10 @@ public class BiddingTicTacToeAi {
     double F[][];
     //double Bid[][] ;
     //Pair<Integer,Integer> Pairs[][];
+    double bid = 0;
+    int TOTAL_COINS = 200;
+    Pair<Integer, Integer> favoured_child;
+    int first;
 
     public BiddingTicTacToeAi() {
         F = new double[513][513];
@@ -32,17 +38,10 @@ public class BiddingTicTacToeAi {
             }
         }
         nextMove(board, 0, 0, 0, 0);
-        Log.d("TAG1245", "complete.");
+        if (LogUtil.islogOn()) {
+            Log.d("TAG1245", "complete.");
+        }
     }
-
-    double bid = 0;
-
-    int TOTAL_COINS = 200;
-
-    Pair<Integer, Integer> favoured_child;
-
-    int first;
-
 
     int rev(int player) {
         if (player == 3)
@@ -200,9 +199,10 @@ public class BiddingTicTacToeAi {
     public Pair<Integer, Pair<Integer, Integer>> getSolution(Vector<String> board, int mycoins, char player) {
 
 //        char player;
-        Log.d("BOARD ::", "  " + board.toString());
-        Log.d("COINS ::", "  " + mycoins);
-
+        if (LogUtil.islogOn()) {
+            Log.d("BOARD ::", "  " + board.toString());
+            Log.d("COINS ::", "  " + mycoins);
+        }
         if (mycoins == 0)
             return Pair.create(0, Pair.create(0, 0));
 
@@ -246,7 +246,7 @@ public class BiddingTicTacToeAi {
         int minBid = 0;
 
         //if(Math.abs(F[firstPLayer][secondPlayer]+1.00)<0.0001)
-        if (isOpponentAboutToWin(boards,player)) {
+        if (isOpponentAboutToWin(boards, player)) {
 
             minBid = TOTAL_COINS - mycoins + 1;
 
@@ -260,7 +260,7 @@ public class BiddingTicTacToeAi {
 
             minBid = (int) bid;
             Random r = new Random();
-            minBid = minBid + (r.nextBoolean()==true?r.nextInt(3):-r.nextInt(3));
+            minBid = minBid + (r.nextBoolean() == true ? r.nextInt(3) : -r.nextInt(3));
 
         }
 
@@ -269,9 +269,10 @@ public class BiddingTicTacToeAi {
 
         minBid = Math.min(minBid, opponentBid + 1);
         minBid = Math.min(minBid, mycoins);
-
-        Log.d("BIDDING ::", "  " + minBid);
-        // Log.d("CHILDRENS ::","  "+favoured_child.first +"    "+favoured_child.second);
+        if (LogUtil.islogOn()) {
+            Log.d("BIDDING ::", "  " + minBid);
+            // Log.d("CHILDRENS ::","  "+favoured_child.first +"    "+favoured_child.second);
+        }
         if (favoured_child == null) {
             return Pair.create(minBid, Pair.create(0, 0));
         }
@@ -280,7 +281,7 @@ public class BiddingTicTacToeAi {
 
     private boolean isOpponentAboutToWin(int[][] board, char player) {
 
-        boolean flag = false ;
+        boolean flag = false;
         for (int i = 0; i < 3; i++) {
 
             for (int j = 0; j < 3; j++) {
@@ -291,10 +292,10 @@ public class BiddingTicTacToeAi {
 
                     int temp_flag = done(board);
 
-                    if(temp_flag==2){
-                        favoured_child = Pair.create(i,j);
+                    if (temp_flag == 2) {
+                        favoured_child = Pair.create(i, j);
                     }
-                    flag =flag || (temp_flag==2);
+                    flag = flag || (temp_flag == 2);
 
                     board[i][j] = 0;
 

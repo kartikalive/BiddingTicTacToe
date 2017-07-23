@@ -2,28 +2,25 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 
 import java.util.Vector;
 
@@ -43,7 +40,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     int[] gameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     Vector<String> board;
 
-    int[][] winningPositions = {{0,1,2}, {3,4,5}, {6,7,8}, {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6}};
+    int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
 
     ImageView winLine, counter;
     GridLayout gridLayout;
@@ -53,11 +50,11 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     NormalTicTacAi normalAiObj;
 
-    SoundPool turnSound, winSound , drawSound;
+    SoundPool turnSound, winSound, drawSound;
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded;
-    int turnSoundId, winSoundId, drawSoundId ;
+    int turnSoundId, winSoundId, drawSoundId;
 
-    LinearLayout layoutPlayer1,layoutPlayer2;
+    LinearLayout layoutPlayer1, layoutPlayer2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +104,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 //        turnMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
 //        winMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 
-        gridLayout = (GridLayout)findViewById(R.id.gridLayout);
+        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         normalAiObj = new NormalTicTacAi();
         board = new Vector<>();
         board.add("___");
@@ -129,7 +126,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         radioGroupTurn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i==R.id.radiobtn_second_turn){
+                if (i == R.id.radiobtn_second_turn) {
 
                     userTurn = 2;
 
@@ -153,7 +150,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         radioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i==R.id.radiobtn_cross){
+                if (i == R.id.radiobtn_cross) {
                     userSymbol = 'X';
 
                     layoutPlayer1.animate().alpha(0).setDuration(200);
@@ -167,9 +164,9 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
-                    },200);
+                    }, 200);
                 }
-                if(i==R.id.radiobtn_circle){
+                if (i == R.id.radiobtn_circle) {
                     userSymbol = 'O';
 
                     layoutPlayer1.animate().alpha(0).setDuration(200);
@@ -183,7 +180,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                             layoutPlayer1.animate().alpha(1f).setDuration(200);
                             layoutPlayer2.animate().alpha(1f).setDuration(200);
                         }
-                    },200);
+                    }, 200);
                 }
             }
         });
@@ -196,11 +193,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     }
 
     private void displayOptions(boolean display) {
-        if(display) {
+        if (display) {
             radioGroupTurn.animate().translationYBy(-1000f).setDuration(500);
             radioGroupSymbol.animate().translationYBy(-1000f).setDuration(500);
-        }
-        else{
+        } else {
             radioGroupTurn.animate().translationY(1000f).setDuration(500);
             radioGroupSymbol.animate().translationY(1000f).setDuration(500);
         }
@@ -210,11 +206,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     public void dropIn(View view) {
 
-        if(cpuTurn){
+        if (cpuTurn) {
             cpuTurn = false;
             activePlayer = 1;
-        }
-        else{
+        } else {
             cpuTurn = true;
             activePlayer = 0;
         }
@@ -225,7 +220,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         if (gameState[tappedCounter] == 2 && gameIsActive) {
 
-            if(!gameStarted){
+            if (!gameStarted) {
                 gameStarted = true;
                 displayOptions(false);
             }
@@ -234,9 +229,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
             gameState[tappedCounter] = activePlayer;
             board = updateBoardConfig(board, tappedCounter, activePlayer, userSymbol);
-            Log.d("boardConfig: ", board.get(0)+"\n"+board.get(1)+"\n"+board.get(2));
-
-            if (userSymbol=='X'&&cpuTurn||userSymbol=='O'&&!cpuTurn) {
+            if (LogUtil.islogOn()) {
+                Log.d("boardConfig: ", board.get(0) + "\n" + board.get(1) + "\n" + board.get(2));
+            }
+            if (userSymbol == 'X' && cpuTurn || userSymbol == 'O' && !cpuTurn) {
 
                 counter.setImageResource(R.drawable.cross);
 
@@ -254,15 +250,17 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
 //            counter.animate().translationYBy(1000f).rotation(360).setDuration(300);
 
-            if(!checkWinner()) {
-                Log.d("Soundcheck1","here: ");
-                SoundActivity.playSound(this,turnSound,turnSoundLoaded,turnSoundId);
+            if (!checkWinner()) {
+                if (LogUtil.islogOn()) {
+                    Log.d("Soundcheck1", "here: ");
+                }
+                SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
 
                 if (cpuTurn) {
 
                     char cpuSymbol = (char) ('X' + 'O' - userSymbol);
 
-                    Pair<Integer, Integer> compTurn = normalAiObj.getSolution(board,cpuSymbol);
+                    Pair<Integer, Integer> compTurn = normalAiObj.getSolution(board, cpuSymbol);
                     int tag = 3 * compTurn.first + compTurn.second;
 
                     view = findViewById(R.id.activity_board_play_cpu_normal).findViewWithTag(tag + "");
@@ -285,12 +283,12 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     private Vector<String> updateBoardConfig(Vector<String> oldBoard, int tappedCounter, int activePlayer, char userSymbol) {
 
         Vector<String> newBoard = oldBoard;
-        int row = tappedCounter/3;
-        int col = tappedCounter%3;
+        int row = tappedCounter / 3;
+        int col = tappedCounter % 3;
         char symbol;
 
         symbol = 'X';
-        if(activePlayer==0&&userSymbol=='O'||activePlayer==1&&userSymbol=='X'){
+        if (activePlayer == 0 && userSymbol == 'O' || activePlayer == 1 && userSymbol == 'X') {
             symbol = 'O';
         }
 
@@ -365,17 +363,17 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     private void gameOverMessage(int i) {
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
         TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
-        if(i==1) {
+        if (i == 1) {
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
             winnerMessage.setText("CPU Wins");
         }
 
-        if(i==2) {
+        if (i == 2) {
 //            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
             winnerMessage.setText("It's a draw");
         }
@@ -385,7 +383,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     private void animateCounters(ImageView counter, int tappedCounter) {
 
-        switch (tappedCounter){
+        switch (tappedCounter) {
             case 0:
                 counter.animate().translationYBy(1000f).translationXBy(1000f).rotation(360).setDuration(300);
                 break;
@@ -419,19 +417,19 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     private void setInitialPositions(ImageView counter, int tappedCounter) {
 
-        if(tappedCounter==0||tappedCounter==1||tappedCounter==2) {
+        if (tappedCounter == 0 || tappedCounter == 1 || tappedCounter == 2) {
             counter.setTranslationY(-1000f);
         }
-        if(tappedCounter==0||tappedCounter==3||tappedCounter==6){
+        if (tappedCounter == 0 || tappedCounter == 3 || tappedCounter == 6) {
             counter.setTranslationX(-1000f);
         }
-        if(tappedCounter==2||tappedCounter==5||tappedCounter==8){
+        if (tappedCounter == 2 || tappedCounter == 5 || tappedCounter == 8) {
             counter.setTranslationX(1000f);
         }
-        if(tappedCounter==6||tappedCounter==7||tappedCounter==8){
+        if (tappedCounter == 6 || tappedCounter == 7 || tappedCounter == 8) {
             counter.setTranslationY(1000f);
         }
-        if(tappedCounter==4){
+        if (tappedCounter == 4) {
             counter.setScaleX(0.1f);
             counter.setScaleY(0.1f);
         }
@@ -445,44 +443,37 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         line = 0;
 
-        if(i<=2){
+        if (i <= 2) {
             line = 1;
-            if(winningPosition[0]==0){
-                line  = 0;
+            if (winningPosition[0] == 0) {
+                line = 0;
                 winLine.setTranslationY(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==6){
-                line  = 2;
+            } else if (winningPosition[0] == 6) {
+                line = 2;
                 winLine.setTranslationY((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
-        }
-
-        else if(i<=5){
+        } else if (i <= 5) {
             line = 4;
             winLine.setRotation(90);
 
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 3;
                 winLine.setTranslationX(-(gridLayout.getWidth() / 3));
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 5;
                 winLine.setTranslationX((gridLayout.getWidth() / 3));
             }
             winLine.setScaleX(0f);
             winLine.animate().scaleX(1f).setDuration(200);
 
-        }
+        } else {
 
-        else{
-
-            if(winningPosition[0]==0){
+            if (winningPosition[0] == 0) {
                 line = 6;
                 winLine.setRotation(45);
-            }
-            else if(winningPosition[0]==2){
+            } else if (winningPosition[0] == 2) {
                 line = 7;
                 winLine.setRotation(-45);
             }
@@ -514,13 +505,13 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     }
 
     private void releaseSound() {
-        if(turnSound!=null){
+        if (turnSound != null) {
             turnSound.release();
         }
-        if(winSound!=null){
+        if (winSound != null) {
             winSound.release();
         }
-        if(drawSound!=null){
+        if (drawSound != null) {
             drawSound.release();
         }
 
@@ -536,7 +527,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         gameIsActive = true;
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
 
         layout.setVisibility(View.INVISIBLE);
 
@@ -566,7 +557,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         }
 
-        for (int i = 0; i< gridLayout.getChildCount(); i++) {
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
 
             ((ImageView) gridLayout.getChildAt(i)).setImageResource(0);
 

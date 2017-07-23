@@ -1,27 +1,23 @@
 package com.mindsortlabs.biddingtictactoe.custom;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mindsortlabs.biddingtictactoe.DecideGameActivity;
 import com.mindsortlabs.biddingtictactoe.DecidePlayOptionsNormalActivity;
 import com.mindsortlabs.biddingtictactoe.R;
 
 public class BoardChooser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Spinner objective ;
-    Spinner spinner ;
+    Spinner objective;
+    Spinner spinner;
 
     int board_sizes = 0;
     int objectives = 0;
@@ -40,7 +36,6 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
-
 
 
         objective = (Spinner) findViewById(R.id.objective);
@@ -72,12 +67,12 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        int x = parent.getId() ;
+        int x = parent.getId();
 
-        if(parent.getId()==R.id.spinner){
-            board_sizes = position + 3 ;
-        }else if(parent.getId()==R.id.objective){
-            objectives =position + 3 ;
+        if (parent.getId() == R.id.spinner) {
+            board_sizes = position + 3;
+        } else if (parent.getId() == R.id.objective) {
+            objectives = position + 3;
         }
 
     }
@@ -89,9 +84,9 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
 
     public void customPlay(View view) {
 
-        if(objectives>board_sizes){
-            Toast.makeText(getBaseContext(),"Board Size should be greater than Objective",Toast.LENGTH_SHORT).show();
-        }else {
+        if (objectives > board_sizes) {
+            Toast.makeText(getBaseContext(), "Board Size should be greater than Objective", Toast.LENGTH_SHORT).show();
+        } else {
 
             Intent intent = new Intent(this, TwoPlayerCustom.class);
             intent.putExtra("board_sizes", board_sizes);

@@ -1,27 +1,18 @@
 package com.mindsortlabs.biddingtictactoe;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.CountDownTimer;
-import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.mindsortlabs.biddingtictactoe.ai.BiddingTicTacToeAi;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
-import com.mindsortlabs.biddingtictactoe.custom.BoardChooser;
-
-import java.util.Vector;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -45,10 +36,10 @@ public class StartActivity extends AppCompatActivity {
 //        hideStatusBar();
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
 
-        if(prefs.getBoolean(SettingsActivity.soundPrefAccessKey,false)){
+        if (prefs.getBoolean(SettingsActivity.soundPrefAccessKey, false)) {
             SettingsActivity.soundEffects = 1;
         }
-        if(prefs.getBoolean(SettingsActivity.animatePrefAccessKey,false)){
+        if (prefs.getBoolean(SettingsActivity.animatePrefAccessKey, false)) {
             SettingsActivity.animatedPlay = 1;
         }
 //        SettingsActivity.animatedPlay =
@@ -88,9 +79,9 @@ public class StartActivity extends AppCompatActivity {
         timer.start();
     }*/
 
-    public void onClick(View v){
+    public void onClick(View v) {
         Intent intent = null;
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btn_bidding_game:
 //                Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
@@ -115,8 +106,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Want To Quit ?")
