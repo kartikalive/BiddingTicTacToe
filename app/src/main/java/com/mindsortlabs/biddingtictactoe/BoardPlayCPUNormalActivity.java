@@ -521,9 +521,10 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
 
         releaseSound();
-        loadSound();
-//        Intent intent = new Intent(this, BoardPlayCPUNormalActivity.class);
-//        startActivity(intent);
+//        loadSound();
+        Intent intent = new Intent(this, BoardPlayCPUNormalActivity.class);
+        startActivity(intent);
+        finish();
 
         gameIsActive = true;
 

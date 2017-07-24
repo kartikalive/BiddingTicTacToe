@@ -336,7 +336,7 @@ public class DrawingViewNormal extends View {
             if ((oldRow != newRow || oldCol != newCol) && arr[newRow][newCol] == false) {
                 turn = 1 - turn;
                 if (turn == 0) {
-                    mPaint.setColor(Color.RED);
+                    mPaint.setColor(Color.BLUE);
                 } else {
                     mPaint.setColor(Color.GREEN);
                 }

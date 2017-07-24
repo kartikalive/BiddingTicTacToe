@@ -28,8 +28,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_weight="7"
-            android:layout_height="0dp">
+            android:layout_weight="6"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp">
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -52,7 +53,7 @@
                     android:tag="0"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     />
 
                 <ImageView
@@ -62,8 +63,10 @@
                     android:onClick="dropIn"
                     android:tag="1"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_row="0"
+                    android:layout_column="1" />
 
                 <ImageView
                     android:layout_width="90dp"
@@ -74,7 +77,7 @@
                     android:onClick="dropIn"
                     android:tag="2"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp" />
 
                 <ImageView
@@ -86,7 +89,7 @@
                     android:onClick="dropIn"
                     android:tag="3"
                     android:layout_gravity="center"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginLeft="15dp" />
 
                 <ImageView
@@ -98,8 +101,8 @@
                     android:onClick="dropIn"
                     android:tag="4"
                     android:layout_gravity="center"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginLeft="25dp" />
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="20dp" />
 
                 <ImageView
                     android:layout_width="90dp"
@@ -110,7 +113,7 @@
                     android:onClick="dropIn"
                     android:tag="5"
                     android:layout_gravity="center"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginLeft="15dp" />
 
                 <ImageView
@@ -122,7 +125,7 @@
                     android:onClick="dropIn"
                     android:tag="6"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="15dp" />
 
                 <ImageView
@@ -135,7 +138,7 @@
                     android:tag="7"
                     android:layout_gravity="center"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="30dp" />
+                    android:layout_marginTop="20dp" />
 
                 <ImageView
                     android:layout_width="90dp"
@@ -147,7 +150,7 @@
                     android:tag="8"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="30dp" />
+                    android:layout_marginTop="20dp" />
 
 
 
@@ -170,8 +173,7 @@
                 android:textSize="60sp"
                 android:textColor="@color/holo_white"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:layout_gravity="bottom" />
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,10 +182,9 @@
                 android:textSize="60sp"
                 android:text="00"
                 android:textColor="@color/holo_white"
-                android:gravity="right"
                 android:layout_weight="1"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="bottom" />
+                android:gravity="right" />
 
         </LinearLayout>
 
@@ -192,7 +193,7 @@
             android:orientation="horizontal"
             android:layout_weight="2.5"
             android:layout_height="0dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="2dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:background="@drawable/lightcross"
@@ -200,7 +201,8 @@
                 android:id="@+id/layout_player1"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:layout_width="0dp">
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp">
 
 
                 <TextView
@@ -246,7 +248,7 @@
                 android:gravity="right"
                 android:layout_marginRight="5dp"
                 android:layout_width="0dp"
-                android:layout_marginLeft="90dp">
+                android:layout_marginLeft="70dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -337,7 +339,7 @@
                 android:text="New Text"
                 android:id="@+id/winnerMessage"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textColor="@android:color/white" />
 
             <ImageButton
@@ -345,11 +347,11 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/img_play_again"
                 android:id="@+id/imageButton"
-                android:layout_margin="2dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="playAgain" />
+                android:onClick="playAgain"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
 
@@ -360,7 +362,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:id="@+id/radiogroup_symbol"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="70dp"
         android:visibility="visible"
         android:layout_marginRight="10dp">
 
@@ -417,7 +419,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_player_title"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="40dp"
         android:layout_gravity="bottom|center_horizontal"
         android:textSize="18sp"
         android:visibility="visible"

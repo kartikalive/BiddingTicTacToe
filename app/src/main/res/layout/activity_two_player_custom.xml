@@ -192,10 +192,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
+                android:text="Player 2 Wins"
                 android:id="@+id/winnerMessage"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textColor="@android:color/white" />
 
             <ImageButton
@@ -203,11 +203,11 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/img_play_again"
                 android:id="@+id/imageButton"
-                android:layout_margin="2dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="playAgain" />
+                android:onClick="playAgain"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
 
     </LinearLayout>

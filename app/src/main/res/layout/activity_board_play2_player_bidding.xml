@@ -126,7 +126,7 @@
             android:tag="7"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="20dp" />
 
         <ImageView
             android:layout_width="90dp"
@@ -138,7 +138,7 @@
             android:tag="8"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="20dp" />
 
 
 
@@ -181,7 +181,7 @@
             android:orientation="horizontal"
             android:layout_weight="2.5"
             android:layout_height="0dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="2dp">
     <LinearLayout
         android:orientation="vertical"
         android:background="@drawable/lightcross"
@@ -327,7 +327,7 @@
                 android:text="New Text"
                 android:id="@+id/winnerMessage"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textColor="@android:color/white" />
 
             <ImageButton
@@ -335,11 +335,11 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/img_play_again"
                 android:id="@+id/imageButton"
-                android:layout_margin="2dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="playAgain" />
+                android:onClick="playAgain"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
 
     </LinearLayout>
