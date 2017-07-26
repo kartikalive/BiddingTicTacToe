@@ -300,7 +300,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:adjustViewBounds="false"
-        android:layout_marginTop="190dp" />
+        android:layout_marginTop="165dp"/>
 
     <LinearLayout
         android:layout_width="180dp"
