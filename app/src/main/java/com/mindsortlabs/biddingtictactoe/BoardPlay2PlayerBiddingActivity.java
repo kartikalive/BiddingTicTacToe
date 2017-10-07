@@ -1,6 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
-import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -8,9 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.IntDef;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,10 +32,11 @@ import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     TextView tvBid1, tvBid2, tvBidTime, tvTotal1, tvTotal2, tvPlayerTitle;
-    Button btnSetBid;
+    Button  btnSetBid;
     ImageView counter, winLine;
     GridLayout gridLayout;
     Toast mToast;
+    ImageView imgGoldStack;
 
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
@@ -327,8 +331,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             mToast = Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT);
             mToast.show();
         }
-
-
     }
 
     @Override
@@ -581,20 +583,63 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     }
 
     public void setBid(final int bidNumber) {
-        final Dialog d = new Dialog(this);
-        d.setTitle("NumberPicker");
-        d.setContentView(R.layout.dialog_number_picker);
-        btnSetBid = (Button) d.findViewById(R.id.btn_set_bid);
-        final NumberPicker np = (NumberPicker) d.findViewById(R.id.num_picker);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View theView = inflater.inflate(R.layout.dialog_number_picker, null);
+
+        final NumberPicker np = (NumberPicker) theView.findViewById(R.id.num_picker);
+        imgGoldStack = (ImageView) theView.findViewById(R.id.goldStackImg);
+        builder.setView(theView);
+
+        builder.setView(theView)
+                .setPositiveButton("Set",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        tvBid1 = (TextView) findViewById(R.id.tv_bid1);
+                        tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+
+                        if (bidNumber == 1) {
+                            tvBid1.setText("Hidden");
+                            tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+                            bid1 = np.getValue();
+                            updatedBid1 = true;
+                        } else {
+                            tvBid2.setText("Hidden");
+                            tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+                            bid2 = np.getValue();
+                            updatedBid2 = true;
+                        }
+                        callTimer(updatedBid1, updatedBid2);
+//                Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+
         np.setMaxValue(total1); // max value 100
         np.setMinValue(1);   // min value 0
         np.setValue(bid1);
+
         if (bidNumber == 2) {
             np.setMaxValue(total2);
             np.setValue(bid2);
         }
         np.setWrapSelectorWheel(true);
 
+        np.setOnScrollListener(new NumberPicker.OnScrollListener() {
+            @Override
+            public void onScrollStateChange(NumberPicker view, int scrollState) {
+                int bidSelected = view.getValue();
+                setGoldStackImage(bidSelected);
+            }
+        });
 //        final int[] bid = new int[1];
         np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -603,31 +648,29 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             }
         });
 
-        btnSetBid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        builder.show();
+    }
 
-                tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                tvBid2 = (TextView) findViewById(R.id.tv_bid2);
-
-                if (bidNumber == 1) {
-                    tvBid1.setText("Hidden");
-                    tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
-                    bid1 = np.getValue();
-                    updatedBid1 = true;
-                } else {
-                    tvBid2.setText("Hidden");
-                    tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
-                    bid2 = np.getValue();
-                    updatedBid2 = true;
-                }
-                callTimer(updatedBid1, updatedBid2);
-//                Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
-                d.dismiss();
-            }
-        });
-
-        d.show();
+    private void setGoldStackImage(int bidSelected) {
+        if(bidSelected<=10){
+            imgGoldStack.setImageResource(R.drawable.goldcoin9);
+        }else if(bidSelected<=20){
+            imgGoldStack.setImageResource(R.drawable.goldcoin8);
+        }else if(bidSelected<=30){
+            imgGoldStack.setImageResource(R.drawable.goldcoin7);
+        }else if(bidSelected<=40){
+            imgGoldStack.setImageResource(R.drawable.goldcoin6);
+        }else if(bidSelected<=50){
+            imgGoldStack.setImageResource(R.drawable.goldcoin5);
+        }else if(bidSelected<=60){
+            imgGoldStack.setImageResource(R.drawable.goldcoin4);
+        }else if(bidSelected<=70){
+            imgGoldStack.setImageResource(R.drawable.goldcoin3);
+        }else if(bidSelected<=80){
+            imgGoldStack.setImageResource(R.drawable.goldcoin2);
+        }else{
+            imgGoldStack.setImageResource(R.drawable.goldcoin1);
+        }
     }
 
     private void callTimer(boolean updatedBid1, boolean updatedBid2) {

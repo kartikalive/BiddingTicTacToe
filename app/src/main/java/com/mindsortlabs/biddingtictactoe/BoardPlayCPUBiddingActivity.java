@@ -1,6 +1,7 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -9,9 +10,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,6 +41,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     GridLayout gridLayout;
     Toast mToast;
     Boolean isBackPressed = false;
+    ImageView imgGoldStack;
 
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
@@ -783,72 +787,60 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     public void setBid(final int bidNumber) {
 
         if (bidNumber == 1) {
-            final Dialog d = new Dialog(this);
-            d.setTitle("NumberPicker");
-            d.setContentView(R.layout.dialog_number_picker);
-            btnSetBid = (Button) d.findViewById(R.id.btn_set_bid);
-            final NumberPicker np = (NumberPicker) d.findViewById(R.id.num_picker);
-            np.setMaxValue(total1); // max value 100
-            np.setMinValue(1);   // min value 0
-            np.setValue(bid1);
-//        if(bidNumber==2) {
-//            np.setMaxValue(total2);
-//            np.setValue(bid2);
-//        }
-            np.setWrapSelectorWheel(true);
 
-//        final int[] bid = new int[1];
-            np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                    //numPickerBid1.setValue(i);
-                }
-            });
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            final View theView = inflater.inflate(R.layout.dialog_number_picker, null);
 
-            btnSetBid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            final NumberPicker np = (NumberPicker) theView.findViewById(R.id.num_picker);
+            imgGoldStack = (ImageView) theView.findViewById(R.id.goldStackImg);
+            builder.setView(theView);
 
-                    tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-
-                    if (bidNumber == 1) {
-                        tvBid1.setText("Hidden");
-                        tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
-                        bid1 = np.getValue();
-                        updatedBid1 = true;
-                    }
-
-                    char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
-                    if (LogUtil.islogOn()) {
-                        Log.d("checkBeforeCall", " board : \n" + board.get(0) + "\n" + board.get(1) + "\n" + board.get(2) + "\n" + "total2 : "
-                                + total2 + " cpuSymbol : " + cpuSymbol);
-                    }
-                    cpuTurnPair = biddingAiObj.getSolution(board, total2, cpuSymbol);
-                    if (LogUtil.islogOn()) {
-                        Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
-                                cpuTurnPair.second.second);
-                    }
-                    bid2 = cpuTurnPair.first;
-                    if (LogUtil.islogOn()) {
-                        Log.d("TAG124", "bid1: " + bid1 + "  bid2: " + bid2);
-                    }
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
+            builder.setView(theView)
+                    .setPositiveButton("Set",new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
-                            if (!gameStarted) {
-                                gameStarted = true;
-                                radioGroupSymbol.setClickable(false);
-                                displayOptions(false);
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            tvBid1 = (TextView) findViewById(R.id.tv_bid1);
+
+                            if (bidNumber == 1) {
+                                tvBid1.setText("Hidden");
+                                tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+                                bid1 = np.getValue();
+                                updatedBid1 = true;
                             }
 
-                            tvBid2.setText("Hidden");
-                            tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+                            char cpuSymbol = (char) ('X' + 'O' - userSymbol);   //check if any error due to predefining.
+                            if (LogUtil.islogOn()) {
+                                Log.d("checkBeforeCall", " board : \n" + board.get(0) + "\n" + board.get(1) + "\n" + board.get(2) + "\n" + "total2 : "
+                                        + total2 + " cpuSymbol : " + cpuSymbol);
+                            }
+                            cpuTurnPair = biddingAiObj.getSolution(board, total2, cpuSymbol);
+                            if (LogUtil.islogOn()) {
+                                Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
+                                        cpuTurnPair.second.second);
+                            }
+                            bid2 = cpuTurnPair.first;
+                            if (LogUtil.islogOn()) {
+                                Log.d("TAG124", "bid1: " + bid1 + "  bid2: " + bid2);
+                            }
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!gameStarted) {
+                                        gameStarted = true;
+                                        radioGroupSymbol.setClickable(false);
+                                        displayOptions(false);
+                                    }
+
+                                    tvBid2.setText("Hidden");
+                                    tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
 //                    updatedBid2 = true;
-                            callTimer(updatedBid1);
-                        }
-                    }, 1000);
+                                    callTimer(updatedBid1);
+                                }
+                            }, 1000);
 
 //                    else {
 //                        tvBid2.setText("Hidden");
@@ -857,13 +849,67 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 //                        updatedBid2 = true;
 //                    }
 //                Log.d("TAG124","bid1: "+ bid1 + "  bid2: "+ bid2);
-                    d.dismiss();
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
 
-            d.show();
+
+            np.setMaxValue(total1); // max value 100
+            np.setMinValue(1);   // min value 0
+            np.setValue(bid1);
+
+          /*  if (bidNumber == 2) {
+                np.setMaxValue(total2);
+                np.setValue(bid2);
+            }*/
+            np.setWrapSelectorWheel(true);
+
+            np.setOnScrollListener(new NumberPicker.OnScrollListener() {
+                @Override
+                public void onScrollStateChange(NumberPicker view, int scrollState) {
+                    int bidSelected = view.getValue();
+                    setGoldStackImage(bidSelected);
+                }
+            });
+//        final int[] bid = new int[1];
+            np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                    //numPickerBid1.setValue(i);
+                }
+            });
+
+            builder.show();
         }
     }
+
+
+    private void setGoldStackImage(int bidSelected) {
+        if(bidSelected<=10){
+            imgGoldStack.setImageResource(R.drawable.goldcoin9);
+        }else if(bidSelected<=20){
+            imgGoldStack.setImageResource(R.drawable.goldcoin8);
+        }else if(bidSelected<=30){
+            imgGoldStack.setImageResource(R.drawable.goldcoin7);
+        }else if(bidSelected<=40){
+            imgGoldStack.setImageResource(R.drawable.goldcoin6);
+        }else if(bidSelected<=50){
+            imgGoldStack.setImageResource(R.drawable.goldcoin5);
+        }else if(bidSelected<=60){
+            imgGoldStack.setImageResource(R.drawable.goldcoin4);
+        }else if(bidSelected<=70){
+            imgGoldStack.setImageResource(R.drawable.goldcoin3);
+        }else if(bidSelected<=80){
+            imgGoldStack.setImageResource(R.drawable.goldcoin2);
+        }else{
+            imgGoldStack.setImageResource(R.drawable.goldcoin1);
+        }
+    }
+
 
     private void callTimer(boolean updatedBid1) {
 
