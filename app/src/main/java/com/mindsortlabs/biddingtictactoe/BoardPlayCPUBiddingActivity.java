@@ -156,7 +156,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                gameActive = true;
+//                gameActive = true;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
                 if (bid1 != bid2) {
@@ -190,6 +190,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             updatedBid1 = false;
                             updatedBid2 = false;
                         } else if (bid1 > bid2) {
+                            gameActive = true;
                             mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Player turn", Toast.LENGTH_SHORT);
                             mToast.show();
                             total1 = total1 - bid1;
@@ -516,7 +517,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             mToast = Toast.makeText(this, "Select Bid First", Toast.LENGTH_SHORT);
             mToast.show();
         }
-
 
     }
 
