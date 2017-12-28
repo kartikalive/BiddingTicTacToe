@@ -34,9 +34,9 @@ public class DecidePlayOptionsBiddingActivity extends AppCompatActivity {
         switch (v.getId()) {
             case R.id.btn_practice:
                 if (SettingsActivity.animatedPlay == 0) {
-                    intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
+                    intent = new Intent(this, ChooseBiddingAndAds.class);
                 } else {
-                    intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
+                    intent = new Intent(this, ChooseBiddingAndAds.class);
                 }
                 break;
             case R.id.btn_two_players:
