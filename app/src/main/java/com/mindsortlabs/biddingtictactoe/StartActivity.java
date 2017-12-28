@@ -16,7 +16,7 @@ import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
 
 public class StartActivity extends AppCompatActivity {
 
-    ImageButton biddingGameBtn, primitiveGameBtn, settingsBtn, instructionsBtn, exitBtn;
+    ImageButton biddingGameBtn, primitiveGameBtn, settingsBtn, instructionsBtn, exitBtn, multiplayerBtn;
     NormalTicTacAi obj;
     int backPressed = 0;
 
@@ -32,6 +32,8 @@ public class StartActivity extends AppCompatActivity {
         //customGameBtn = (Button) findViewById(R.id.btn_custom_game);
         settingsBtn = (ImageButton) findViewById(R.id.btn_options);
         instructionsBtn = (ImageButton) findViewById(R.id.btn_instructions);
+        multiplayerBtn = (ImageButton) findViewById(R.id.btn_multiplayer_game);
+
 
 //        hideStatusBar();
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
@@ -86,6 +88,9 @@ public class StartActivity extends AppCompatActivity {
             case R.id.btn_bidding_game:
 //                Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+                break;
+            case R.id.btn_multiplayer_game:
+                intent = new Intent(this, BoardPlayMultiplayerActivity.class);
                 break;
             case R.id.btn_primitive_game:
                 intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
