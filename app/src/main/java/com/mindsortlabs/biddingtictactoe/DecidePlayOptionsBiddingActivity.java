@@ -52,6 +52,7 @@ public class DecidePlayOptionsBiddingActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
+        finish();
     }
 
     @Override

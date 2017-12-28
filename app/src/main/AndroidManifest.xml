@@ -74,8 +74,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity android:name=".DataClearDisableActivity" />
-        <activity android:name=".InstructionActivity" />
-        <activity android:name=".BoardPlayMultiplayerActivity"></activity>
+        <activity android:name=".ChooseBiddingAndAds" android:screenOrientation="portrait" />
+        <activity android:name=".InstructionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".BoardPlayMultiplayerActivity" android:screenOrientation="portrait" ></activity>
     </application>
 
 </manifest>

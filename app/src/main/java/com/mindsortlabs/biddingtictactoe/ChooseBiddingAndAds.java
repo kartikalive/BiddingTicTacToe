@@ -137,12 +137,15 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
 
     public void startBiddingPlay(View view) {
 
+
+        mRewardedVideoAd.pause(this);
         MyPreferences myPreferences = new MyPreferences();
         myPreferences.saveMyandCPUTotalBid(this, Integer.parseInt(userTotalCoins.getText().toString()),
                 Integer.parseInt(cpuTotalCoins.getText().toString()));
         myPreferences.saveLevel(this, level);
         Intent intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
         startActivity(intent);
+        finish();
 
     }
 
