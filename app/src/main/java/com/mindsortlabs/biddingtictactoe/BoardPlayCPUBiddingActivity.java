@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ai.BiddingTicTacToeAi;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.util.Vector;
 
@@ -97,11 +98,18 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
         radioBtnCross.setChecked(true);
 
-        biddingAiObj = new BiddingTicTacToeAi();
+        MyPreferences myPreferences = new MyPreferences();
+        total1 = myPreferences.getuserTotalCoins(this);
+        total2 = myPreferences.getcpuTotalCoins(this);
+
+        biddingAiObj = new BiddingTicTacToeAi(2*total2);
         board = new Vector<>();
         board.add("___");
         board.add("___");
         board.add("___");
+
+        tvTotal1.setText(String.valueOf(total1));
+        tvTotal2.setText(String.valueOf(total2));
 
 //        Thread thread = new Thread(new Runnable() {
 //            @Override

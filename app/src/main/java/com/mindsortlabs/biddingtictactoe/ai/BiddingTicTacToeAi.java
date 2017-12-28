@@ -22,8 +22,9 @@ public class BiddingTicTacToeAi {
     int totalCoins = 200 , first ;
     Pair<Integer, Integer> favouredChild;
 
-    public BiddingTicTacToeAi() {
+    public BiddingTicTacToeAi(int totalCoins) {
         RichmanValue = new double[513][513];
+        this.totalCoins = totalCoins;
 
         for (int i = 0; i < 513; i++) {
             for (int j = 0; j < 513; j++) {
@@ -264,11 +265,11 @@ public class BiddingTicTacToeAi {
             //biddingValue = Bid[firstPLayer][secondPlayer];
             //favouredChild = Pairs[firstPLayer][secondPlayer];
 
-            biddingValue = biddingValue * 200;
+            biddingValue = biddingValue * totalCoins;
 
             minBid = (int) biddingValue;
             Random r = new Random();
-            minBid = minBid + (r.nextBoolean() == true ? r.nextInt(3) : -r.nextInt(3));
+            minBid = minBid + (r.nextBoolean() == true ? r.nextInt(2) : -r.nextInt(3));
 
         }
 
