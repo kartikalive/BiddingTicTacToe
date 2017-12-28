@@ -21,10 +21,13 @@ public class BiddingTicTacToeAi {
     double biddingValue = 0;
     int totalCoins = 200 , first ;
     Pair<Integer, Integer> favouredChild;
+    int level = 0;// 0->EASY    1->MEDIUM    2->HARD
 
-    public BiddingTicTacToeAi(int totalCoins) {
+
+    public BiddingTicTacToeAi(int totalCoins,int level) {
         RichmanValue = new double[513][513];
         this.totalCoins = totalCoins;
+        this.level=level;
 
         for (int i = 0; i < 513; i++) {
             for (int j = 0; j < 513; j++) {
@@ -268,11 +271,19 @@ public class BiddingTicTacToeAi {
             biddingValue = biddingValue * totalCoins;
 
             minBid = (int) biddingValue;
-            Random r = new Random();
-            minBid = minBid + (r.nextBoolean() == true ? r.nextInt(2) : -r.nextInt(3));
+            if(level==1){
+                //MEDIUM LEVEL
+                Random r = new Random();
+                minBid = minBid + (r.nextBoolean() == true ? r.nextInt(5) : -r.nextInt(5));
+            }
 
         }
 
+        if(level==0){
+            //EASY LEVEL
+            Random r = new Random();
+            minBid = minBid + (r.nextBoolean() == true ? r.nextInt(10) : -r.nextInt(10));
+        }
 
         int opponentBid = totalCoins - mycoins;
 

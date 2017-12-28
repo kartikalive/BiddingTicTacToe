@@ -12,6 +12,13 @@
         <item> 10 * 10 </item>
     </string-array>
 
+    <string-array name="levels">
+
+        <item>  EASY  </item>
+        <item>  MEDIUM  </item>
+        <item>  HARD  </item>
+    </string-array>
+
 
     <string name="description">
      \nBidding Tic Tac Toe:\n\nThe only modification in Bidding tic tac toe is that it is not an Alternate turn game.

@@ -22,7 +22,7 @@ android:background="@drawable/bg_splash">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="400dp"
         android:background="@drawable/bg_basic">
 
 
@@ -39,8 +39,6 @@ android:background="@drawable/bg_splash">
             android:layout_centerHorizontal="true"
             android:textColor="@android:color/white"
             android:typeface="normal" />
-
-<!--
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -55,27 +53,30 @@ android:background="@drawable/bg_splash">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="BOARD SIZE"
-                android:textColor="@color/holo_white2"
-                android:textSize="24dp" />
+                android:layout_weight="7"
+                android:text="LEVEL"
+                android:gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:textSize="28dp"
+                android:textColor="@color/holo_white2" />
 
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
-        </LinearLayout>-->
+        </LinearLayout>
+
 
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView3"
-            android:layout_marginLeft="20dp"
+            android:layout_below="@id/linearLayout"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -109,9 +110,9 @@ android:background="@drawable/bg_splash">
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:layout_below="@+id/linearLayout2"
             android:orientation="horizontal">
 
@@ -120,8 +121,11 @@ android:background="@drawable/bg_splash">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="--"
-                android:textSize="24dp"
+                android:text="100"
+                android:gravity="center_horizontal"
+                android:textSize="36dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="2dp"
                 android:textColor="@color/holo_white2"
                 />
 
@@ -131,8 +135,10 @@ android:background="@drawable/bg_splash">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="--"
-                android:textSize="24dp"
+                android:layout_margin="2dp"
+                android:text="100"
+                android:gravity="center_horizontal"
+                android:textSize="36dp"
                 android:textColor="@color/holo_white2"
                 />
 
@@ -159,23 +165,23 @@ android:background="@drawable/bg_splash">
 
             <Button
                 android:id="@+id/video"
-                android:layout_margin="5px"
                 android:layout_width="match_parent"
                 android:text="Watch Video tO INCREASE YOUR COINS"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:layout_weight="1.0"
-                android:onClick="customPlay"
+                android:onClick="startBiddingPlay"
                 />
 
             <ImageButton
                 android:id="@+id/play"
-                android:layout_margin="5px"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
                 android:layout_weight="1.0"
-                android:onClick="customPlay"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:onClick="startBiddingPlay"
+                android:background="@android:color/transparent"
                 app:srcCompat="@drawable/img_start" />
         </LinearLayout>
 

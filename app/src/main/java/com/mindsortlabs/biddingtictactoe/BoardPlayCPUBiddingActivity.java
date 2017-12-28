@@ -61,6 +61,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
+    int level=0;
     boolean updatedBid1 = false, updatedBid2 = false;   // put it to zero again when player moves.
     int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
 
@@ -101,8 +102,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         MyPreferences myPreferences = new MyPreferences();
         total1 = myPreferences.getuserTotalCoins(this);
         total2 = myPreferences.getcpuTotalCoins(this);
-
-        biddingAiObj = new BiddingTicTacToeAi(2*total2);
+        level = myPreferences.getlevel(this);
+        biddingAiObj = new BiddingTicTacToeAi(2*total2,level);
         board = new Vector<>();
         board.add("___");
         board.add("___");
@@ -200,6 +201,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             tvTotal2.animate().alpha(1f).setDuration(200);
                             tvBid1.setClickable(false);
                         } else {
+                            gameActive=false;
                             mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Computer turn", Toast.LENGTH_SHORT);
                             mToast.show();
                             total1 = total1 + bid2;
