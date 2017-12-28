@@ -653,10 +653,58 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     public void playAgain(View view) {
 
         releaseSound();
-        biddingAiObj = null;
-        System.gc();
-        Intent intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
-        startActivity(intent);
+//        System.gc();
+        isBackPressed = false;
+        gameActive = false;
+        gameStarted = false;
+        bid1 = 1;
+        bid2 = 1;
+        total1 = 100;
+        total2 = 100;
+        updatedBid1 = false;
+        updatedBid2 = false;
+        tvBid1.setText("00");
+        tvBid2.setText("00");
+        line = 0;
+        tvBid1.setClickable(true);
+        tvTotal1.setText(String.valueOf(total1));
+        tvTotal2.setText(String.valueOf(total2));
+        radioBtnCross.setChecked(true);
+        userSymbol = 'X';
+        activePlayer = 0;
+        initializeCounters();
+        winLine.setTranslationX(0);
+        winLine.setTranslationY(0);
+        winLine.setRotation(0);
+        winLine.setScaleX(1f);
+        winLine.setVisibility(View.GONE);
+
+        for(int i=0;i<=8;i++){
+            gameState[i] = 2;
+        }
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
+        layout.setVisibility(View.GONE);
+
+        MyPreferences myPreferences = new MyPreferences();
+        total1 = myPreferences.getuserTotalCoins(this);
+        total2 = myPreferences.getcpuTotalCoins(this);
+        level = myPreferences.getlevel(this);
+        biddingAiObj = new BiddingTicTacToeAi(2*total2,level);
+        board = new Vector<>();
+        board.add("___");
+        board.add("___");
+        board.add("___");
+
+//        Intent intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
+//        startActivity(intent);
+    }
+
+    private void initializeCounters() {
+//        int pos = 0;
+        for(int pos=0;pos<9;pos++){
+            counter = (ImageView) findViewById(R.id.activity_board_play_cpubidding).findViewWithTag(String.valueOf(pos));
+            counter.setImageDrawable(null);
+        }
     }
 
     private void gameOverMessage(int i) {
