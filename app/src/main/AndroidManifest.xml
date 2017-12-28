@@ -9,6 +9,14 @@
         android:manageSpaceActivity=".DataClearDisableActivity"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
@@ -66,7 +74,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity android:name=".DataClearDisableActivity" />
-        <activity android:name=".InstructionActivity"></activity>
+        <activity android:name=".InstructionActivity" />
+        <activity android:name=".BoardPlayMultiplayerActivity"></activity>
     </application>
 
 </manifest>

@@ -39,6 +39,20 @@
         android:layout_weight="1" />
 
     <ImageButton
+        android:id="@+id/btn_multiplayer_game"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/blank_green" />
+
+    <ImageButton
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:srcCompat="@drawable/img_primitive"
@@ -67,19 +81,18 @@
         android:onClick="onClick" />
 
     <ImageButton
+        android:id="@+id/btn_instructions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:srcCompat="@drawable/img_instructions"
-        android:id="@+id/btn_instructions"
-        android:background="@android:color/transparent"
-        android:adjustViewBounds="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:scaleType="fitCenter"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:layout_marginBottom="20dp"
-        android:onClick="onClick" />
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/img_instructions" />
 
 
 </LinearLayout>
