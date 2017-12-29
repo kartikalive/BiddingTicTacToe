@@ -33,6 +33,15 @@
         <Button android:id="@+id/button_single_player_2"
             style="@style/MainScreenButton"
             android:text="@string/single_player" />
+        <Button
+            android:id="@+id/video"
+            android:text="INCREASE YOUR COINS"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            />
         <TextView style="@style/MainScreenButtonBlurb"
             android:text="@string/single_player_explanation" />
         <Button android:id="@+id/button_quick_game"

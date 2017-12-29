@@ -2,14 +2,11 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.TypedValue;
@@ -17,7 +14,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -32,6 +28,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -60,6 +61,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -69,10 +73,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.datatype.Duration;
-
 public class BoardPlayMultiplayerActivity extends Activity implements
-        View.OnClickListener {
+        View.OnClickListener,LazyAds.Implementable {
 
     /*
      * API INTEGRATION SECTION. This section contains the code that integrates
@@ -188,6 +190,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 //        gameOverMessage(1);
         Log.d(TAG,"onCreate : ");
         bindViews();
+        loadRewardViews();
         initializeGameplayExtras();
         switchToMainScreen();
         checkPlaceholderIds();
@@ -1283,6 +1286,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     protected void onResume() {
+        lazyAds.onResume(this);
         super.onResume();
         Log.d(TAG, "onResume()");
 
@@ -1295,12 +1299,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     protected void onPause() {
+        lazyAds.onPause(this);
         super.onPause();
         Log.d(TAG,"onPause: ");
         // unregister our listeners.  They will be re-registered via onResume->signInSilently->onConnected.
         if (mInvitationsClient != null) {
             mInvitationsClient.unregisterInvitationCallback(mInvitationCallback);
         }
+
     }
 
     @Override
@@ -2288,4 +2294,86 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     void stopKeepingScreenOn() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
+
+
+
+
+
+    // REWARD VIDEO
+
+    LazyAds lazyAds;
+
+    private final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
+    private final String APP_ID = "ca-app-pub-3940256099942544~3347511713";
+
+    private static final int REWARDED_COINS = 2;
+    private static final int MAX_REWARD_COINS = 10;
+
+    int totalRewardedCoins = 0;
+    boolean isRewarded;
+
+    private RewardedVideoAd mRewardedVideoAd;
+    private Button mShowVideoButton;
+
+
+
+    private void loadRewardViews(){
+        isRewarded =false ;
+        totalRewardedCoins=0;
+
+        // Initialize the Mobile Ads SDK.
+
+
+
+        lazyAds = LazyAds.getInstance(this);
+        lazyAds.initializeInterface(this);
+
+
+        // Create the "show" button, which shows a rewarded video if one is loaded.
+        mShowVideoButton = findViewById(R.id.video);
+        mShowVideoButton.setEnabled(lazyAds.isButtonEnabled());
+
+        mShowVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lazyAds.showRewardedVideo();
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void addCoins() {
+        totalRewardedCoins += REWARDED_COINS;
+        totalRewardedCoins = Math.min(totalRewardedCoins, MAX_REWARD_COINS);
+
+        MyPreferences myPreferences = new MyPreferences();
+        myPreferences.saveRewardedCoins(this,totalRewardedCoins);
+    }
+
+    @Override
+    public void enableButton() {
+        mShowVideoButton.setEnabled(true);
+    }
+
+    @Override
+    public void disableButton() {
+        mShowVideoButton.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //lazyAds.onDestroy(this);
+    }
+
+    @Override
+    public void onRewardedAndVideoAdClosed() {
+        customToast(String.format(" Rewarded! : %d  %s", REWARDED_COINS,"COINS"), Toast.LENGTH_SHORT);
+    }
+
+
 }

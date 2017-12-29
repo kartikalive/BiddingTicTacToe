@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
+import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
 
 public class StartActivity extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class StartActivity extends AppCompatActivity {
     ImageButton biddingGameBtn, primitiveGameBtn, settingsBtn, instructionsBtn, exitBtn, multiplayerBtn;
     NormalTicTacAi obj;
     int backPressed = 0;
-
+    LazyAds lazyAds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
         settingsBtn = (ImageButton) findViewById(R.id.btn_options);
         instructionsBtn = (ImageButton) findViewById(R.id.btn_instructions);
         multiplayerBtn = (ImageButton) findViewById(R.id.btn_multiplayer_game);
-
+        lazyAds = LazyAds.getInstance(this);
 
 //        hideStatusBar();
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
@@ -133,5 +134,25 @@ public class StartActivity extends AppCompatActivity {
         });
         builder.show();
 //        hideStatusBar();
+    }
+
+
+    @Override
+    protected void onResume() {
+        lazyAds.onResume(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        lazyAds.onPause(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        lazyAds.onDestroy(this);
+        super.onDestroy();
+
     }
 }

@@ -1,14 +1,12 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.IntDef;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
@@ -333,6 +332,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         }
     }
 
+    /*
     @Override
     public void onBackPressed() {
         releaseSound();
@@ -347,6 +347,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    */
 
     private void displayOptions(boolean display) {
         if (display) {
@@ -425,13 +426,59 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
-        releaseSound();
+       /* releaseSound();
         Intent intent = new Intent(this, BoardPlay2PlayerBiddingActivity.class);
         startActivity(intent);
         if (LogUtil.islogOn()) {
             Log.d("finishCheck", "called: ");
         }
-        finish();
+        finish();*/
+
+
+        releaseSound();
+//        System.gc();
+        gameActive = false;
+        gameStarted = false;
+        bid1 = 1;
+        bid2 = 1;
+        total1 = 100;
+        total2 = 100;
+        updatedBid1 = false;
+        updatedBid2 = false;
+        tvBid1.setText("00");
+        tvBid2.setText("00");
+        line = 0;
+        tvBid1.setClickable(true);
+        tvTotal1.setText(String.valueOf(total1));
+        tvTotal2.setText(String.valueOf(total2));
+        radioBtnCross.setChecked(true);
+
+        activePlayer = 0;
+        initializeCounters();
+        winLine.setTranslationX(0);
+        winLine.setTranslationY(0);
+        winLine.setRotation(0);
+        winLine.setScaleX(1f);
+        winLine.setVisibility(View.GONE);
+
+        for(int i=0;i<=8;i++){
+            gameState[i] = 2;
+        }
+        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
+        layout.setVisibility(View.GONE);
+
+        MyPreferences myPreferences = new MyPreferences();
+        total1 = myPreferences.getUserTotalCoins(this);
+        total2 = myPreferences.getcpuTotalCoins(this);
+
+    }
+
+    private void initializeCounters() {
+//        int pos = 0;
+        for(int pos=0;pos<9;pos++){
+            counter = (ImageView) findViewById(R.id.activity_board_play_cpubidding).findViewWithTag(String.valueOf(pos));
+            counter.setImageDrawable(null);
+        }
     }
 
     private void releaseSound() {

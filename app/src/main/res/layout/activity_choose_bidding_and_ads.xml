@@ -170,7 +170,6 @@ android:background="@drawable/bg_splash">
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:layout_weight="1.0"
-                android:onClick="startBiddingPlay"
                 />
 
             <ImageButton

@@ -43,7 +43,7 @@ public class DecidePlayOptionsBiddingActivity extends AppCompatActivity {
                 if (SettingsActivity.animatedPlay == 0) {
                     intent = new Intent(this, BoardPlay2PlayerBiddingActivity.class);
                 } else {
-                    intent = new Intent(this, DrawingPlayCPUNormalActivity.class);
+                    intent = new Intent(this, BoardPlay2PlayerBiddingActivity.class);
                 }
                 break;
             default:
@@ -52,13 +52,13 @@ public class DecidePlayOptionsBiddingActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
-        finish();
+        //finish();
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
         finish();
-    }
+    }*/
 }

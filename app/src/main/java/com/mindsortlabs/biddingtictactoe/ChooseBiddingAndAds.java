@@ -16,20 +16,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+
+import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.util.Random;
 
-public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVideoAdListener, AdapterView.OnItemSelectedListener {
+public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Implementable,AdapterView.OnItemSelectedListener {
 
-    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
-    private static final String APP_ID = "ca-app-pub-3940256099942544~3347511713";
 
     private static final int REWARDED_COINS = 2;
     private static final int MAX_REWARD_COINS = 30;
@@ -38,12 +32,12 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
 
     Spinner spinner;
     int level = 0, totalRewardedCoins = 0;
-    boolean isRewarded;
     int userAndCpuTotalCoins;
 
     TextView userTotalCoins, cpuTotalCoins;
-    private RewardedVideoAd mRewardedVideoAd;
     private Button mShowVideoButton;
+
+    LazyAds lazyAds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +45,9 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
         hideStatusBar();
         setContentView(R.layout.activity_choose_bidding_and_ads);
         Log.d("OnCreate is called"," Are u shitting me");
-        userTotalCoins = (TextView) findViewById(R.id.myBid);
-        cpuTotalCoins = (TextView) findViewById(R.id.CpuBid);
-        isRewarded =false ;
+        userTotalCoins = findViewById(R.id.myBid);
+        cpuTotalCoins = findViewById(R.id.CpuBid);
+
         totalRewardedCoins=0;
         userAndCpuTotalCoins=EASY_LEVEL_COINS;
 
@@ -70,24 +64,22 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
         spinner.setOnItemSelectedListener(this);
 
         // Initialize the Mobile Ads SDK.
-        MobileAds.initialize(this, APP_ID);
 
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener(this);
-        loadRewardedVideoAd();
-
-        Random r = new Random();
         userTotalCoins.setText(String.valueOf(userAndCpuTotalCoins));
         cpuTotalCoins.setText(String.valueOf(userAndCpuTotalCoins));
 
-
         // Create the "show" button, which shows a rewarded video if one is loaded.
         mShowVideoButton = findViewById(R.id.video);
-        mShowVideoButton.setEnabled(false);
+
+        lazyAds = LazyAds.getInstance(this);
+        lazyAds.initializeInterface(this);
+
+        mShowVideoButton.setEnabled(lazyAds.isButtonEnabled());
+
         mShowVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showRewardedVideo();
+                lazyAds.showRewardedVideo();
             }
         });
 
@@ -138,18 +130,19 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
     public void startBiddingPlay(View view) {
 
 
-        mRewardedVideoAd.pause(this);
+        //mRewardedVideoAd.pause(this);
         MyPreferences myPreferences = new MyPreferences();
         myPreferences.saveMyandCPUTotalBid(this, Integer.parseInt(userTotalCoins.getText().toString()),
                 Integer.parseInt(cpuTotalCoins.getText().toString()));
         myPreferences.saveLevel(this, level);
         Intent intent = new Intent(this, BoardPlayCPUBiddingActivity.class);
         startActivity(intent);
-        finish();
+        //finish();
 
     }
 
-    void addCoins() {
+    @Override
+    public void addCoins() {
         totalRewardedCoins += REWARDED_COINS;
         totalRewardedCoins = Math.min(totalRewardedCoins, MAX_REWARD_COINS);
         userTotalCoins.setText(String.valueOf(
@@ -159,84 +152,13 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
     @Override
     public void onPause() {
         super.onPause();
-        mRewardedVideoAd.pause(this);
+        lazyAds.onPause(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mRewardedVideoAd.resume(this);
-    }
-
-    private void loadRewardedVideoAd() {
-        if (!mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.loadAd(AD_UNIT_ID, new AdRequest.Builder().build());
-        }
-    }
-
-
-    private void showRewardedVideo() {
-        mShowVideoButton.setEnabled(false);
-        if (mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.show();
-        }
-    }
-
-    @Override
-    public void onRewardedVideoAdLeftApplication() {
-        if (LogUtil.islogOn()) {
-            Toast.makeText(this, "onRewardedVideoAdLeftApplication", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRewardedVideoAdClosed() {
-        if (LogUtil.islogOn()) {
-            Toast.makeText(this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
-        }// Preload the next video ad.
-        if(isRewarded){
-            customToast(String.format(" Rewarded! : %s amount: %d","COINS", REWARDED_COINS), Toast.LENGTH_SHORT);
-            isRewarded=false;
-        }
-        Log.d("REWARDED ","OK " + userAndCpuTotalCoins);
-        loadRewardedVideoAd();
-    }
-
-    @Override
-    public void onRewardedVideoAdFailedToLoad(int errorCode) {
-        if (LogUtil.islogOn()) {
-            Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRewardedVideoAdLoaded() {
-
-
-        mShowVideoButton.setEnabled(true);
-        if (LogUtil.islogOn()) {
-            Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRewardedVideoAdOpened() {
-        if (LogUtil.islogOn()) {
-            Toast.makeText(this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRewarded(RewardItem reward) {
-        isRewarded=true;
-        addCoins();
-    }
-
-    @Override
-    public void onRewardedVideoStarted() {
-        if (LogUtil.islogOn()) {
-            Toast.makeText(this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
-        }
+        lazyAds.onResume(this);
     }
 
     private void customToast(String message, int duration) {
@@ -255,5 +177,26 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements RewardedVi
 
     }
 
+
+    @Override
+    public void enableButton() {
+        mShowVideoButton.setEnabled(true);
+    }
+
+    @Override
+    public void disableButton() {
+        mShowVideoButton.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //lazyAds.onDestroy(this);
+    }
+
+    @Override
+    public void onRewardedAndVideoAdClosed() {
+        customToast(String.format(" Rewarded! : %d  %s", REWARDED_COINS,"COINS"), Toast.LENGTH_SHORT);
+    }
 
 }

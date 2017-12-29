@@ -50,7 +50,7 @@ Instead, both players start with 100 chips each in their account. Now, as the na
     </string-array>
 
 
-    <string name="game_title">Button Clicker 2000!</string>
+    <string name="game_title">Bidding Tic Tac Toe</string>
     <string name="game_blurb">A sample game that tests your ability to click a button. Can you click faster than your friends? Only one way to find out! To play this game with friends, you must sign in with Google.</string>
     <string name="single_player">Single Player</string>
     <string name="single_player_explanation">Get some practice!</string>
@@ -80,4 +80,6 @@ Instead, both players start with 100 chips each in their account. Now, as the na
     <string name="match_error_inactive_match">This match is inactive.</string>
     <string name='match_error_locally_modified'>This match has locally-modified data.  This operation cannot be performed until the match is sent to the server.</string>
     <string name="score_label">%1$s - Me</string>
+    <string name="app_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
 </resources>

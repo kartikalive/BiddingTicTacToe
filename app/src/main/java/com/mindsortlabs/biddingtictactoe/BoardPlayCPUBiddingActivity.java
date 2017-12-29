@@ -1,8 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
@@ -100,7 +98,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         radioBtnCross.setChecked(true);
 
         MyPreferences myPreferences = new MyPreferences();
-        total1 = myPreferences.getuserTotalCoins(this);
+        total1 = myPreferences.getUserTotalCoins(this);
         total2 = myPreferences.getcpuTotalCoins(this);
         level = myPreferences.getlevel(this);
         biddingAiObj = new BiddingTicTacToeAi(2*total2,level);
@@ -541,7 +539,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         return newBoard;
 
     }
-
+    /*
     @Override
     public void onBackPressed() {
         releaseSound();
@@ -549,17 +547,18 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         isBackPressed = true;
         System.gc();
         Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
-       /* Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-                Log.d("TAG125","here:");
-            }
-        },500);*/
+//       Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                finish();
+//                Log.d("TAG125","here:");
+//            }
+//        },500);
         startActivity(intent);
         finish();
     }
+    */
 
     private void releaseSound() {
         if (turnSound != null) {
@@ -686,7 +685,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         layout.setVisibility(View.GONE);
 
         MyPreferences myPreferences = new MyPreferences();
-        total1 = myPreferences.getuserTotalCoins(this);
+        total1 = myPreferences.getUserTotalCoins(this);
         total2 = myPreferences.getcpuTotalCoins(this);
         level = myPreferences.getlevel(this);
         biddingAiObj = new BiddingTicTacToeAi(2*total2,level);
