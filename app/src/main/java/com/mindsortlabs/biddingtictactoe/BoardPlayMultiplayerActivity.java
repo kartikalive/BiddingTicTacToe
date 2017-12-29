@@ -661,6 +661,24 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 //                .setAnimations(Style.ANIMATIONS_FLY).show();
 //    }
 
+    private void customSystemToast(String message, int duration) {
+
+        LayoutInflater inflater = getLayoutInflater();
+        View customView = inflater.inflate(R.layout.dialog_custom_toast, null);
+
+        ImageView ivMsg = customView.findViewById(R.id.iv_msg);
+        TextView tvMsg = (TextView) customView.findViewById(R.id.tv_msg);
+        ivMsg.setImageResource(R.drawable.ic_message_system);
+        tvMsg.setText(message+"");
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(duration);
+        toast.setView(customView);
+
+        toast.show();
+
+    }
+
     private void customToast(String message, int duration) {
 //        SuperActivityToast.create(this, new Style(), Style.TYPE_BUTTON)
 //                .setButtonText("REPLY")
@@ -678,6 +696,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         LayoutInflater inflater = getLayoutInflater();
         View customView = inflater.inflate(R.layout.dialog_custom_toast, null);
 
+        ImageView ivMsg = customView.findViewById(R.id.iv_msg);
+        ivMsg.setImageResource(R.drawable.ic_message_btn);
         TextView tvMsg = (TextView) customView.findViewById(R.id.tv_msg);
         tvMsg.setText("Opponent: " + message+"");
         Toast toast = new Toast(getApplicationContext());
@@ -1856,7 +1876,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             else{
                 s = "Opponent left too soon.";
             }
-            customToast(s, Toast.LENGTH_SHORT);
+            customSystemToast(s, Toast.LENGTH_SHORT);
 
             if(alertDialog!=null && alertDialog.isShowing())
                 alertDialog.dismiss();
