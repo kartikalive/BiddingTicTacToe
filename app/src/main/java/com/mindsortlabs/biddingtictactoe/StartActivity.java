@@ -5,15 +5,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -89,18 +97,28 @@ public class StartActivity extends AppCompatActivity {
             case R.id.btn_bidding_game:
 //                Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_multiplayer_game:
-                intent = new Intent(this, BoardPlayMultiplayerActivity.class);
+                if(!isNetworkAvailable()){
+                    showNetworkError();
+                }
+                else {
+                    intent = new Intent(this, BoardPlayMultiplayerActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.btn_primitive_game:
                 intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_options:
                 intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_instructions:
                 intent = new Intent(this, InstructionActivity.class);
+                startActivity(intent);
                 break;
 
             default:
@@ -108,7 +126,7 @@ public class StartActivity extends AppCompatActivity {
         }
 
 
-        startActivity(intent);
+
     }
 
     @Override
@@ -154,5 +172,42 @@ public class StartActivity extends AppCompatActivity {
         lazyAds.onDestroy(this);
         super.onDestroy();
 
+    }
+
+    void showNetworkError() {
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.no_network_error))
+                .setNeutralButton(android.R.string.ok, null).create().show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        try {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null;
+        }
+        catch (Exception e) {
+            return true;
+        }
+    }
+
+    public boolean hasActiveInternetConnection() {
+        if (isNetworkAvailable()) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc.setRequestProperty("User-Agent", "Test");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+                return (urlc.getResponseCode() == 200);
+            } catch (IOException e) {
+                Log.e("TAGNetwork", "Error checking internet connection", e);
+            }
+        } else {
+            Log.d("TAGNetwork", "No network available!");
+        }
+        return false;
     }
 }

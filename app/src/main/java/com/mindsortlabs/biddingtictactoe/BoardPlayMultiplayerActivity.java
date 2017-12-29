@@ -2,8 +2,11 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -65,7 +68,10 @@ import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1320,7 +1326,12 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             case R.id.button_sign_in:
                 // start the sign-in flow
                 Log.d(TAG, "Sign-in button clicked");
-                startSignInIntent();
+                if(!isNetworkAvailable()){
+                    showNetworkError();
+                }
+                else {
+                    startSignInIntent();
+                }
                 break;
             case R.id.button_sign_out:
                 // user wants to sign out
@@ -1330,40 +1341,61 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 switchToScreen(R.id.screen_sign_in);
                 break;
             case R.id.button_invite_players:
-                switchToScreen(R.id.screen_wait);
 
-                // show list of invitable players
-                mRealTimeMultiplayerClient.getSelectOpponentsIntent(1, 1).addOnSuccessListener(
-                        new OnSuccessListener<Intent>() {
-                            @Override
-                            public void onSuccess(Intent intent) {
-                                startActivityForResult(intent, RC_SELECT_PLAYERS);
+                if(!isNetworkAvailable()){
+                    showNetworkError();
+                }
+                else {
+                    switchToScreen(R.id.screen_wait);
+
+                    // show list of invitable players
+                    mRealTimeMultiplayerClient.getSelectOpponentsIntent(1, 1).addOnSuccessListener(
+                            new OnSuccessListener<Intent>() {
+                                @Override
+                                public void onSuccess(Intent intent) {
+                                    startActivityForResult(intent, RC_SELECT_PLAYERS);
+                                }
                             }
-                        }
-                ).addOnFailureListener(createFailureListener("There was a problem selecting opponents."));
+                    ).addOnFailureListener(createFailureListener("There was a problem selecting opponents."));
+                }
                 break;
             case R.id.button_see_invitations:
-                switchToScreen(R.id.screen_wait);
+                if(!isNetworkAvailable()){
+                    showNetworkError();
+                }
+                else {
+                    switchToScreen(R.id.screen_wait);
 
-                // show list of pending invitations
-                mInvitationsClient.getInvitationInboxIntent().addOnSuccessListener(
-                        new OnSuccessListener<Intent>() {
-                            @Override
-                            public void onSuccess(Intent intent) {
-                                startActivityForResult(intent, RC_INVITATION_INBOX);
+                    // show list of pending invitations
+                    mInvitationsClient.getInvitationInboxIntent().addOnSuccessListener(
+                            new OnSuccessListener<Intent>() {
+                                @Override
+                                public void onSuccess(Intent intent) {
+                                    startActivityForResult(intent, RC_INVITATION_INBOX);
+                                }
                             }
-                        }
-                ).addOnFailureListener(createFailureListener("There was a problem getting the inbox."));
+                    ).addOnFailureListener(createFailureListener("There was a problem getting the inbox."));
+                }
                 break;
             case R.id.button_accept_popup_invitation:
-                // user wants to accept the invitation shown on the invitation popup
-                // (the one we got through the OnInvitationReceivedListener).
-                acceptInviteToRoom(mIncomingInvitationId);
-                mIncomingInvitationId = null;
+                if(!isNetworkAvailable()){
+                    showNetworkError();
+                }
+                else {
+                    // user wants to accept the invitation shown on the invitation popup
+                    // (the one we got through the OnInvitationReceivedListener).
+                    acceptInviteToRoom(mIncomingInvitationId);
+                    mIncomingInvitationId = null;
+                }
                 break;
             case R.id.button_quick_game:
                 // user wants to play against a random opponent right now
-                startQuickGame();
+                if(!isNetworkAvailable()){
+                    showNetworkError();
+                }
+                else {
+                    startQuickGame();
+                }
                 break;
 //            case R.id.button_click_me:
 //                // (gameplay) user clicked the "click me" button
@@ -1936,9 +1968,22 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     // Show error message about game being cancelled and return to main screen.
     void showGameError() {
+
+        if(!isNetworkAvailable()){
+            Toast.makeText(this, R.string.no_network_error, Toast.LENGTH_SHORT).show();
+        }
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.game_problem))
-                .setNeutralButton(android.R.string.ok, null).create();
+                .setNeutralButton(android.R.string.ok, null).create().show();
+
+        switchToMainScreen();
+    }
+
+    void showNetworkError() {
+
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.no_network_error))
+                .setNeutralButton(android.R.string.ok, null).create().show();
 
         switchToMainScreen();
     }
@@ -2372,7 +2417,42 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     public void onRewardedAndVideoAdClosed() {
-        customToast(String.format(" Rewarded! : %d  %s", REWARDED_COINS,"COINS"), Toast.LENGTH_SHORT);
+        String s = "Rewarded! : " + REWARDED_COINS + " COINS";
+        customSystemToast(s, Toast.LENGTH_SHORT);
+    }
+
+
+
+    //----------------------------NETWORK CHECK----------------------------------------
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        try {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null;
+        }
+        catch (Exception e) {
+            return true;
+        }
+    }
+
+    public boolean hasActiveInternetConnection() {
+        if (isNetworkAvailable()) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc.setRequestProperty("User-Agent", "Test");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+                return (urlc.getResponseCode() == 200);
+            } catch (IOException e) {
+                Log.e(TAG, "Error checking internet connection", e);
+            }
+        } else {
+            Log.d(TAG, "No network available!");
+        }
+        return false;
     }
 
 
