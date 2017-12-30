@@ -16,8 +16,10 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String prefKey = "com.mindsortlabs.biddingtictactoe";
     public static final String soundPrefAccessKey = "com.mindsortlabs.biddingtictactoe.sound";
     public static final String animatePrefAccessKey = "com.mindsortlabs.biddingtictactoe.animate";
+    public static final String messagesPrefAccessKey = "com.mindsortlabs.biddingtictactoe.messages";
     public static int animatedPlay = 0;
     public static int soundEffects = 0;
+    public static int messageNotifications = 1;
     ToggleButton animatedPlayBtn, soundToggleBtn;
     TextView tvNote;
 

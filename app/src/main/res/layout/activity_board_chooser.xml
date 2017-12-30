@@ -107,7 +107,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
-                android:onClick="startBiddingPlay" />
+                android:onClick="customPlay" />
 
         </RelativeLayout>
 

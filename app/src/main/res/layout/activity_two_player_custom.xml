@@ -166,48 +166,50 @@
         android:textAlignment="center"
         android:textSize="60sp"
         android:textStyle="bold" />
+
     <LinearLayout
+        android:id="@+id/playAgainLayout"
         android:layout_width="180dp"
+        android:layout_height="110dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:background="@drawable/custom_background"
-        android:layout_height="110dp"
-        android:id="@+id/playAgainLayout"
-        android:visibility="gone"
         android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:visibility="gone">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_centerVertical="false"
-            android:visibility="visible"
-            android:layout_centerHorizontal="false"
-            android:background="@drawable/bg_basic"
-            android:layout_gravity="center"
-            android:padding="7dp"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="false"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:background="@drawable/bg_basic"
             android:focusable="false"
-            android:layout_margin="3dp">
+            android:orientation="vertical"
+            android:padding="7dp"
+            android:visibility="visible">
 
             <TextView
+                android:id="@+id/winnerMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Player 2 Wins"
-                android:id="@+id/winnerMessage"
                 android:layout_gravity="center_horizontal"
-                android:textSize="24sp"
-                android:textColor="@android:color/white" />
+                android:text="Player 2 Wins"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
 
             <ImageButton
+                android:id="@+id/imageButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/img_play_again"
-                android:id="@+id/imageButton"
+                android:layout_marginTop="10dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
                 android:onClick="playAgain"
-                android:layout_marginTop="10dp" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/img_play_again" />
         </LinearLayout>
 
     </LinearLayout>

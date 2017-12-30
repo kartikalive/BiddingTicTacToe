@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -79,6 +81,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.mindsortlabs.biddingtictactoe.SettingsActivity.messagesPrefAccessKey;
+import static com.mindsortlabs.biddingtictactoe.SettingsActivity.prefKey;
+import static com.mindsortlabs.biddingtictactoe.SettingsActivity.soundPrefAccessKey;
+
 public class BoardPlayMultiplayerActivity extends Activity implements
         View.OnClickListener,LazyAds.Implementable {
 
@@ -138,7 +144,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     Button btnSetBid;
     CountDownTimer moveTimer;
     Toast mToast;
-    ImageButton btnMessage;
+    ImageButton btnMessage, btnSettings;
 
     RadioGroup radioGroupSymbol;
     RadioButton radioBtnCross, radioBtnCircle;
@@ -148,6 +154,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
 
+    boolean soundEffects;
+    boolean messageNotifications;
 
     boolean gameActive = false;
     boolean gameStarted = false;
@@ -161,6 +169,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     NumberPicker np;
     android.support.v7.app.AlertDialog alertDialog ;
     android.support.v7.app.AlertDialog msgDialog ;
+    android.support.v7.app.AlertDialog settingsDialog ;
     boolean mPlayAgain = false;
     boolean oppPlayAgain = false;
 
@@ -200,6 +209,28 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         initializeGameplayExtras();
         switchToMainScreen();
         checkPlaceholderIds();
+        settingsVariables();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    private void settingsVariables() {
+        SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
+
+        if (prefs.getBoolean(SettingsActivity.soundPrefAccessKey, false)) {
+            SettingsActivity.soundEffects = 1;
+            soundEffects = true;
+        }
+
+        if (prefs.getBoolean(SettingsActivity.messagesPrefAccessKey, false)) {
+            SettingsActivity.messageNotifications = 1;
+            messageNotifications = true;
+        }
+
     }
 
     private void initializeGameplayExtras() {
@@ -271,6 +302,113 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 msgBoxOpen = true;
             }
         });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSettingsDialog();
+            }
+        });
+    }
+
+    private void showSettingsDialog() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View theView = inflater.inflate(R.layout.dialog_settings, null);
+
+        RadioGroup radioGroupMsg = theView.findViewById(R.id.radiogroup_msg);
+        RadioGroup radioGroupSound = theView.findViewById(R.id.radiogroup_sound);
+
+        final boolean[] tempSound = {soundEffects};
+
+        final boolean[] tempMsg = {messageNotifications};
+
+        if(soundEffects) {
+            radioGroupMsg.check(R.id.radiobtn_sound_on);
+        }
+        else{
+            radioGroupMsg.check(R.id.radiobtn_sound_off);
+        }
+
+        if(messageNotifications){
+            radioGroupMsg.check(R.id.radiobtn_msg_on);
+        }
+        else{
+            radioGroupMsg.check(R.id.radiobtn_msg_off);
+        }
+
+        radioGroupMsg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i==R.id.radiobtn_msg_on){
+                    tempMsg[0] = true;
+                }
+                else{
+                    tempMsg[0] = false;
+                }
+            }
+        });
+
+        radioGroupSound.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i==R.id.radiobtn_sound_on){
+                    tempSound[0] = true;
+                }
+                else{
+                    tempSound[0] = false;
+                }
+            }
+        });
+
+        builder.setView(theView);
+        builder.setView(theView)
+                .setPositiveButton("Save",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        cancelToast();
+                        mToast = Toast.makeText(BoardPlayMultiplayerActivity.this, "Settings saved", Toast.LENGTH_SHORT);
+                        mToast.show();
+                        soundEffects = tempSound[0];
+                        messageNotifications = tempMsg[0];
+
+                        if(soundEffects){
+                            SettingsActivity.soundEffects = 1;
+                        }
+                        else{
+                            SettingsActivity.soundEffects = 0;
+                        }
+
+                        if(messageNotifications){
+                            SettingsActivity.messageNotifications = 1;
+                        }
+                        else{
+                            SettingsActivity.messageNotifications = 0;
+                        }
+
+                        saveData(soundEffects,1);
+                        saveData(messageNotifications,3);
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        msgDialog = builder.create();
+        msgDialog.show();
+    }
+
+    private void saveData(boolean b, int variable) {
+        SharedPreferences prefs = getSharedPreferences(prefKey, Context.MODE_PRIVATE);
+
+        if (variable == 1) {
+            prefs.edit().putBoolean(soundPrefAccessKey, b).apply();
+        } else if (variable == 3) {
+            prefs.edit().putBoolean(messagesPrefAccessKey, b).apply();
+        }
     }
 
     private void setMessageBox() {
@@ -850,6 +988,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
 
         btnMessage = findViewById(R.id.btn_message);
+        btnSettings = findViewById(R.id.btn_settings);
 
         layoutPlayer1.getBackground().setAlpha(65);
         layoutPlayer2.getBackground().setAlpha(65);
@@ -896,6 +1035,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
+        settingsVariables();
     }
 
     private void initializeCounters() {

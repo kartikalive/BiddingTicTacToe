@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settingsDialogLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/custom_background"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
+        android:layout_gravity="center"
+        android:layout_margin="3dp"
+        android:background="@drawable/bg_basic"
+        android:focusable="false"
+        android:orientation="vertical"
+        android:padding="7dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="Settings"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radiogroup_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radiobtn_msg_on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:buttonTint="@android:color/white"
+                    android:drawableRight="@drawable/ic_message_btn"
+                    android:text="" />
+
+                <RadioButton
+                    android:id="@+id/radiobtn_msg_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|end"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:buttonTint="@android:color/white"
+                    android:drawableRight="@drawable/ic_message_off"
+                    android:text="" />
+
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radiogroup_sound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radiobtn_sound_on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:buttonTint="@android:color/white"
+                    android:drawableRight="@drawable/ic_sound"
+                    android:text="" />
+
+                <RadioButton
+                    android:id="@+id/radiobtn_sound_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|end"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:buttonTint="@android:color/white"
+                    android:drawableRight="@drawable/ic_sound_off"
+                    android:text="" />
+
+
+            </RadioGroup>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
