@@ -10,14 +10,13 @@ import android.widget.ImageView;
 
 public class SplashScreen extends Activity {
 
-    private static int SPLASH_TIME_OUT = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        ImageView imageView = findViewById(R.id.imageView);
         imageView.animate().alpha(1f).setDuration(1500);
+        int SPLASH_TIME_OUT = 2000;
         new Handler().postDelayed(new Runnable() {
 
             /*

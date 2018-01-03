@@ -9,25 +9,26 @@ import java.util.Random;
 import java.util.Vector;
 
 /**
- *  Based on Richman Theory
- *  Pre Computes bidding values for all position possible
- *  Uses bitmask-DP to reduced time complexity
+ * Computes AI next move returning bidding coins and place to move if wins
+ * Based on Richman Theory
+ * Pre Computes bidding values for all position possible
+ * Uses bitmask-DP to reduced time complexity
  */
 public class BiddingTicTacToeAi {
 
     private static final String LOG_TAG = BiddingTicTacToeAi.class.getSimpleName();
     // Richman Value for all possible states
-    double RichmanValue[][];
-    double biddingValue = 0;
-    int totalCoins = 200 , first ;
-    Pair<Integer, Integer> favouredChild;
-    int level = 0;// 0->EASY    1->MEDIUM    2->HARD
+    private double RichmanValue[][];
+    private double biddingValue = 0;
+    private int totalCoins = 200, first;
+    private Pair<Integer, Integer> favouredChild;
+    private int level = 0;// 0->EASY    1->MEDIUM    2->HARD
 
 
-    public BiddingTicTacToeAi(int totalCoins,int level) {
+    public BiddingTicTacToeAi(int totalCoins, int level) {
         RichmanValue = new double[513][513];
         this.totalCoins = totalCoins;
-        this.level=level;
+        this.level = level;
 
         for (int i = 0; i < 513; i++) {
             for (int j = 0; j < 513; j++) {
@@ -52,7 +53,7 @@ public class BiddingTicTacToeAi {
      * 5 -> AI
      * 3 -> Real player
      */
-    int rev(int player) {
+    private int rev(int player) {
         if (player == 3)
             return 5;
         else
@@ -60,13 +61,16 @@ public class BiddingTicTacToeAi {
     }
 
     /**
+     * Checks which player wins from board configuration
      * Returns 0,1 or 2
-     * 0 -> continue playing
+     * 0 -> continue playing no one is winning
      * 1 -> AI wins
-     * 2 -> Other player wins
+     * 2 -> Other player wins or match is Drawn
+     * Here draw is as bad as loss from user for AI
      */
-    int done(int board[][]) {
+    private int matchWinner(int board[][]) {
 
+        //Check for AI win
         for (int i = 0; i < 3; i++) {
             if (board[i][0] + board[i][1] + board[i][2] == 3 * first) {
                 return 1;
@@ -81,7 +85,7 @@ public class BiddingTicTacToeAi {
         if (board[0][2] + board[1][1] + board[2][0] == 3 * first) {
             return 1;
         }
-
+        //end
 
         //check for 2nd player win
 
@@ -103,6 +107,7 @@ public class BiddingTicTacToeAi {
         //end
 
 
+        // Check for draw if true return as other player win
         int flag = 1;
 
         for (int i = 0; i < 3; i++) {
@@ -114,6 +119,7 @@ public class BiddingTicTacToeAi {
 
         if (flag == 1) return 2;
 
+        // Game still in play continue playing
         return 0;
     }
 
@@ -121,14 +127,14 @@ public class BiddingTicTacToeAi {
      * Return Richman value for that position
      * Saves the final position and biddingValue in favouredChild and biddingValue
      */
-    double nextMove(int board[][], int depth, int firstPlayer, int secondPlayer, int check) {
+    private double nextMove(int board[][], int depth, int firstPlayer, int secondPlayer, int check) {
 
         if (check == 0)
             if (Math.abs(RichmanValue[firstPlayer][secondPlayer] + 1.00) > 0.0001)
                 return RichmanValue[firstPlayer][secondPlayer];
 
         Pair<Integer, Integer> sol = null;
-        int p = done(board);
+        int p = matchWinner(board);
         /*
          *   p can return 0,1
          *   p==0 --> continue play
@@ -143,8 +149,6 @@ public class BiddingTicTacToeAi {
                 return (0.00);
             }
         }
-
-        int max_depth = 8;
 
         double Fmax = -1.00;
         double Fmin = 2.01;
@@ -162,7 +166,6 @@ public class BiddingTicTacToeAi {
                     if (Fmin >= x) {
                         sol = Pair.create(i, j);
                         Fmin = x;
-                        max_depth = depth;
                     }
                 }
 
@@ -175,7 +178,6 @@ public class BiddingTicTacToeAi {
                     if (Fmax <= x) {
                         //sol = Pair.create(i,j);
                         Fmax = x;
-                        max_depth = depth;
                     }
                 }
             }
@@ -193,15 +195,14 @@ public class BiddingTicTacToeAi {
      * Converts position in 3*3 matrix into a integer
      * Used in bitmasking storing all position in an integer
      * For example -
-     *  (2,1) --> position 8 --> return 2^8
-     *
-     *  Positions in a Tic Tac Toe
-     *      1 2 3
-     *      4 5 6
-     *      7 8 9
-     *
+     * (2,1) --> position 8 --> return 2^8
+     * <p>
+     * Positions in a Tic Tac Toe
+     * 1 2 3
+     * 4 5 6
+     * 7 8 9
      */
-    int getSingleValue(int i, int j) {
+    private int getSingleValue(int i, int j) {
         return (int) Math.pow(2, i * 3 + j);
     }
 
@@ -212,8 +213,8 @@ public class BiddingTicTacToeAi {
 
 
         if (LogUtil.islogOn()) {
-            Log.d(LOG_TAG , "BOARD ::"+ "  " + board.toString());
-            Log.d(LOG_TAG , "COINS ::"+ "  " + mycoins);
+            Log.d(LOG_TAG, "BOARD ::" + "  " + board.toString());
+            Log.d(LOG_TAG, "COINS ::" + "  " + mycoins);
         }
         if (mycoins == 0)
             return Pair.create(0, Pair.create(0, 0));
@@ -226,7 +227,6 @@ public class BiddingTicTacToeAi {
         //player = 'X';
 
         //Read the board now. The board is a 3x3 array filled with X, O or _.
-        int count = 0;
 
         int firstPLayer = 0, secondPlayer = 0;
         for (int i = 0; i < 3; i++) {
@@ -235,7 +235,6 @@ public class BiddingTicTacToeAi {
 
                 if (board.get(i).charAt(j) == '_') {
                     boards[i][j] = 0;
-                    count++;
                 } else if (board.get(i).charAt(j) == player) {
                     boards[i][j] = 5;
                     firstPLayer |= getSingleValue(i, j);
@@ -251,14 +250,14 @@ public class BiddingTicTacToeAi {
 
         first = 5;
 
-        int minBid = 0;
+        int minBid;
 
         //if(Math.abs(RichmanValue[firstPLayer][secondPlayer]+1.00)<0.0001)
-        if (isAiAboutToWin(boards, player)) {
+        if (isAiAboutToWin(boards)) {
 
             minBid = totalCoins - mycoins + 1;
 
-        }else if (isOpponentAboutToWin(boards, player)) {
+        } else if (isOpponentAboutToWin(boards)) {
 
             minBid = totalCoins - mycoins + 1;
 
@@ -271,18 +270,18 @@ public class BiddingTicTacToeAi {
             biddingValue = biddingValue * totalCoins;
 
             minBid = (int) biddingValue;
-            if(level==1){
+            if (level == 1) {
                 //MEDIUM LEVEL
                 Random r = new Random();
-                minBid = minBid + (r.nextBoolean() == true ? r.nextInt(5) : -r.nextInt(5));
+                minBid = minBid + (r.nextBoolean() ? r.nextInt(5) : -r.nextInt(5));
             }
 
         }
 
-        if(level==0){
+        if (level == 0) {
             //EASY LEVEL
             Random r = new Random();
-            minBid = minBid + (r.nextBoolean() == true ? r.nextInt(10) : -r.nextInt(10));
+            minBid = minBid + (r.nextBoolean() ? r.nextInt(10) : -r.nextInt(10));
         }
 
         int opponentBid = totalCoins - mycoins;
@@ -290,7 +289,7 @@ public class BiddingTicTacToeAi {
         minBid = Math.min(minBid, opponentBid + 1);
         minBid = Math.min(minBid, mycoins);
         if (LogUtil.islogOn()) {
-            Log.d(LOG_TAG , "BIDDING ::"+ "  " + minBid);
+            Log.d(LOG_TAG, "BIDDING ::" + "  " + minBid);
             // Log.d(LOG_TAG , "CHILDRENS ::"+"  "+favouredChild.first +"    "+favouredChild.second);
         }
         if (favouredChild == null) {
@@ -300,9 +299,9 @@ public class BiddingTicTacToeAi {
     }
 
     /**
-     *  Returns true if AI can win in one move
+     * Returns true if AI can win in one move
      */
-    private boolean isAiAboutToWin(int[][] board, char player) {
+    private boolean isAiAboutToWin(int[][] board) {
 
         boolean flag = false;
         for (int i = 0; i < 3; i++) {
@@ -311,7 +310,7 @@ public class BiddingTicTacToeAi {
                 if (board[i][j] == 0) {
 
                     board[i][j] = first;
-                    int temp_flag = done(board);
+                    int temp_flag = matchWinner(board);
 
                     if (temp_flag == 1) {
                         favouredChild = Pair.create(i, j);
@@ -325,9 +324,9 @@ public class BiddingTicTacToeAi {
     }
 
     /**
-     *  Returns true if player can win in one move
+     * Returns true if player can win in one move
      */
-    private boolean isOpponentAboutToWin(int[][] board, char player) {
+    private boolean isOpponentAboutToWin(int[][] board) {
 
         boolean flag = false;
         for (int i = 0; i < 3; i++) {
@@ -336,7 +335,7 @@ public class BiddingTicTacToeAi {
                 if (board[i][j] == 0) {
 
                     board[i][j] = rev(first);
-                    int temp_flag = done(board);
+                    int temp_flag = matchWinner(board);
 
                     if (temp_flag == 2) {
                         favouredChild = Pair.create(i, j);

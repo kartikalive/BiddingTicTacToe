@@ -28,7 +28,7 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
         hideStatusBar();
         setContentView(R.layout.activity_board_chooser);
 
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.board_size, android.R.layout.simple_spinner_item);
@@ -38,7 +38,7 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
 
 
-        objective = (Spinner) findViewById(R.id.objective);
+        objective = findViewById(R.id.objective);
 
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.objective, android.R.layout.simple_spinner_item);
@@ -67,7 +67,6 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        int x = parent.getId();
 
         if (parent.getId() == R.id.spinner) {
             board_sizes = position + 3;

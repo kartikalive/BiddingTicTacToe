@@ -33,7 +33,6 @@ public class TwoPlayerCustom extends AppCompatActivity {
     int objectives;
 
     CountDownTimer moveTimer;
-    CountDownTimer moveTimer2;
 
     int player1Image = 1;// 1--> Cross
     int player2Image = 2;// 2--> Circle
@@ -67,16 +66,16 @@ public class TwoPlayerCustom extends AppCompatActivity {
         if (LogUtil.islogOn()) {
             Log.d("OBJECTIVE", "" + objectives);
         }
-        TextView textView = (TextView) findViewById(R.id.objective);
+        TextView textView = findViewById(R.id.objective);
         textView.setText(" OBJECTIVE  :  " + objectives);
 
-        gridview = (GridView) findViewById(R.id.gridView);
+        gridview = findViewById(R.id.gridView);
 
-        tvView = (TextView) findViewById(R.id.tv_View);
-        display = (TextView) findViewById(R.id.display);
+        tvView = findViewById(R.id.tv_View);
+        display = findViewById(R.id.display);
 
-        layoutPlayer1 = (LinearLayout) findViewById(R.id.Player1);
-        layoutPlayer2 = (LinearLayout) findViewById(R.id.Player2);
+        layoutPlayer1 = findViewById(R.id.Player1);
+        layoutPlayer2 = findViewById(R.id.Player2);
 
         layoutPlayer1.getBackground().setAlpha(65);
         layoutPlayer2.getBackground().setAlpha(65);
@@ -214,7 +213,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
         releaseSound();
         loadSound();
         gridview.setAdapter(new ImageAdapter(this, board_size));
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
 
         player1Image = player1Image ^ player2Image ^ (player2Image = player1Image);
@@ -223,8 +222,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
         //layoutPlayer2.getBackground().setAlpha(40);
 
 
-        layoutPlayer1 = (LinearLayout) findViewById(R.id.Player1);
-        layoutPlayer2 = (LinearLayout) findViewById(R.id.Player2);
+        layoutPlayer1 = findViewById(R.id.Player1);
+        layoutPlayer2 = findViewById(R.id.Player2);
 
         layoutPlayer1.setBackground(getResources().getDrawable(getPlayer1Image1()));
         layoutPlayer2.setBackground(getResources().getDrawable(getPlayer2Image1()));
@@ -258,8 +257,8 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
     private void gameOverMessage(int i) {
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
-        TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
+        TextView winnerMessage = findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
@@ -305,27 +304,27 @@ public class TwoPlayerCustom extends AppCompatActivity {
         else
             player2Score++;
 
-        TextView player2scoretv = (TextView) findViewById(R.id.player2score);
+        TextView player2scoretv = findViewById(R.id.player2score);
         player2scoretv.setText("" + player2Score);
 
         //Log.d("plaier1",""+player2score);
 
 
-        TextView player1scoretv = (TextView) findViewById(R.id.player1score);
+        TextView player1scoretv = findViewById(R.id.player1score);
         player1scoretv.setText("" + player1Score);
     }
 
     private boolean checkForSolution(int playerTurn, Pair pos) {
         int counter = objectives;
-        boolean temp = checkForSolutionHelper(playerTurn, pos, counter);
-        if (temp == true) {
+        boolean temp = checkForSolutionHelper(pos, counter);
+        if (temp) {
             gameFinished = 1;
         }
         return temp;
 
     }
 
-    private boolean checkForSolutionHelper(int playerTurn, Pair pos, int counter) {
+    private boolean checkForSolutionHelper(Pair pos, int counter) {
 
         if (counter == 0)
             return true;
@@ -388,9 +387,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
     }
 
     private boolean inRange(int x, int y) {
-        if (x >= 0 && y >= 0 && x < board_size && y < board_size)
-            return true;
-        return false;
+        return x >= 0 && y >= 0 && x < board_size && y < board_size;
     }
 
     private boolean isgameFinished() {

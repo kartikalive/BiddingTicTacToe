@@ -9,9 +9,14 @@ Bidding Tic-Tac-Toe is a modified version of the regular Tic-Tac-Toe where playe
   <li> Includes Bidding Tic Tac Toe and Primitive Tic Tac Toe </li>
   <li> Drawing play mode (just like on paper) </li>
   <li> Single and 2 player mode (Computer and human )</li>
-	<li> Custom sized board with variable objectives.</li>
+  <li> Custom sized board with variable objectives.</li>
 </ul>
 
+<h4>Algorithm used for CPU play : [Code](https://github.com/mindsortlabs/BiddingTicTacToe/tree/master/app/src/main/java/com/mindsortlabs/biddingtictactoe/ai) : -</h4>
+<ul>
+  <li> Bidding Tic Tac Toe - Using Richman theory </li>
+  <li> Primitive or Normal Tic Toe - MiN-Max Algorithm </li>
+</ul>
 
 <h3>Screenshots of Bidding Tic-Tac-Toe App :</h3>
 <p>
@@ -21,7 +26,7 @@ Bidding Tic-Tac-Toe is a modified version of the regular Tic-Tac-Toe where playe
   <img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/choice.png" width="200"/>
   <img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/customoption.png" width="200"/>
   <img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/customplay.png" width="200"/>
-	<img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/drawplay.png" width="200"/>
+  <img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/drawplay.png" width="200"/>
 </p>
 
 

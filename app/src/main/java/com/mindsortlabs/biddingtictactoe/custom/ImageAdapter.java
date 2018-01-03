@@ -11,12 +11,12 @@ import android.widget.ImageView;
 import com.mindsortlabs.biddingtictactoe.R;
 
 public class ImageAdapter extends BaseAdapter {
-    int board_sizes = 0;
+    private int board_sizes = 0;
     private Context mContext;
     // references to our images
     private Integer[] mThumbIds;
 
-    public ImageAdapter(Context c, int board_sizes) {
+    ImageAdapter(Context c, int board_sizes) {
         mContext = c;
         this.board_sizes = board_sizes;
         mThumbIds = new Integer[board_sizes * board_sizes];

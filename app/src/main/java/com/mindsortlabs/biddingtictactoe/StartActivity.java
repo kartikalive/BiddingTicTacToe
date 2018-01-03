@@ -36,12 +36,12 @@ public class StartActivity extends AppCompatActivity {
         hideStatusBar();
         setContentView(R.layout.activity_start);
 
-        primitiveGameBtn = (ImageButton) findViewById(R.id.btn_primitive_game);
-        biddingGameBtn = (ImageButton) findViewById(R.id.btn_bidding_game);
+        primitiveGameBtn = findViewById(R.id.btn_primitive_game);
+        biddingGameBtn = findViewById(R.id.btn_bidding_game);
         //customGameBtn = (Button) findViewById(R.id.btn_custom_game);
-        settingsBtn = (ImageButton) findViewById(R.id.btn_options);
-        instructionsBtn = (ImageButton) findViewById(R.id.btn_instructions);
-        multiplayerBtn = (ImageButton) findViewById(R.id.btn_multiplayer_game);
+        settingsBtn = findViewById(R.id.btn_options);
+        instructionsBtn = findViewById(R.id.btn_instructions);
+        multiplayerBtn = findViewById(R.id.btn_multiplayer_game);
         lazyAds = LazyAds.getInstance(this);
 
 //        hideStatusBar();
@@ -91,7 +91,7 @@ public class StartActivity extends AppCompatActivity {
     }*/
 
     public void onClick(View v) {
-        Intent intent = null;
+        Intent intent;
         switch (v.getId()) {
 
             case R.id.btn_bidding_game:

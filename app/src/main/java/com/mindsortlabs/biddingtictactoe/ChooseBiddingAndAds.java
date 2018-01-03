@@ -52,7 +52,7 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
         userAndCpuTotalCoins=EASY_LEVEL_COINS;
 
         //set Up Spinner
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.levels, android.R.layout.simple_spinner_item);
@@ -166,7 +166,7 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
         LayoutInflater inflater = getLayoutInflater();
         View customView = inflater.inflate(R.layout.dialog_custom_toasty, null);
 
-        TextView tvMsg = (TextView) customView.findViewById(R.id.tv_msg);
+        TextView tvMsg = customView.findViewById(R.id.tv_msg);
         tvMsg.setText("  " + message + "");
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
@@ -186,12 +186,6 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
     @Override
     public void disableButton() {
         mShowVideoButton.setEnabled(false);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //lazyAds.onDestroy(this);
     }
 
     @Override
