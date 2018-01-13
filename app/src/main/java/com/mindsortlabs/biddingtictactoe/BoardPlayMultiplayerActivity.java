@@ -221,12 +221,12 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     private void settingsVariables() {
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
 
-        if (prefs.getBoolean(SettingsActivity.soundPrefAccessKey, false)) {
+        if (prefs.getBoolean(SettingsActivity.soundPrefAccessKey, true)) {
             SettingsActivity.soundEffects = 1;
             soundEffects = true;
         }
 
-        if (prefs.getBoolean(SettingsActivity.messagesPrefAccessKey, false)) {
+        if (prefs.getBoolean(SettingsActivity.messagesPrefAccessKey, true)) {
             SettingsActivity.messageNotifications = 1;
             messageNotifications = true;
         }
@@ -324,10 +324,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         final boolean[] tempMsg = {messageNotifications};
 
         if(soundEffects) {
-            radioGroupMsg.check(R.id.radiobtn_sound_on);
+            radioGroupSound.check(R.id.radiobtn_sound_on);
         }
         else{
-            radioGroupMsg.check(R.id.radiobtn_sound_off);
+            radioGroupSound.check(R.id.radiobtn_sound_off);
         }
 
         if(messageNotifications){
@@ -827,6 +827,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     }
 
     private void customToast(String message, int duration) {
+
+        if(!messageNotifications){
+            return;
+        }
 //        SuperActivityToast.create(this, new Style(), Style.TYPE_BUTTON)
 //                .setButtonText("REPLY")
 //                .setButtonIconResource(R.drawable.ic_send)

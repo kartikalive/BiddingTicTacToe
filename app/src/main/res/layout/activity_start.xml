@@ -67,21 +67,7 @@
         android:onClick="onClick" />
 
     <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:srcCompat="@drawable/img_options"
-        android:id="@+id/btn_options"
-        android:background="@android:color/transparent"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:onClick="onClick" />
-
-    <ImageButton
-        android:id="@+id/btn_instructions"
+        android:id="@+id/btn_profile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginLeft="30dp"
@@ -93,6 +79,29 @@
         android:onClick="onClick"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/img_instructions" />
+
+    <ImageButton
+        android:id="@+id/btn_options"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/img_options" />
+
+    <ImageButton
+        android:id="@+id/btn_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="280dp"
+        android:background="@android:color/transparent"
+        android:onClick="onClick"
+        app:srcCompat="@android:drawable/ic_dialog_info" />
 
 
 </LinearLayout>

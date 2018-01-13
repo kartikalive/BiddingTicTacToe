@@ -4,18 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@drawable/custom_background"
+    android:background="@android:color/transparent"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="false"
-        android:layout_centerVertical="false"
+        android:layout_height="190dp"
         android:layout_gravity="center"
         android:layout_margin="3dp"
-        android:background="@drawable/bg_basic"
+        android:background="@drawable/bg_basic_half"
         android:focusable="false"
         android:orientation="vertical"
         android:padding="7dp"
@@ -28,7 +26,7 @@
             android:layout_marginBottom="10dp"
             android:text="Settings"
             android:textColor="@android:color/white"
-            android:textSize="24sp" />
+            android:textSize="26sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
