@@ -33,11 +33,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -67,7 +63,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
-import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.io.IOException;
@@ -154,6 +149,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
 
+    String opponentNickname = "Opponent";
+
     boolean soundEffects;
     boolean messageNotifications;
 
@@ -180,6 +177,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     public static final char MESSAGE = 'm';
     public static final char OWN_MESSAGE = 'o';
     public static final char SOUND = 's';
+    public static final char INITIAL_NICKNAME = 'n';
+    public static final char INITIAL_TOTAL_COINS = 't';
     public static final int MESSAGE_BRB = 0;
     public static final int MESSAGE_THERE = 1;
     public static final int MESSAGE_PLAY_AGAIN = 2;
@@ -210,6 +209,47 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         switchToMainScreen();
         checkPlaceholderIds();
         settingsVariables();
+    }
+
+    private void updateMyNickname() {
+        MyPreferences myPreferences = new MyPreferences();
+        String nickname = myPreferences.getNickname(this);
+        TextView tvBidTitle1 = findViewById(R.id.tv_bid_title1);
+        if(nickname.equals("")){
+            tvBidTitle1.setText("My"+" Bid");
+        }
+        else {
+            tvBidTitle1.setText(nickname + "\'s" + " Bid");
+        }
+    }
+
+    private void initialBroadcast(int total1) {
+        broadcastNickname();
+        broadcastTotalCoins(total1);
+    }
+
+    private void updateMyTotalCoins() {
+        MyPreferences myPreferences = new MyPreferences();
+        total1 += myPreferences.getRewardedCoins(this);
+        Log.d("MultiplayerMyCoins: ", myPreferences.getRewardedCoins(this)+"");
+        tvTotal1.setText(total1+"");
+        initialBroadcast(total1);//nickname and total coins
+    }
+
+    private void updateOpponentTotalCoins(String total) {
+        tvTotal2.setText(total+"");
+        total2 = Integer.parseInt(total);
+    }
+
+    private void updateOpponentNickname(String oppNickname) {
+
+        if(oppNickname.equals("")){
+            oppNickname = "Opponent";
+        }
+
+        opponentNickname = oppNickname;
+        TextView tvBidTitle2 = findViewById(R.id.tv_bid_title2);
+        tvBidTitle2.setText(oppNickname+"\'s"+" Bid");
     }
 
     @Override
@@ -723,6 +763,125 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         }
     }
 
+    private void broadcastNickname() {
+
+        MyPreferences myPreferences = new MyPreferences();
+        String nickname = myPreferences.getNickname(this);
+
+        byte[] buf = null;
+        try {
+            buf = nickname.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if(buf!=null) {
+            byte[] nicknameBuf = new byte[buf.length + 1]; //check maximum limit
+            nicknameBuf[0] = INITIAL_NICKNAME;
+            int i = 1;
+            for (byte b : buf) {
+                nicknameBuf[i] = b;
+                i++;
+            }
+
+//            try {
+//                String s = new String(longMsgBuf, "UTF-8");
+//                Log.d(TAG, "Message: " + s);
+////                customToast(s,Toast.LENGTH_SHORT);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+
+
+            if (mParticipants != null) {
+                for (Participant p : mParticipants) {
+                    if (p.getParticipantId().equals(mMyId)) {
+                        continue;
+                    }
+                    if (p.getStatus() != Participant.STATUS_JOINED) {
+                        continue;
+                    }
+                    mRealTimeMultiplayerClient.sendReliableMessage(nicknameBuf,
+                            mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
+                                @Override
+                                public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
+                                    Log.d(TAG, "RealTime message sent");
+                                    Log.d(TAG, "  statusCode: " + statusCode);
+                                    Log.d(TAG, "  tokenId: " + tokenId);
+                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<Integer>() {
+                                @Override
+                                public void onSuccess(Integer tokenId) {
+                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                }
+                            });
+                }
+            }
+        }
+
+    }
+
+    private void broadcastTotalCoins(int total1) {
+
+        String totalCoinsString = String.valueOf(total1);
+
+        byte[] buf = null;
+        try {
+            buf = totalCoinsString.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if(buf!=null) {
+            byte[] totalCoinsBuf = new byte[buf.length + 1]; //check maximum limit
+            totalCoinsBuf[0] = INITIAL_TOTAL_COINS;
+            int i = 1;
+            for (byte b : buf) {
+                totalCoinsBuf[i] = b;
+                i++;
+            }
+
+//            try {
+//                String s = new String(longMsgBuf, "UTF-8");
+//                Log.d(TAG, "Message: " + s);
+////                customToast(s,Toast.LENGTH_SHORT);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+
+
+            if (mParticipants != null) {
+                for (Participant p : mParticipants) {
+                    if (p.getParticipantId().equals(mMyId)) {
+                        continue;
+                    }
+                    if (p.getStatus() != Participant.STATUS_JOINED) {
+                        continue;
+                    }
+                    mRealTimeMultiplayerClient.sendReliableMessage(totalCoinsBuf,
+                            mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
+                                @Override
+                                public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
+                                    Log.d(TAG, "RealTime message sent");
+                                    Log.d(TAG, "  statusCode: " + statusCode);
+                                    Log.d(TAG, "  tokenId: " + tokenId);
+                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<Integer>() {
+                                @Override
+                                public void onSuccess(Integer tokenId) {
+                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                }
+                            });
+                }
+            }
+        }
+    }
+
+
     OnRealTimeMessageReceivedListener mOnRealTimeMessageReceivedListener = new OnRealTimeMessageReceivedListener() {
         @Override
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
@@ -730,7 +889,34 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             String sender = realTimeMessage.getSenderParticipantId();
             Log.d(TAG, "Message received: " + (char) buf[0]+", "+(int) buf[1]);
 
-            if(buf[0]==BID_SMALL) {
+            if(buf[0]==INITIAL_NICKNAME){
+
+                String oppNickname = "";
+                try {
+                    oppNickname = new String(buf, "UTF-8");
+                    oppNickname = oppNickname.substring(1);
+                    Log.d(TAG, "Message received : " + oppNickname);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                updateOpponentNickname(oppNickname);
+            }
+
+            else if(buf[0]==INITIAL_TOTAL_COINS){
+                String oppTotalCoins = "100";
+                try {
+                    oppTotalCoins = new String(buf, "UTF-8");
+                    oppTotalCoins = oppTotalCoins.substring(1);
+                    Log.d(TAG, "Message received : " + oppTotalCoins);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                updateOpponentTotalCoins(oppTotalCoins);
+            }
+
+            else if(buf[0]==BID_SMALL) {
                 bid2 = (int) buf[1];
                 updatedBid2 = true;
                 callTimer(updatedBid1, updatedBid2);
@@ -753,7 +939,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 moveTimer.cancel();
                 tvBidTime.setVisibility(View.GONE);
                 cancelToast();
-                mToast = Toast.makeText(BoardPlayMultiplayerActivity.this, "Opponent changing Bid", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(BoardPlayMultiplayerActivity.this, opponentNickname + " is changing Bid", Toast.LENGTH_SHORT);
                 mToast.show();
             }
 
@@ -850,7 +1036,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         ImageView ivMsg = customView.findViewById(R.id.iv_msg);
         ivMsg.setImageResource(R.drawable.ic_message_btn);
         TextView tvMsg = (TextView) customView.findViewById(R.id.tv_msg);
-        tvMsg.setText("Opponent: " + message+"");
+        tvMsg.setText(opponentNickname+": " + message+"");
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.setDuration(duration);
@@ -1040,6 +1226,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
         settingsVariables();
+        updateMyTotalCoins();
+        updateMyNickname();
     }
 
     private void initializeCounters() {
@@ -1185,7 +1373,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
                 gameActive = false;
 
-                String winner = "Opponent";
+                String winner = opponentNickname;
 
                 if (gameState[winningPosition[0]] == 0) {
 
@@ -1242,10 +1430,11 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
+        deductCoins();
 
         if (i == 1) {
 //            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
-            winnerMessage.setText("Opponent won");
+            winnerMessage.setText(opponentNickname+ " won");
         } else if (i == 2) {
             winnerMessage.setText("It's a draw");
 //            SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
@@ -1255,6 +1444,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         }
 
         layout.animate().alpha(1).setDuration(300);
+
+        MyPreferences myPreferences = new MyPreferences();
+        myPreferences.saveGameStats(this,i);
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
@@ -1839,6 +2031,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
         if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_gameplay) {
+            Log.d("coinsCalc: ", "backPressed.");
+            if(halfGamePlayed()){
+                deductCoins();
+            }
             leaveRoom();
             return true;
         }
@@ -2054,6 +2250,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
             else if(halfGamePlayed()) {
                 s = "Opponent left the room\n" + " You Won";
+                deductCoins();
             }
             else{
                 s = "Opponent left too soon.";
@@ -2498,6 +2695,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     private static final int REWARDED_COINS = 2;
     private static final int MAX_REWARD_COINS = 10;
+    private static final int MIN_REWARD_COINS = 0;
 
     int totalRewardedCoins = 0;
     boolean isRewarded;
@@ -2538,6 +2736,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     public void addCoins() {
         totalRewardedCoins += REWARDED_COINS;
         totalRewardedCoins = Math.min(totalRewardedCoins, MAX_REWARD_COINS);
+
+        MyPreferences myPreferences = new MyPreferences();
+        myPreferences.saveRewardedCoins(this,totalRewardedCoins);
+    }
+
+    private void deductCoins(){
+        totalRewardedCoins -= REWARDED_COINS;
+        totalRewardedCoins = Math.max(totalRewardedCoins, MIN_REWARD_COINS);
 
         MyPreferences myPreferences = new MyPreferences();
         myPreferences.saveRewardedCoins(this,totalRewardedCoins);

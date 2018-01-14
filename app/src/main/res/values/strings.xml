@@ -65,7 +65,7 @@ Instead, both players start with 100 chips each in their account. Now, as the na
     <string name="sign_out">Sign Out</string>
     <string name="please_wait">Please wait&#8230;</string>
     <string name="instructions">Click the button as fast as you can!</string>
-    <string name="game_problem">An error occurred while starting the game. Please try again.</string>
+    <string name="game_problem">An error occurred. Please try again.</string>
     <string name="click_me">Click me!</string>
     <string name="is_inviting_you">is challenging you to a game!</string>
     <string name="signin_other_error">There was an issue with sign in. Please try again later.</string>

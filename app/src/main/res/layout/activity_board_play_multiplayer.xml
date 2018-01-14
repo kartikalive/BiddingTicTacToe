@@ -31,7 +31,7 @@
     <LinearLayout
         android:id="@+id/screen_main"
         style="@style/LLScreen"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView style="@style/GameTitle" />
 
@@ -114,7 +114,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_basic"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -318,6 +318,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="left"
                         android:text="My Bid"
+                        android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="18sp" />
 
@@ -372,6 +373,7 @@
                         android:layout_gravity="bottom|right"
                         android:layout_marginRight="18dp"
                         android:text="Opponent's Bid"
+                        android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="18sp" />
 

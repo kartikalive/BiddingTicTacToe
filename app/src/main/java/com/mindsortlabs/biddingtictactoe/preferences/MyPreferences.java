@@ -99,8 +99,8 @@ public class MyPreferences {
         SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         //Status values:
-        // win - 1, draw = 2, loss = 3
-        if(status==1){
+        // win = 0, draw = 2, loss = 1
+        if(status==0){
             int currentWinStats = Integer.parseInt(getUserWin(context));
             currentWinStats++;
             editor.putString(userWin,String.valueOf(currentWinStats));
@@ -112,7 +112,7 @@ public class MyPreferences {
             editor.putString(userDraw,String.valueOf(currentDrawStats));
         }
 
-        if(status==3){
+        if(status==1){
             int currentLossStats = Integer.parseInt(getUserLoss(context));
             currentLossStats++;
             editor.putString(userWin,String.valueOf(currentLossStats));
