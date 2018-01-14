@@ -53,12 +53,13 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    @Override
+   /* @Override
     public void onBackPressed() {
+
         Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
         startActivity(intent);
         finish();
-    }
+    }*/
 
     private void hideStatusBar() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -91,6 +92,7 @@ public class BoardChooser extends AppCompatActivity implements AdapterView.OnIte
             intent.putExtra("board_sizes", board_sizes);
             intent.putExtra("objectives", objectives);
             startActivity(intent);
+            finish();
         }
     }
 }

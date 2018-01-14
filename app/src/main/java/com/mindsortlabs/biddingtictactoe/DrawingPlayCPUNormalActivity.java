@@ -85,8 +85,8 @@ public class DrawingPlayCPUNormalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         releaseSound();
-        Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
+        startActivity(intent);*/
         finish();
     }
 

@@ -209,14 +209,14 @@ public class BiddingTicTacToeAi {
     /**
      * Returns number of coins to biddingValue with position to place the mark
      */
-    public Pair<Integer, Pair<Integer, Integer>> getSolution(Vector<String> board, int mycoins, char player) {
+    public Pair<Integer, Pair<Integer, Integer>> getSolution(Vector<String> board, int aicoins, int opponentcoins, char player) {
 
 
         if (LogUtil.islogOn()) {
             Log.d(LOG_TAG, "BOARD ::" + "  " + board.toString());
-            Log.d(LOG_TAG, "COINS ::" + "  " + mycoins);
+            Log.d(LOG_TAG, "COINS ::" + "  " + aicoins);
         }
-        if (mycoins == 0)
+        if (aicoins == 0)
             return Pair.create(0, Pair.create(0, 0));
 
         int boards[][] = new int[3][3];
@@ -255,11 +255,11 @@ public class BiddingTicTacToeAi {
         //if(Math.abs(RichmanValue[firstPLayer][secondPlayer]+1.00)<0.0001)
         if (isAiAboutToWin(boards)) {
 
-            minBid = totalCoins - mycoins + 1;
+            minBid = totalCoins - aicoins + 1;
 
-        } else if (isOpponentAboutToWin(boards)) {
+        } else if ( (aicoins<2*opponentcoins+2)  && isOpponentAboutToWin(boards)) {
 
-            minBid = totalCoins - mycoins + 1;
+            minBid = totalCoins - aicoins + 1;
 
         } else {
             nextMove(boards, 0, firstPLayer, secondPlayer, 1);
@@ -284,10 +284,10 @@ public class BiddingTicTacToeAi {
             minBid = minBid + (r.nextBoolean() ? r.nextInt(10) : -r.nextInt(10));
         }
 
-        int opponentBid = totalCoins - mycoins;
+        int opponentBid = totalCoins - aicoins;
 
         minBid = Math.min(minBid, opponentBid + 1);
-        minBid = Math.min(minBid, mycoins);
+        minBid = Math.min(minBid, aicoins);
         if (LogUtil.islogOn()) {
             Log.d(LOG_TAG, "BIDDING ::" + "  " + minBid);
             // Log.d(LOG_TAG , "CHILDRENS ::"+"  "+favouredChild.first +"    "+favouredChild.second);

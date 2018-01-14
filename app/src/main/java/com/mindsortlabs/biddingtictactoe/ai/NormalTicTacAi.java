@@ -63,7 +63,6 @@ public class NormalTicTacAi {
 
         if (flag == 1) return 2;
 
-
         return 0;
     }
 
@@ -117,7 +116,6 @@ public class NormalTicTacAi {
                     // Un-mark the board
                     board[i][j] = 0;
 
-                    //
                     int costForThisMove = pair.first;
                     int depthForThisMove = pair.second;
 
@@ -153,13 +151,9 @@ public class NormalTicTacAi {
                                 max_depth = depthForThisMove;
                             }
                         }
-
                     }
-
                 }
-
             }
-
         }
         if (depth == 0) {
             // Randomize the 1st move of AI on where to move
@@ -172,15 +166,50 @@ public class NormalTicTacAi {
     }
 
     /**
+     * Get a Blocking Position if Winning Other Person Winning
+     */
+    private Pair<Integer, Integer> getBlockingPosition(int player, int board[][]){
+
+        Integer winningPos[][][]= {
+                { {0,0} , {0,1} , {0,2} },
+                { {1,0} , {1,1} , {1,2} },
+                { {2,0} , {2,1} , {2,2} },
+                { {0,0} , {1,1} , {2,2} },
+                { {0,2} , {1,1} , {2,0} }
+        };
+
+        for (int i=0; i<5; i++){
+
+            int first =  board[  winningPos[i][0][0] ][  winningPos[i][0][1] ];
+            int second = board[  winningPos[i][1][0] ][  winningPos[i][1][1] ];
+            int third =  board[  winningPos[i][2][0] ][  winningPos[i][2][1] ];
+
+            if( first + second + third == 2*rev(player) ){
+                if(first==0){
+                    return Pair.create( winningPos[i][0][0] ,  winningPos[i][0][1] );
+                }else if(second==0){
+                    return Pair.create( winningPos[i][1][0] ,  winningPos[i][1][1] );
+                }else{
+                    return Pair.create( winningPos[i][2][0] ,  winningPos[i][2][1] );
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns position to place the mark in Normal Tic Tac Toe
      */
-    public Pair<Integer, Integer> getSolution(Vector<String> board, char player) {
+    public Pair<Integer, Integer> getSolution(Vector<String> board, char player,int level) {
 
         int boards[][] = new int[3][3];
 
+        int noOfMovesPlayed = 0  ;
         //If player is X, I'm the first player.
         //If player is O, I'm the second player.
 
+        ArrayList<Pair<Integer, Integer>> positionFree = new ArrayList<>();
         //Read the board now. The board is a 3x3 array filled with X, O or _
         // Convert it to X-5 ,O-3 ,_-0
 
@@ -190,15 +219,51 @@ public class NormalTicTacAi {
 
                 if (board.get(i).charAt(j) == '_') {
                     boards[i][j] = 0;
+                    positionFree.add(Pair.create(i,j));
                 } else if (board.get(i).charAt(j) == player) {
                     boards[i][j] = 5;
+                    noOfMovesPlayed++;
                 } else {
                     boards[i][j] = 3;
+                    noOfMovesPlayed++;
                 }
             }
         }
+        //firstMove
+        if (noOfMovesPlayed==0){
+            Random r = new Random();
+            return Pair.create( r.nextInt(3) ,r.nextInt(3) );
+        }
+
+        //stubmove
+        if (noOfMovesPlayed==9){
+            Random r = new Random();
+            return Pair.create( r.nextInt(3) ,r.nextInt(3) );
+        }
+
 
         first = 5;
+
+        if (level == 0){
+            //EASY LEVEL
+            Random r = new Random();
+            int temp = r.nextInt(positionFree.size());
+            solution = positionFree.get(temp);
+            return solution;
+
+        }else if(level==1){
+            //MEDIUM LEVEL
+            // only Block User Winning Positions
+            solution = getBlockingPosition(5, boards);
+            if(solution==null){
+                Random r = new Random();
+                int temp = r.nextInt(positionFree.size());
+                solution = positionFree.get(temp);
+            }
+            return solution;
+        }
+        // HARD LEVEL
+        // Use min-max Algorithm
 
         // Better to call function each time .Pre-computing all states takes extra memory
         nextMove(5, boards, 0);

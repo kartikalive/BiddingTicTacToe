@@ -12,10 +12,10 @@ Bidding Tic-Tac-Toe is a modified version of the regular Tic-Tac-Toe where playe
   <li> Custom sized board with variable objectives.</li>
 </ul>
 
-<h4>Algorithm used for CPU play : [Code](https://github.com/mindsortlabs/BiddingTicTacToe/tree/master/app/src/main/java/com/mindsortlabs/biddingtictactoe/ai) : -</h4>
+<h4>Algorithm used for CPU play : -</h4>
 <ul>
-  <li> Bidding Tic Tac Toe - Using Richman theory </li>
-  <li> Primitive or Normal Tic Toe - MiN-Max Algorithm </li>
+  <li> <a href="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/app/src/main/java/com/mindsortlabs/biddingtictactoe/ai/BiddingTicTacToeAi.java">Bidding Tic Tac Toe</a> - Using Richman theory </li>
+  <li> <a href="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/app/src/main/java/com/mindsortlabs/biddingtictactoe/ai/NormalTicTacAi.java">Normal Tic Tac Toe</a>  - Min-Max Algorithm </li>
 </ul>
 
 <h3>Screenshots of Bidding Tic-Tac-Toe App :</h3>

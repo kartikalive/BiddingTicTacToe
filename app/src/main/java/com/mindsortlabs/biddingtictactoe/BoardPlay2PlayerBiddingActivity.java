@@ -515,6 +515,19 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         }
 
         layout.animate().alpha(1).setDuration(300);
+
+
+        MyPreferences myPreferences = new MyPreferences();
+        int gamePlayed = myPreferences.getGamePlayed(this);
+        gamePlayed +=1 ;
+
+        if(gamePlayed==MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
+            //show AD
+
+            gamePlayed = 0;
+        }
+        myPreferences.saveGamePlayed(this, gamePlayed);
+
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {

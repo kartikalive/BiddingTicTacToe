@@ -34,6 +34,7 @@ import java.util.Vector;
 
 public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
+
     TextView tvBid1, tvBid2, tvBidTime, tvTotal1, tvTotal2, tvPlayerTitle;
     Button btnSetBid;
     ImageView counter, winLine;
@@ -76,21 +77,21 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_play_cpubidding);
 //        Log.d("TAG123","onCreate: ");
 
-        tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-        tvBid2 = (TextView) findViewById(R.id.tv_bid2);
-        tvBidTime = (TextView) findViewById(R.id.tv_bid_time);
-        tvTotal1 = (TextView) findViewById(R.id.tv_total1);
-        tvTotal2 = (TextView) findViewById(R.id.tv_total2);
-        tvPlayerTitle = (TextView) findViewById(R.id.tv_player_title);
+        tvBid1 = findViewById(R.id.tv_bid1);
+        tvBid2 = findViewById(R.id.tv_bid2);
+        tvBidTime = findViewById(R.id.tv_bid_time);
+        tvTotal1 = findViewById(R.id.tv_total1);
+        tvTotal2 = findViewById(R.id.tv_total2);
+        tvPlayerTitle = findViewById(R.id.tv_player_title);
 
-        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
-        winLine = (ImageView) findViewById(R.id.win_line);
+        gridLayout = findViewById(R.id.gridLayout);
+        winLine = findViewById(R.id.win_line);
 
-        radioBtnCross = (RadioButton) findViewById(R.id.radiobtn_cross);
-        radioBtnCircle = (RadioButton) findViewById(R.id.radiobtn_circle);
+        radioBtnCross = findViewById(R.id.radiobtn_cross);
+        radioBtnCircle = findViewById(R.id.radiobtn_circle);
 
-        layoutPlayer1 = (LinearLayout) findViewById(R.id.layout_player1);
-        layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
+        layoutPlayer1 = findViewById(R.id.layout_player1);
+        layoutPlayer2 = findViewById(R.id.layout_player2);
 
         layoutPlayer1.getBackground().setAlpha(65);
         layoutPlayer2.getBackground().setAlpha(65);
@@ -169,8 +170,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                         if (isBackPressed == true)
                             return;
 
-                        tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                        tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+                        tvBid1 = findViewById(R.id.tv_bid1);
+                        tvBid2 = findViewById(R.id.tv_bid2);
 
                         tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                         tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
@@ -227,7 +228,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             }
         };
 
-        radioGroupSymbol = (RadioGroup) findViewById(R.id.radiogroup_symbol);
+        radioGroupSymbol = findViewById(R.id.radiogroup_symbol);
         radioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -393,8 +394,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     mToast.show();
                 }
                 tvBid1.setClickable(true);
-                tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+                tvBid1 = findViewById(R.id.tv_bid1);
+                tvBid2 = findViewById(R.id.tv_bid2);
                 tvBid1.setText("00");
                 tvBid1.animate().alpha(1f).setDuration(200);
                 tvBid2.setText("00");
@@ -494,8 +495,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                            tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+                            tvBid1 = findViewById(R.id.tv_bid1);
+                            tvBid2 = findViewById(R.id.tv_bid2);
                             tvBid1.setText("00");
                             tvBid1.animate().alpha(1f).setDuration(200);
                             tvBid2.setText("00");
@@ -681,7 +682,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         for(int i=0;i<=8;i++){
             gameState[i] = 2;
         }
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
 
         MyPreferences myPreferences = new MyPreferences();
@@ -701,15 +702,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     private void initializeCounters() {
 //        int pos = 0;
         for(int pos=0;pos<9;pos++){
-            counter = (ImageView) findViewById(R.id.activity_board_play_cpubidding).findViewWithTag(String.valueOf(pos));
+            counter = (ImageView)findViewById(R.id.activity_board_play_cpubidding).findViewWithTag(String.valueOf(pos));
             counter.setImageDrawable(null);
         }
     }
 
     private void gameOverMessage(int i) {
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
-        TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
+        TextView winnerMessage = findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
 
@@ -725,6 +726,20 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         }
 
         layout.animate().alpha(1).setDuration(300);
+
+
+        MyPreferences myPreferences = new MyPreferences();
+        int gamePlayed = myPreferences.getGamePlayed(this);
+        gamePlayed +=1 ;
+
+        if(gamePlayed==MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
+            //show AD
+
+            gamePlayed = 0;
+        }
+        myPreferences.saveGamePlayed(this, gamePlayed);
+
+
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
@@ -849,8 +864,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
             final View theView = inflater.inflate(R.layout.dialog_number_picker, null);
 
-            final NumberPicker np = (NumberPicker) theView.findViewById(R.id.num_picker);
-            imgGoldStack = (ImageView) theView.findViewById(R.id.goldStackImg);
+            final NumberPicker np = theView.findViewById(R.id.num_picker);
+            imgGoldStack = theView.findViewById(R.id.goldStackImg);
             builder.setView(theView);
 
             builder.setView(theView)
@@ -858,7 +873,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            tvBid1 = (TextView) findViewById(R.id.tv_bid1);
+                            tvBid1 = findViewById(R.id.tv_bid1);
 
                             if (bidNumber == 1) {
                                 tvBid1.setText("Hidden");
@@ -872,7 +887,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                                 Log.d("checkBeforeCall", " board : \n" + board.get(0) + "\n" + board.get(1) + "\n" + board.get(2) + "\n" + "total2 : "
                                         + total2 + " cpuSymbol : " + cpuSymbol);
                             }
-                            cpuTurnPair = biddingAiObj.getSolution(board, total2, cpuSymbol);
+                            cpuTurnPair = biddingAiObj.getSolution(board, total2, total1, cpuSymbol);
                             if (LogUtil.islogOn()) {
                                 Log.d("checkBeforePlay2: ", "bid2: " + bid2 + "  row: " + cpuTurnPair.second.first + " col: " +
                                         cpuTurnPair.second.second);
@@ -1010,4 +1025,3 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     }
 
 }
-

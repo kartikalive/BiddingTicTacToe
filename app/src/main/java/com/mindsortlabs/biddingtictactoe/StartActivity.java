@@ -10,14 +10,18 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
+import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -112,6 +116,11 @@ public class StartActivity extends AppCompatActivity {
                 intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
                 startActivity(intent);
                 break;
+
+            case R.id.btn_profile:
+                showProfileDialog();
+                break;
+
             case R.id.btn_options:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
@@ -127,6 +136,40 @@ public class StartActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void showProfileDialog() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View theView = inflater.inflate(R.layout.dialog_profile, null);
+
+        final EditText etNickname = theView.findViewById(R.id.et_nickname);
+        TextView tvRank = theView.findViewById(R.id.tv_rank);
+        TextView tvWin = theView.findViewById(R.id.tv_win);
+        TextView tvDraw = theView.findViewById(R.id.tv_draw);
+        TextView tvLoss = theView.findViewById(R.id.tv_loss);
+
+        MyPreferences myPreferences = new MyPreferences();
+        etNickname.setText(myPreferences.getNickname(this));
+        tvRank.setText(myPreferences.getCurrentRank(this));
+        tvWin.setText(myPreferences.getUserWin(this));
+        tvDraw.setText(myPreferences.getUserDraw(this));
+        tvLoss.setText(myPreferences.getUserLoss(this));
+
+        builder.setView(theView);
+        builder.setView(theView)
+                .setPositiveButton("Close",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nickname = String.valueOf(etNickname.getText());
+                        MyPreferences myPreferences = new MyPreferences();
+                        myPreferences.saveNicknamePreference(StartActivity.this, nickname);
+                    }
+                });
+
+        android.support.v7.app.AlertDialog profileDialog;
+        profileDialog = builder.create();
+        profileDialog.show();
     }
 
     @Override

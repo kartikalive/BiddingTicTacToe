@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
+
 public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
 
     // 0 = Circle, 1 = Cross
@@ -168,6 +170,20 @@ public class BoardPlay2PlayerNormalActivity extends AppCompatActivity {
                         LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
 
                         layout.setVisibility(View.VISIBLE);
+
+
+                        MyPreferences myPreferences = new MyPreferences();
+                        int gamePlayed = myPreferences.getGamePlayed(this);
+                        gamePlayed +=1 ;
+
+                        if(gamePlayed==MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
+                            //show AD
+
+                            gamePlayed = 0;
+                        }
+                        myPreferences.saveGamePlayed(this, gamePlayed);
+
+
 
                     }
 

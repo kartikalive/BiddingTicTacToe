@@ -20,18 +20,18 @@ public class DecidePlayOptionsNormalActivity extends AppCompatActivity {
         hideStatusBar();
         setContentView(R.layout.activity_decide_play_options_normal);
 
-        btnCPU = (ImageButton) findViewById(R.id.btn_practice);
-        btnTwoPlayers = (ImageButton) findViewById(R.id.btn_two_players);
+        btnCPU = findViewById(R.id.btn_practice);
+        btnTwoPlayers = findViewById(R.id.btn_two_players);
 
     }
 
-    @Override
+ /*   @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
         finish();
     }
-
+*/
     private void hideStatusBar() {
 //        View decorView = getWindow().getDecorView();
 //        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -65,7 +65,7 @@ public class DecidePlayOptionsNormalActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
-        finish();
+        //finish();
     }
 
 }

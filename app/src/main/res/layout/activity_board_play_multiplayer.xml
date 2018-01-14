@@ -28,38 +28,60 @@
     </LinearLayout>
 
     <!-- MAIN SCREEN -->
-    <LinearLayout android:id="@+id/screen_main" style="@style/LLScreen">
+    <LinearLayout
+        android:id="@+id/screen_main"
+        style="@style/LLScreen"
+        android:visibility="visible">
+
         <TextView style="@style/GameTitle" />
-        <Button android:id="@+id/button_single_player_2"
+
+        <Button
+            android:id="@+id/button_single_player_2"
             style="@style/MainScreenButton"
             android:text="@string/single_player" />
+
         <Button
             android:id="@+id/video"
-            android:text="INCREASE YOUR COINS"
-            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            />
-        <TextView style="@style/MainScreenButtonBlurb"
+            android:text="INCREASE YOUR COINS" />
+
+        <TextView
+            style="@style/MainScreenButtonBlurb"
             android:text="@string/single_player_explanation" />
-        <Button android:id="@+id/button_quick_game"
+
+        <Button
+            android:id="@+id/button_quick_game"
             style="@style/MainScreenButton"
             android:text="@string/quick_game" />
-        <TextView style="@style/MainScreenButtonBlurb"
+
+        <TextView
+            style="@style/MainScreenButtonBlurb"
             android:text="@string/quick_game_explanation" />
-        <Button android:id="@+id/button_invite_players"
+
+        <Button
+            android:id="@+id/button_invite_players"
             style="@style/MainScreenButton"
             android:text="@string/invite_players" />
-        <TextView style="@style/MainScreenButtonBlurb"
+
+        <TextView
+            style="@style/MainScreenButtonBlurb"
             android:text="@string/invite_players_explanation" />
-        <Button android:id="@+id/button_see_invitations"
+
+        <Button
+            android:id="@+id/button_see_invitations"
             style="@style/MainScreenButton"
             android:text="@string/see_invitations" />
-        <TextView style="@style/MainScreenButtonBlurb"
+
+        <TextView
+            style="@style/MainScreenButtonBlurb"
             android:text="@string/see_invitations_explanation" />
-        <Button android:id="@+id/button_sign_out"
+
+        <Button
+            android:id="@+id/button_sign_out"
             style="@style/SignOutButton"
             android:text="@string/sign_out" />
     </LinearLayout>
@@ -92,7 +114,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_basic"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"
