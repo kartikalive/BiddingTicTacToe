@@ -48,6 +48,7 @@ import com.google.android.gms.games.InvitationsClient;
 import com.google.android.gms.games.Player;
 import com.google.android.gms.games.PlayersClient;
 import com.google.android.gms.games.RealTimeMultiplayerClient;
+
 import com.google.android.gms.games.multiplayer.Invitation;
 import com.google.android.gms.games.multiplayer.InvitationCallback;
 import com.google.android.gms.games.multiplayer.Multiplayer;
@@ -89,6 +90,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
      */
 
     final static String TAG = "ButtonClicker2000";
+
+    private static final int RC_LEADERBOARD_UI = 9004;
 
     // Request codes for the UIs that we show with startActivityForResult:
     final static int RC_SELECT_PLAYERS = 10000;
@@ -1447,6 +1450,13 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         MyPreferences myPreferences = new MyPreferences();
         myPreferences.saveGameStats(this,i);
+
+        int gamePlayed = myPreferences.getGamePlayed(this);
+        gamePlayed +=1 ;
+        myPreferences.saveGamePlayed(this, gamePlayed);
+        Log.d("ok", myPreferences.getUserWin(this)) ;
+
+
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {

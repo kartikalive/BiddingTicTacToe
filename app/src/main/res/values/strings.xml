@@ -83,4 +83,8 @@ Instead, both players start with 100 chips each in their account. Now, as the na
     <string name="score_label">%1$s - Me</string>
     <string name="app_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
     <string name="app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
+
+    <string name="leaderboard_id">CgkIk-f8y9EVEAIQBA</string>
+
+
 </resources>

@@ -19,6 +19,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
@@ -68,6 +72,8 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     LinearLayout layoutPlayer1, layoutPlayer2;
 
+    private InterstitialAd mInterstitialAd;
+
     // To control radio button visibility first player and x and o choose
     boolean isDisplayOn ;
     @Override
@@ -75,6 +81,23 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_board_play_cpu_normal);
+
+
+        MobileAds.initialize(this,
+                "ca-app-pub-3940256099942544~3347511713");
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+            }
+        });
+
 
         loadSound();
 
@@ -430,13 +453,18 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         int gamePlayed = myPreferences.getGamePlayed(this);
         gamePlayed +=1 ;
 
-        if(gamePlayed==MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
+        if(gamePlayed>=MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
             //show AD
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                gamePlayed = 0;
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
 
-            gamePlayed = 0;
         }
         myPreferences.saveGamePlayed(this, gamePlayed);
-
+        Log.d("GAME PLAYED", ":::" + gamePlayed);
 
 
     }
