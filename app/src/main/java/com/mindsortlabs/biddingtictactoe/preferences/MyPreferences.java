@@ -22,6 +22,7 @@ public class MyPreferences {
     String userWin = "userWin";
     String userDraw = "userDraw";
     String userLoss = "userLoss";
+    String leaderBoardScore = "leaderBoardScore";
 
     public void saveMyandCPUTotalBid(Context context, int userTotalCoins, int cpuTotalCoins)
     {
@@ -84,6 +85,18 @@ public class MyPreferences {
         SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(userNickname, nickname);
+        editor.apply();
+    }
+
+    public String getLeaderboardScore(Context context){
+        SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
+        return pref.getString(leaderBoardScore, "1000"); // getting Integer
+    }
+
+    public void saveLeaderboardScore(Context context, String score){
+        SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(leaderBoardScore, score);
         editor.apply();
     }
 

@@ -95,6 +95,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     final static int RC_INVITATION_INBOX = 10001;
     final static int RC_WAITING_ROOM = 10002;
 
+    private static final int RC_LEADERBOARD_UI = 9004;
+
+
     // Request code used to invoke sign in user interactions.
     private static final int RC_SIGN_IN = 9001;
 
@@ -149,7 +152,11 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
 
-    String opponentNickname = "Opponent";
+    String opponentNickname = "Guest";
+    int opponentScore = -2;
+    int oppWin = -2;
+    int oppLoss = -2;
+    int oppDraw = -2;
 
     boolean soundEffects;
     boolean messageNotifications;
@@ -176,9 +183,11 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     public static final char EVENT_CANCEL = 'c';
     public static final char MESSAGE = 'm';
     public static final char OWN_MESSAGE = 'o';
-    public static final char SOUND = 's';
+//    public static final char SOUND = 's';
     public static final char INITIAL_NICKNAME = 'n';
+    public static final char INITIAL_SCORE = 's';
     public static final char INITIAL_TOTAL_COINS = 't';
+    public static final char INITIAL_GAME_STATS = 'g';
     public static final int MESSAGE_BRB = 0;
     public static final int MESSAGE_THERE = 1;
     public static final int MESSAGE_PLAY_AGAIN = 2;
@@ -226,6 +235,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     private void initialBroadcast(int total1) {
         broadcastNickname();
         broadcastTotalCoins(total1);
+        broadcastLeaderboardScore();
+        broadcastGameStats();
     }
 
     private void updateMyTotalCoins() {
@@ -244,12 +255,48 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     private void updateOpponentNickname(String oppNickname) {
 
         if(oppNickname.equals("")){
-            oppNickname = "Opponent";
+            oppNickname = "Other";
         }
 
         opponentNickname = oppNickname;
         TextView tvBidTitle2 = findViewById(R.id.tv_bid_title2);
         tvBidTitle2.setText(oppNickname+"\'s"+" Bid");
+    }
+
+    private void updateOppLeaderboardScore(String oppScore){
+        if(oppScore!="NA") {
+            opponentScore = Integer.parseInt(oppScore);
+        }
+    }
+
+    private void updateOppGameStats(String gameStats){
+
+        //win draw loss
+        int n = gameStats.length();
+        int len1 = 0, len2 = 0, len3 = 0;
+        for(int i=0;i<n;i++){
+            if(gameStats.charAt(i)=='_'){
+                len1 = i;
+                break;
+            }
+        }
+
+        for(int i=len1+1;i<n;i++){
+            if(gameStats.charAt(i)=='_'){
+                len2 = i - (len1+1);
+                break;
+            }
+        }
+
+        len3 = n - 2 - len1 - len2;
+        String str1 = "0", str2 = "0", str3 = "0";
+        str1 = gameStats.substring(0,len1);
+        str2 = gameStats.substring(len1+1,len1+1+len2);
+        str3 = gameStats.substring(len1+len2+2);
+
+        oppWin = Integer.parseInt(str1);
+        oppDraw = Integer.parseInt(str2);
+        oppLoss = Integer.parseInt(str3);
     }
 
     @Override
@@ -441,6 +488,18 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         msgDialog.show();
     }
 
+    private void showLeaderboard() {
+        Log.d("leaderboard: ", "called");
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .getLeaderboardIntent(getString(R.string.leaderboard_id))
+                .addOnSuccessListener(new OnSuccessListener<Intent>() {
+                    @Override
+                    public void onSuccess(Intent intent) {
+                        startActivityForResult(intent, RC_LEADERBOARD_UI);
+                    }
+                });
+    }
+
     private void saveData(boolean b, int variable) {
         SharedPreferences prefs = getSharedPreferences(prefKey, Context.MODE_PRIVATE);
 
@@ -572,6 +631,58 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             tvBidTime.setVisibility(View.VISIBLE);
             moveTimer.start();
         }
+    }
+
+    private void showProfileDialog(int title) {
+        //title :
+        // my = 1, opponent = 2
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View theView = inflater.inflate(R.layout.dialog_profile, null);
+
+        final EditText etNickname = theView.findViewById(R.id.et_nickname);
+        TextView tvNickname = theView.findViewById(R.id.tv_nickname);
+        TextView tvRank = theView.findViewById(R.id.tv_rank);
+        TextView tvWin = theView.findViewById(R.id.tv_win);
+        TextView tvDraw = theView.findViewById(R.id.tv_draw);
+        TextView tvLoss = theView.findViewById(R.id.tv_loss);
+        TextView tvProfileTitle = theView.findViewById(R.id.tv_profile_title);
+
+//        etNickname.setClickable(false);
+        etNickname.setVisibility(View.GONE);
+        tvNickname.setVisibility(View.VISIBLE);
+
+        MyPreferences myPreferences = new MyPreferences();
+
+        if(title==1) {
+//            etNickname.setText(myPreferences.getNickname(this));
+            tvNickname.setText(myPreferences.getNickname(this));
+            tvRank.setText(myPreferences.getLeaderboardScore(this));
+            tvWin.setText(myPreferences.getUserWin(this));
+            tvDraw.setText(myPreferences.getUserDraw(this));
+            tvLoss.setText(myPreferences.getUserLoss(this));
+            tvProfileTitle.setText("My Profile");
+        }
+        else{
+            tvNickname.setText(opponentNickname+"");
+            tvRank.setText(opponentScore+"");
+            tvWin.setText(oppWin+"");
+            tvDraw.setText(oppDraw+"");
+            tvLoss.setText(oppLoss+"");
+            tvProfileTitle.setText("Opponent Profile");
+        }
+
+        builder.setView(theView);
+        builder.setView(theView)
+                .setPositiveButton("Close",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        android.support.v7.app.AlertDialog profileDialog;
+        profileDialog = builder.create();
+        profileDialog.show();
     }
 
     private void broadcastOwnMessage(String message) {
@@ -763,6 +874,129 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         }
     }
 
+    private void broadcastLeaderboardScore() {
+        MyPreferences myPreferences = new MyPreferences();
+        String score = myPreferences.getLeaderboardScore(this);
+
+        byte[] buf = null;
+        try {
+            buf = score.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if(buf!=null) {
+            byte[] scoreBuf = new byte[buf.length + 1]; //check maximum limit
+            scoreBuf[0] = INITIAL_SCORE;
+            int i = 1;
+            for (byte b : buf) {
+                scoreBuf[i] = b;
+                i++;
+            }
+
+//            try {
+//                String s = new String(longMsgBuf, "UTF-8");
+//                Log.d(TAG, "Message: " + s);
+////                customToast(s,Toast.LENGTH_SHORT);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+
+
+            if (mParticipants != null) {
+                for (Participant p : mParticipants) {
+                    if (p.getParticipantId().equals(mMyId)) {
+                        continue;
+                    }
+                    if (p.getStatus() != Participant.STATUS_JOINED) {
+                        continue;
+                    }
+                    mRealTimeMultiplayerClient.sendReliableMessage(scoreBuf,
+                            mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
+                                @Override
+                                public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
+                                    Log.d(TAG, "RealTime message sent");
+                                    Log.d(TAG, "  statusCode: " + statusCode);
+                                    Log.d(TAG, "  tokenId: " + tokenId);
+                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<Integer>() {
+                                @Override
+                                public void onSuccess(Integer tokenId) {
+                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                }
+                            });
+                }
+            }
+        }
+
+    }
+
+    private void broadcastGameStats() {
+        MyPreferences myPreferences = new MyPreferences();
+        String myWin = myPreferences.getUserWin(this);
+        String myDraw = myPreferences.getUserDraw(this);
+        String myLoss = myPreferences.getUserLoss(this);
+
+        String gameStats = myWin + "_" + myDraw + "_" + myLoss;
+
+        byte[] buf = null;
+        try {
+            buf = gameStats.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if(buf!=null) {
+            byte[] gameStatsBuf = new byte[buf.length + 1]; //check maximum limit
+            gameStatsBuf[0] = INITIAL_GAME_STATS;
+            int i = 1;
+            for (byte b : buf) {
+                gameStatsBuf[i] = b;
+                i++;
+            }
+
+//            try {
+//                String s = new String(longMsgBuf, "UTF-8");
+//                Log.d(TAG, "Message: " + s);
+////                customToast(s,Toast.LENGTH_SHORT);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+
+
+            if (mParticipants != null) {
+                for (Participant p : mParticipants) {
+                    if (p.getParticipantId().equals(mMyId)) {
+                        continue;
+                    }
+                    if (p.getStatus() != Participant.STATUS_JOINED) {
+                        continue;
+                    }
+                    mRealTimeMultiplayerClient.sendReliableMessage(gameStatsBuf,
+                            mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
+                                @Override
+                                public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
+                                    Log.d(TAG, "RealTime message sent");
+                                    Log.d(TAG, "  statusCode: " + statusCode);
+                                    Log.d(TAG, "  tokenId: " + tokenId);
+                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<Integer>() {
+                                @Override
+                                public void onSuccess(Integer tokenId) {
+                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                }
+                            });
+                }
+            }
+        }
+
+
+    }
+
     private void broadcastNickname() {
 
         MyPreferences myPreferences = new MyPreferences();
@@ -915,6 +1149,33 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
                 updateOpponentTotalCoins(oppTotalCoins);
             }
+
+            else if(buf[0]==INITIAL_SCORE){
+                String oppLeaderboardScore = "NA";
+                try {
+                    oppLeaderboardScore = new String(buf, "UTF-8");
+                    oppLeaderboardScore = oppLeaderboardScore.substring(1);
+                    Log.d(TAG, "Message received : " + oppLeaderboardScore);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                updateOppLeaderboardScore(oppLeaderboardScore);
+            }
+
+            else if(buf[0]==INITIAL_GAME_STATS){
+                String gameStats = "0_0_0";
+                try {
+                    gameStats = new String(buf, "UTF-8");
+                    gameStats = gameStats.substring(1);
+                    Log.d(TAG, "Message received : " + gameStats);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                updateOppGameStats(gameStats);
+            }
+
 
             else if(buf[0]==BID_SMALL) {
                 bid2 = (int) buf[1];
@@ -1228,6 +1489,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         settingsVariables();
         updateMyTotalCoins();
         updateMyNickname();
+
     }
 
     private void initializeCounters() {
@@ -1447,6 +1709,45 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         MyPreferences myPreferences = new MyPreferences();
         myPreferences.saveGameStats(this,i);
+        scoreUpdationAlgorithm(i);
+    }
+
+    private int scoreUpdationAlgorithm(int status) { //returns increase in score.
+
+        MyPreferences myPreferences = new MyPreferences();
+        int currScore = Integer.parseInt(myPreferences.getLeaderboardScore(this));
+
+        int newScore = currScore;
+        int changeInScore = 0;
+        if(status==0&&opponentScore>currScore){
+            changeInScore = 50;
+        }
+        else if(status==0&&opponentScore<=currScore){
+            changeInScore = 30;
+        }
+
+        else if(status==1&&opponentScore>currScore){
+            changeInScore = 10;
+        }
+
+        else if(status==2&&opponentScore>=currScore){
+            changeInScore = -30;
+        }
+
+        else if(status==2&&opponentScore<currScore){
+            changeInScore = -50;
+        }
+
+        newScore+=changeInScore;
+        if(newScore<0){
+            newScore = 0;
+        }
+        Log.d("leaderboardScore: ",newScore+"");
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .submitScore(getString(R.string.leaderboard_id), newScore);
+        myPreferences.saveLeaderboardScore(this,newScore+"");
+
+        return changeInScore;
     }
 
     private void declareWinner(int[] winningPosition, String winner, int i) {
@@ -1732,6 +2033,17 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 else {
                     startQuickGame();
                 }
+                break;
+
+            case R.id.btn_leaderboard:
+                showLeaderboard();
+                break;
+
+            case R.id.tv_bid_title1:
+                showProfileDialog(1);
+                break;
+            case R.id.tv_bid_title2:
+                showProfileDialog(2);
                 break;
 //            case R.id.button_click_me:
 //                // (gameplay) user clicked the "click me" button

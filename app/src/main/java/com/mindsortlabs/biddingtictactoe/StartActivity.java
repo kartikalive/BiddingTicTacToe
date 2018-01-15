@@ -144,14 +144,20 @@ public class StartActivity extends AppCompatActivity {
         View theView = inflater.inflate(R.layout.dialog_profile, null);
 
         final EditText etNickname = theView.findViewById(R.id.et_nickname);
+        TextView tvNickname = theView.findViewById(R.id.tv_nickname);
         TextView tvRank = theView.findViewById(R.id.tv_rank);
         TextView tvWin = theView.findViewById(R.id.tv_win);
         TextView tvDraw = theView.findViewById(R.id.tv_draw);
         TextView tvLoss = theView.findViewById(R.id.tv_loss);
 
+//        etNickname.setClickable(true);
+
+        etNickname.setVisibility(View.VISIBLE);
+        tvNickname.setVisibility(View.GONE);
+
         MyPreferences myPreferences = new MyPreferences();
         etNickname.setText(myPreferences.getNickname(this));
-        tvRank.setText(myPreferences.getCurrentRank(this));
+        tvRank.setText(myPreferences.getLeaderboardScore(this));
         tvWin.setText(myPreferences.getUserWin(this));
         tvDraw.setText(myPreferences.getUserDraw(this));
         tvLoss.setText(myPreferences.getUserLoss(this));

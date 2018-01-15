@@ -20,6 +20,7 @@
         android:visibility="visible">
 
         <TextView
+            android:id="@+id/tv_profile_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -63,7 +64,20 @@
                     android:maxEms="10"
                     android:maxLength="7"
                     android:text="Guest"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:padding="3dp"
+                    android:text="Guest"
+                    android:textAlignment="gravity"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
 
@@ -81,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Current Rank"
+                android:text="Score"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -98,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="100"
+                    android:text="1000"
                     android:textAlignment="gravity"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
