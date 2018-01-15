@@ -13,7 +13,7 @@ public class MyPreferences {
     String extraRewardCoinsString ="rewardedCoins";
     String gamePlayedString = "gamePlayed";
 
-    public static final int SHOW_ADS_AFTER_PLAYED_GAMES = 5;
+    public static final int SHOW_ADS_AFTER_PLAYED_GAMES = 6;
 
 
     String userStatsPref = "userStatsPref";

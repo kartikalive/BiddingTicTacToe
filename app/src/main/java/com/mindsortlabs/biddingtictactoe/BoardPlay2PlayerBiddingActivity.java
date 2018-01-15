@@ -25,6 +25,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
@@ -57,11 +61,30 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
     int turnSoundId, winSoundId, drawSoundId, loseSoundId;
 
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_board_play2_player_bidding);
+
+
+        MobileAds.initialize(this,
+                "ca-app-pub-3940256099942544~3347511713");
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                // Load the next interstitial.
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+            }
+        });
+
 
 //        Log.d("TAG123","onCreate: ");
         tvBid1 = findViewById(R.id.tv_bid1);
@@ -521,10 +544,15 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         int gamePlayed = myPreferences.getGamePlayed(this);
         gamePlayed +=1 ;
 
-        if(gamePlayed==MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
+        if(gamePlayed>=MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
             //show AD
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                gamePlayed = 0;
+            } else {
+                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            }
 
-            gamePlayed = 0;
         }
         myPreferences.saveGamePlayed(this, gamePlayed);
 
