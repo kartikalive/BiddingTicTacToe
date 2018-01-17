@@ -16,6 +16,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -32,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
@@ -1131,7 +1133,35 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         showcaseView.setButtonText("Next");
 
+        showcaseView.setOnShowcaseEventListener(new OnShowcaseEventListener() {
+            @Override
+            public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+            }
+
+            @Override
+            public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                commonHide(showcaseView);
+            }
+
+            @Override
+            public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+            }
+
+            @Override
+            public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+            }
+        });
+
         setAlpha(0.2f, gridLayout,radioGroupSymbol, layoutBid, tvBidTitle1, tvBidTitle2);
+    }
+
+    static void commonHide(ShowcaseView scv) {
+        scv.setOnClickListener(null);
+        scv.setOnShowcaseEventListener(null);
+        scv.setOnTouchListener(null);
     }
 
     @Override
@@ -1145,7 +1175,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case 2:
                 showcaseView.hide();
-                Intent intent;
+
                 if(status==0) {
                     preferences.saveTutorialStatus(TutorialActivity.this,1);
                 }
@@ -1167,25 +1197,25 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void tutorialPage3() {
-        showcaseView.setShowcase(new ViewTarget(tvBid1),true);
+        showcaseView.setShowcase(new ViewTarget(tvBid1),false);
         showcaseView.setContentTitle(getString(R.string.page3_title));
         showcaseView.setContentText(getString(R.string.page3_text));
     }
 
     private void tutorialPage4() {
-        showcaseView.setShowcase(new ViewTarget(tvBid2),true);
+        showcaseView.setShowcase(new ViewTarget(tvBid2),false);
         showcaseView.setContentTitle(getString(R.string.page4_title));
         showcaseView.setContentText(getString(R.string.page4_text));
     }
 
     private void tutorialPage5() {
-        showcaseView.setShowcase(new ViewTarget(tvBidTime),true);
+        showcaseView.setShowcase(new ViewTarget(tvBidTime),false);
         showcaseView.setContentTitle(getString(R.string.page5_title));
         showcaseView.setContentText(getString(R.string.page5_text));
     }
 
     private void tutorialPage6() {
-        showcaseView.setShowcase(new ViewTarget(tvBid1),true);
+        showcaseView.setShowcase(new ViewTarget(tvBid1),false);
         showcaseView.setContentTitle(getString(R.string.page6_title));
         showcaseView.setContentText(getString(R.string.page6_text));
 
