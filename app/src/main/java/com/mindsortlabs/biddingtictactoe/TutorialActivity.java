@@ -617,10 +617,12 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
 
+        showcaseView.hide();
         if(status==0) {
             preferences.saveTutorialStatus(TutorialActivity.this,1);
         }
-        System.gc();
+        showcaseView.setShowcase(Target.NONE,false);
+        showcaseView = null;
         TutorialActivity.this.finish();
     }
 
@@ -1147,6 +1149,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 if(status==0) {
                     preferences.saveTutorialStatus(TutorialActivity.this,1);
                 }
+                showcaseView.setShowcase(Target.NONE,false);
+                showcaseView = null;
                 TutorialActivity.this.finish();
                 break;
         }
@@ -1156,7 +1160,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     private void tutorialPage2() {
 
         setAlpha(1f, layoutBid, tvBidTitle1, tvBidTitle2);
-        showcaseView.setShowcase(new ViewTarget(tvBid1),true);
+        showcaseView.setShowcase(new ViewTarget(tvBid1),false);
         showcaseView.setContentTitle(getString(R.string.page2_title));
         showcaseView.setContentText(getString(R.string.page2_text));
         showcaseView.hideButton();
