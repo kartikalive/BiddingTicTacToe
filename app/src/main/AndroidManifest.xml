@@ -13,7 +13,6 @@
         android:manageSpaceActivity=".DataClearDisableActivity"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
@@ -33,8 +32,7 @@
         </activity>
         <activity
             android:name=".StartActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
@@ -79,9 +77,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity android:name=".DataClearDisableActivity" />
-        <activity android:name=".ChooseBiddingAndAds" android:screenOrientation="portrait" />
-        <activity android:name=".InstructionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".BoardPlayMultiplayerActivity" android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".ChooseBiddingAndAds"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".InstructionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BoardPlayMultiplayerActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".TutorialActivity"></activity>
     </application>
 
 </manifest>

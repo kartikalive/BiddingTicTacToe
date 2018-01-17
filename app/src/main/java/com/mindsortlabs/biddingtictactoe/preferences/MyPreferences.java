@@ -12,6 +12,7 @@ public class MyPreferences {
     String levelString = "levels";
     String extraRewardCoinsString ="rewardedCoins";
     String gamePlayedString = "gamePlayed";
+    String tutorialStatusString = "tutorial";
 
     public static final int SHOW_ADS_AFTER_PLAYED_GAMES = 6;
 
@@ -156,6 +157,19 @@ public class MyPreferences {
     public String getUserLoss(Context context){
         SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
         return pref.getString(userLoss, "0"); // getting Integer
+    }
+
+    public int getTutorialStatus(Context context){
+        //0 = not seen, 1 = seen.
+        SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
+        return pref.getInt(tutorialStatusString, 0); // getting Integer
+    }
+
+    public void saveTutorialStatus(Context context, int status){
+        SharedPreferences pref = context.getSharedPreferences(userStatsPref, 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(tutorialStatusString, status);
+        editor.apply();
     }
 
 

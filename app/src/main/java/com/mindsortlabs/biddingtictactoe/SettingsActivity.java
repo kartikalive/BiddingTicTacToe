@@ -1,6 +1,7 @@
 package com.mindsortlabs.biddingtictactoe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -42,6 +44,14 @@ public class SettingsActivity extends AppCompatActivity {
             tvNote.setVisibility(View.VISIBLE);
         }
 
+        ImageButton btnTutorial = findViewById(R.id.btn_tutorial);
+        btnTutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SettingsActivity.this,TutorialActivity.class);
+                startActivity(intent);
+            }
+        });
         animatedPlayBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

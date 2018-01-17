@@ -33,6 +33,7 @@ public class StartActivity extends AppCompatActivity {
     NormalTicTacAi obj;
     int backPressed = 0;
     LazyAds lazyAds;
+    int tutorialStatus = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +100,17 @@ public class StartActivity extends AppCompatActivity {
         switch (v.getId()) {
 
             case R.id.btn_bidding_game:
-//                Toast.makeText(this, "Opening Anything for now.", Toast.LENGTH_SHORT).show();
-                intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+
+                MyPreferences myPreferences = new MyPreferences();
+                tutorialStatus = myPreferences.getTutorialStatus(this);
+                Log.d("TAGTutorial", tutorialStatus+"");
+
+                if(tutorialStatus==0) {
+                    intent = new Intent(this, TutorialActivity.class);
+                }
+                else{
+                    intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+                }
                 startActivity(intent);
                 break;
             case R.id.btn_multiplayer_game:
@@ -108,7 +118,17 @@ public class StartActivity extends AppCompatActivity {
                     showNetworkError();
                 }
                 else {
-                    intent = new Intent(this, BoardPlayMultiplayerActivity.class);
+
+                    MyPreferences preferences = new MyPreferences();
+                    tutorialStatus = preferences.getTutorialStatus(this);
+                    Log.d("TAGTutorial", tutorialStatus+"");
+
+                    if(tutorialStatus==0) {
+                        intent = new Intent(this, TutorialActivity.class);
+                    }
+                    else{
+                        intent = new Intent(this, BoardPlayMultiplayerActivity.class);
+                    }
                     startActivity(intent);
                 }
                 break;

@@ -25,6 +25,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+import com.github.amlcurran.showcaseview.targets.Target;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -63,12 +67,13 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
 
+    ShowcaseView showcaseView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_board_play2_player_bidding);
-
 
         MobileAds.initialize(this,
                 "ca-app-pub-3940256099942544~3347511713");
@@ -107,7 +112,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         layoutPlayer2.getBackground().setAlpha(65);
 
         radioBtnCross.setChecked(true);
-
 
         moveTimer = new CountDownTimer(3300, 1000) {
             @Override

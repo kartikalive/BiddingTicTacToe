@@ -84,4 +84,49 @@ Instead, both players start with 100 chips each in their account. Now, as the na
     <string name="app_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
     <string name="app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="leaderboard_id">CgkIk-f8y9EVEAIQBA</string>
+
+
+    <!--Tutorial Strings-->
+    <string name="page1_title">Welcome to Bidding Tic Tac Toe.</string>
+    <string name="page1_text">(To skip this interactive Tutorial, press back button. You can access it anytime from the Options Tab).
+        \n\nInitially, both Players start with 100 chips each (or more).
+        \n\nTo continue, press next.</string>
+
+    <string name="page2_title">The Difference</string>
+    <string name="page2_text">Unlike normal Tic Tac Toe, in this game you need to choose a Bid first.
+        \n\nPress "00" to select your bid.</string>
+
+    <string name="page_extra_title">Oops!</string>
+    <string name="page_extra_text">Please choose a Bid other than 1 to understand better.
+        \n\nPress "Hidden"</string>
+
+    <string name="page3_title">Bid Set</string>
+    <string name="page3_text">Hidden from opponent.</string>
+
+    <string name="page4_title">Opponent choosing Bid...</string>
+    <string name="page4_text"></string>
+
+    <string name="page5_title">Countdown begins...</string>
+    <string name="page5_text"></string>
+
+    <string name="page6_title">Your bid is higher</string>
+    <string name="page6_text">Thus, you get to mark on board.</string>
+
+    <string name="page7_title">But...</string>
+    <string name="page7_text1">These</string>
+    <string name="page7_text2">chips are deducted from your account,</string>
+
+    <string name="page8_title">And...</string>
+    <string name="page8_text">Transferred to your opponent\'s account.
+    \n\nTo continue, press next.</string>
+
+    <string name="page9_title">Let\'s begin</string>
+    <string name="page9_text">\n\nTouch the board position to mark.</string>
+
+    <string name="page10_title">You\'re all set, Time for Bonus</string>
+    <string name="page10_text">\nTo win the game, aim to make 3 adjacent crosses(or circles) before the opponent does.
+        \n\nNeedless to say, it\'s a perfect Brain Sharping activity, but other than that :\n\n
+                                Top 5 online players will be awarded Goodies (sponsored by Mindsort Labs) in August 2018.
+                                </string>
+
 </resources>
