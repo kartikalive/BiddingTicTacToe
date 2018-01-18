@@ -197,5 +197,6 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
     protected void onDestroy() {
         super.onDestroy();
         lazyAds.removeInterface();
+        lazyAds = null;
     }
 }

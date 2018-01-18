@@ -209,7 +209,8 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        lazyAds.onDestroy();
+        //lazyAds.onDestroy();
+        lazyAds = null;
         if(LogUtil.islogOn()){
             Log.d(StartActivity.class.getSimpleName(),"onDestroy()");
         }

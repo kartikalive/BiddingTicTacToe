@@ -3143,9 +3143,11 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         lazyAds.removeInterface();
-        //lazyAds.onDestroy(this);
+        lazyAds = null;
+        mRealTimeMultiplayerClient = null;
+        mInvitationsClient = null;
+        super.onDestroy();
     }
 
     @Override

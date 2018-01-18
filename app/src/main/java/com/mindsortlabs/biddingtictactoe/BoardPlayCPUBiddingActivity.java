@@ -564,36 +564,32 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         return newBoard;
 
     }
-    /*
+
     @Override
     public void onBackPressed() {
         releaseSound();
         biddingAiObj = null;
         isBackPressed = true;
-        System.gc();
-        Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
-//       Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                finish();
-//                Log.d("TAG125","here:");
-//            }
-//        },500);
-        startActivity(intent);
-        finish();
+        super.onBackPressed();
     }
-    */
+
 
     private void releaseSound() {
         if (turnSound != null) {
+            turnSound.setOnLoadCompleteListener(null);
             turnSound.release();
         }
         if (winSound != null) {
+            winSound.setOnLoadCompleteListener(null);
             winSound.release();
         }
         if (drawSound != null) {
+            drawSound.setOnLoadCompleteListener(null);
             drawSound.release();
+        }
+        if (loseSound != null) {
+            loseSound.setOnLoadCompleteListener(null);
+            loseSound.release();
         }
 
     }
@@ -676,7 +672,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     public void playAgain(View view) {
 
-        releaseSound();
+       // releaseSound();
 //        System.gc();
         isBackPressed = false;
         gameActive = false;

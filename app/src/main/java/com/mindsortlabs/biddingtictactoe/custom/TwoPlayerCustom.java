@@ -235,8 +235,6 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
     public void playAgain(View view) {
 
-        releaseSound();
-        loadSound();
         gridview.setAdapter(new ImageAdapter(this, board_size));
         LinearLayout layout = findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
@@ -269,16 +267,25 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
     private void releaseSound() {
         if (turnSound != null) {
+            turnSound.setOnLoadCompleteListener(null);
             turnSound.release();
         }
         if (winSound != null) {
+            winSound.setOnLoadCompleteListener(null);
             winSound.release();
         }
         if (drawSound != null) {
+            drawSound.setOnLoadCompleteListener(null);
             drawSound.release();
+        }
+        if (loseSound != null) {
+            loseSound.setOnLoadCompleteListener(null);
+            loseSound.release();
         }
 
     }
+
+
 
     private void gameOverMessage(int i) {
 

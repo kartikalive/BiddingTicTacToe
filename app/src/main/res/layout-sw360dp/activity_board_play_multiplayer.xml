@@ -5,17 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_multiplayer"
+    android:background="@drawable/bg_basic"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.mindsortlabs.biddingtictactoe.BoardPlayMultiplayerActivity">
 
     <!-- SIGN-IN SCREEN -->
     <LinearLayout
         android:id="@+id/screen_sign_in"
-        style="@style/LLScreen">
+        style="@style/LLScreen"
+        android:visibility="visible"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bidding_tictactoe_small"
+            android:id="@+id/imageView190"
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <TextView style="@style/GameTitle" />
 
-        <TextView style="@style/GameBlurb" />
+        <TextView style="@style/GameBlurb"
+            android:padding="16dp"
+            android:textSize="18dp"
+            />
 
         <Button
             android:id="@+id/button_single_player"
@@ -30,59 +44,108 @@
     <!-- MAIN SCREEN -->
     <LinearLayout
         android:id="@+id/screen_main"
-        style="@style/LLScreen">
+        style="@style/LLScreen"
+        android:orientation="vertical"
+        >
 
-        <TextView style="@style/GameTitle" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/bidding_tictactoe_small"
+            android:id="@+id/imageView100"
+            android:adjustViewBounds="true"
+            android:layout_weight="3.5"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
-        <Button
-            android:id="@+id/button_single_player_2"
-            style="@style/MainScreenButton"
-            android:text="@string/single_player" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="25dp"
+            android:layout_weight="10"
+            android:orientation="vertical"
+            >
+            <!--<Button
+                android:id="@+id/button_single_player_2"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:text="@string/single_player"
+                android:layout_marginTop="5dp"
+                />
+            -->
 
-        <Button
-            android:id="@+id/video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="INCREASE YOUR COINS" />
+            <Button
+                android:id="@+id/button_single_player_2"
 
-        <TextView
-            style="@style/MainScreenButtonBlurb"
-            android:text="@string/single_player_explanation" />
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/single_player" />
 
-        <Button
-            android:id="@+id/button_quick_game"
-            style="@style/MainScreenButton"
-            android:text="@string/quick_game" />
+            <Button
+                android:id="@+id/button_quick_game"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/quick_game" />
 
-        <TextView
-            style="@style/MainScreenButtonBlurb"
-            android:text="@string/quick_game_explanation" />
+            <Button
+                android:id="@+id/video"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="INCREASE YOUR COINS" />
 
-        <Button
-            android:id="@+id/button_invite_players"
-            style="@style/MainScreenButton"
-            android:text="@string/invite_players" />
+            <!--  <TextView
+                  style="@style/MainScreenButtonBlurb"
+                  android:text="@string/quick_game_explanation" />
+              -->
+            <Button
+                android:id="@+id/button_invite_players"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/invite_players" />
 
-        <Button
-            android:id="@+id/button_see_invitations"
-            style="@style/MainScreenButton"
-            android:text="@string/see_invitations" />
+            <Button
+                android:id="@+id/button_see_invitations"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/see_invitations" />
 
-        <Button
-            android:id="@+id/btn_leaderboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="Leaderboard" />
+            <Button
+                android:id="@+id/btn_leaderboard"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:onClick="onClick"
+                android:layout_marginTop="5dp"
+                android:text="Leaderboard" />
 
-        <Button
-            android:id="@+id/button_sign_out"
-            style="@style/SignOutButton"
-            android:text="@string/sign_out" />
-
+            <Button
+                android:id="@+id/button_sign_out"
+                style="@style/SignOutButton"
+                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/sign_out" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- INVITATION POPUP -->
@@ -113,7 +176,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_basic"
-        android:visibility="visible">
+        android:visibility="gone"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"

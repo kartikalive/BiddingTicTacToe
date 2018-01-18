@@ -1,6 +1,7 @@
 package com.mindsortlabs.biddingtictactoe.ads;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -54,9 +55,9 @@ public class LazyAds implements RewardedVideoAdListener {
         if (instance == null) {
             instance = new LazyAds();
             context = c ;
+            Log.d(LazyAds.class.getSimpleName(),"mReward NULL");
             // Initialize the Mobile Ads SDK.
             MobileAds.initialize(context, APP_ID);
-
             mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
             mRewardedVideoAd.setRewardedVideoAdListener(instance);
         }
@@ -155,7 +156,6 @@ public class LazyAds implements RewardedVideoAdListener {
         imp = null;
         instance = null;
         context = null;
-
     }
 
     /**

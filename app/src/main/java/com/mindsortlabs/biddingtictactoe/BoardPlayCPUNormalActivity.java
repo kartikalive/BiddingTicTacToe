@@ -586,23 +586,23 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         releaseSound();
-        /*
-        Intent intent = new Intent(this, DecidePlayOptionsNormalActivity.class);
-        startActivity(intent);*/
-        finish();
+        super.onBackPressed();
     }
+
 
 
     private void releaseSound() {
         if (turnSound != null) {
+            turnSound.setOnLoadCompleteListener(null);
             turnSound.release();
         }
         if (winSound != null) {
+            winSound.setOnLoadCompleteListener(null);
             winSound.release();
         }
         if (drawSound != null) {
+            drawSound.setOnLoadCompleteListener(null);
             drawSound.release();
         }
 
@@ -611,7 +611,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     public void playAgain(View view) {
 
 
-        releaseSound();
+        //releaseSound();
 //        loadSound();
        /* Intent intent = new Intent(this, BoardPlayCPUNormalActivity.class);
         startActivity(intent);

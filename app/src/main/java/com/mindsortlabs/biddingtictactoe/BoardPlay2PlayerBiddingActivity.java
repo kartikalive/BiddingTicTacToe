@@ -359,22 +359,14 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         }
     }
 
-    /*
+
     @Override
     public void onBackPressed() {
         releaseSound();
-        Intent intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, 500);
-        startActivity(intent);
+        super.onBackPressed();
 
     }
-    */
+
 
     private void displayOptions(boolean display) {
         if (display) {
@@ -462,7 +454,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
         finish();*/
 
 
-        releaseSound();
+        //releaseSound();
 //        System.gc();
         gameActive = false;
         gameStarted = false;
@@ -512,13 +504,20 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private void releaseSound() {
         if (turnSound != null) {
+            turnSound.setOnLoadCompleteListener(null);
             turnSound.release();
         }
         if (winSound != null) {
+            winSound.setOnLoadCompleteListener(null);
             winSound.release();
         }
         if (drawSound != null) {
+            drawSound.setOnLoadCompleteListener(null);
             drawSound.release();
+        }
+        if (loseSound != null) {
+            loseSound.setOnLoadCompleteListener(null);
+            loseSound.release();
         }
 
     }
