@@ -129,4 +129,11 @@ Instead, both players start with 100 chips each in their account. Now, as the na
                                 Top 5 online players will be awarded Goodies (sponsored by Mindsort Labs) in August 2018.
                                 </string>
 
+    <string name="AD_UNIT_ID">
+        ca-app-pub-3940256099942544/5224354917
+    </string>
+    <string name="APP_ID">
+        ca-app-pub-3940256099942544~3347511713
+    </string>
+
 </resources>

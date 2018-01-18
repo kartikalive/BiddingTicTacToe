@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
 import com.mindsortlabs.biddingtictactoe.ai.NormalTicTacAi;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
         settingsBtn = findViewById(R.id.btn_options);
         instructionsBtn = findViewById(R.id.btn_instructions);
         multiplayerBtn = findViewById(R.id.btn_multiplayer_game);
-        lazyAds = LazyAds.getInstance(this);
+        lazyAds = LazyAds.getInstance(getApplicationContext());
 
 //        hideStatusBar();
         SharedPreferences prefs = getSharedPreferences(SettingsActivity.prefKey, Context.MODE_PRIVATE);
@@ -59,6 +60,9 @@ public class StartActivity extends AppCompatActivity {
             SettingsActivity.animatedPlay = 1;
         }
 //        SettingsActivity.animatedPlay =
+        if(LogUtil.islogOn()){
+            Log.d(StartActivity.class.getSimpleName(),"onCREATE");
+        }
     }
 
     private void hideStatusBar() {
@@ -66,19 +70,11 @@ public class StartActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-   /* @Override
+    @Override
     public void onBackPressed() {
-        if(backPressed==0) {
-            backPressed = 1;
-            backPressTimer();
-            Toast.makeText(this, "Press back again to Exit", Toast.LENGTH_SHORT).show();
-        }
-
-        else if(backPressed==1) {
-            finishAffinity();
-        }
+        finishAffinity();
     }
-
+/*
     private void backPressTimer() {
         CountDownTimer timer = new CountDownTimer(1000, 10) {
             @Override
@@ -198,47 +194,25 @@ public class StartActivity extends AppCompatActivity {
         profileDialog.show();
     }
 
-    @Override
-    public void onBackPressed() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Want To Quit ?")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finishAffinity();
-                    }
-                })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-//                        hideStatusBar();
-                    }
-                }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-//                hideStatusBar();
-            }
-        });
-        builder.show();
-//        hideStatusBar();
-    }
-
 
     @Override
     protected void onResume() {
-        lazyAds.onResume(this);
+        lazyAds.onResume();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        lazyAds.onPause(this);
+        lazyAds.onPause();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        lazyAds.onDestroy(this);
+        lazyAds.onDestroy();
+        if(LogUtil.islogOn()){
+            Log.d(StartActivity.class.getSimpleName(),"onDestroy()");
+        }
         super.onDestroy();
 
     }

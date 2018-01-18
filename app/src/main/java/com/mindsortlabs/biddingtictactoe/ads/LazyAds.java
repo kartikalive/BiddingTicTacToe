@@ -38,7 +38,7 @@ public class LazyAds implements RewardedVideoAdListener {
      * RewardedVideoAd lifecycle methods
      */
     private Implementable imp = null;
-
+    private static Context context = null ;
     /**
      * Signifies the state of button shown by enabling or disabling button
      * according to if RewardVideoAd is loaded or not
@@ -49,15 +49,14 @@ public class LazyAds implements RewardedVideoAdListener {
     }
 
 
-    public static LazyAds getInstance(Context context) {
+    public static LazyAds getInstance(Context c) {
 
-        if (mRewardedVideoAd != null && mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
-        }
         if (instance == null) {
             instance = new LazyAds();
+            context = c ;
             // Initialize the Mobile Ads SDK.
             MobileAds.initialize(context, APP_ID);
+
             mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
             mRewardedVideoAd.setRewardedVideoAdListener(instance);
         }
@@ -75,6 +74,9 @@ public class LazyAds implements RewardedVideoAdListener {
 
     public void initializeInterface(Implementable i) {
         imp = i;
+    }
+    public void removeInterface() {
+        imp = null;
     }
 
     @Override
@@ -122,11 +124,11 @@ public class LazyAds implements RewardedVideoAdListener {
     public void onRewardedVideoStarted() {
     }
 
-    public void onPause(Context context) {
+    public void onPause() {
         mRewardedVideoAd.pause(context);
     }
 
-    public void onResume(Context context) {
+    public void onResume() {
         mRewardedVideoAd.resume(context);
     }
 
@@ -144,8 +146,16 @@ public class LazyAds implements RewardedVideoAdListener {
         return isButtonEnabled;
     }
 
-    public void onDestroy(Context context) {
-        mRewardedVideoAd.destroy(context);
+    public void onDestroy() {
+        if(mRewardedVideoAd!=null) {
+            mRewardedVideoAd.destroy(context);
+            mRewardedVideoAd.setRewardedVideoAdListener(null);
+        }
+        mRewardedVideoAd  = null;
+        imp = null;
+        instance = null;
+        context = null;
+
     }
 
     /**

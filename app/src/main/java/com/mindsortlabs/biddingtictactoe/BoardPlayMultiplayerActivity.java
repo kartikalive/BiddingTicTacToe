@@ -1719,23 +1719,23 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         int newScore = currScore;
         int changeInScore = 0;
-        if(status==0&&opponentScore>currScore){
-            changeInScore = 50;
+        if(status==1&&opponentScore>currScore){
+            changeInScore = -30;
         }
-        else if(status==0&&opponentScore<=currScore){
-            changeInScore = 30;
+        else if(status==1&&opponentScore<=currScore){
+            changeInScore = -50;
         }
 
-        else if(status==1&&opponentScore>currScore){
+        else if(status==2){
             changeInScore = 10;
         }
 
-        else if(status==2&&opponentScore>=currScore){
-            changeInScore = -30;
+        else if(opponentScore>=currScore){
+            changeInScore = 50;
         }
 
-        else if(status==2&&opponentScore<currScore){
-            changeInScore = -50;
+        else if(opponentScore<currScore){
+            changeInScore = 30;
         }
 
         newScore+=changeInScore;
@@ -1929,7 +1929,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     protected void onResume() {
-        lazyAds.onResume(this);
+        lazyAds.onResume();
         super.onResume();
         Log.d(TAG, "onResume()");
 
@@ -1942,7 +1942,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     protected void onPause() {
-        lazyAds.onPause(this);
+        lazyAds.onPause();
         super.onPause();
         Log.d(TAG,"onPause: ");
         // unregister our listeners.  They will be re-registered via onResume->signInSilently->onConnected.
@@ -2344,10 +2344,77 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     public boolean onKeyDown(int keyCode, KeyEvent e) {
         if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_gameplay) {
             Log.d("coinsCalc: ", "backPressed.");
-            if(halfGamePlayed()){
-                deductCoins();
+
+            if(winLine.getVisibility()==View.VISIBLE){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Do you want to leave the game?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                leaveRoom();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+//                        hideStatusBar();
+                            }
+                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+//                hideStatusBar();
+                    }
+                });
+                builder.show();
             }
-            leaveRoom();
+            else if(halfGamePlayed()) {
+                deductCoins();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Resign and finish the game?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                MyPreferences myPreferences = new MyPreferences();
+                                myPreferences.saveGameStats(getBaseContext(),1);
+                                scoreUpdationAlgorithm(1);
+
+                                leaveRoom();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+//                        hideStatusBar();
+                            }
+                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+//                hideStatusBar();
+                    }
+                });
+                builder.show();
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Abort the game?")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                leaveRoom();
+                            }
+                        })
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+//                        hideStatusBar();
+                            }
+                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+//                hideStatusBar();
+                    }
+                });
+                builder.show();
+            }
+
             return true;
         }
         return super.onKeyDown(keyCode, e);
@@ -2563,6 +2630,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             else if(halfGamePlayed()) {
                 s = "Opponent left the room\n" + " You Won";
                 deductCoins();
+                MyPreferences myPreferences = new MyPreferences();
+                myPreferences.saveGameStats(getBaseContext(),0);
+                scoreUpdationAlgorithm(0);
             }
             else{
                 s = "Opponent left too soon.";
@@ -2625,10 +2695,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         if(!isNetworkAvailable()){
             Toast.makeText(this, R.string.no_network_error, Toast.LENGTH_SHORT).show();
         }
-        new AlertDialog.Builder(this)
+     /*   new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.game_problem))
                 .setNeutralButton(android.R.string.ok, null).create().show();
-
+     */
         switchToMainScreen();
     }
 
@@ -3005,9 +3075,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     private final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
     private final String APP_ID = "ca-app-pub-3940256099942544~3347511713";
 
-    private static final int REWARDED_COINS = 2;
-    private static final int MAX_REWARD_COINS = 10;
-    private static final int MIN_REWARD_COINS = 0;
+    private final int REWARDED_COINS = 2;
+    private final int MAX_REWARD_COINS = 10;
+    private final int MIN_REWARD_COINS = 0;
 
     int totalRewardedCoins = 0;
     boolean isRewarded;
@@ -3025,7 +3095,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
 
 
-        lazyAds = LazyAds.getInstance(this);
+        lazyAds = LazyAds.getInstance(getApplicationContext());
         lazyAds.initializeInterface(this);
 
 
@@ -3074,6 +3144,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        lazyAds.removeInterface();
         //lazyAds.onDestroy(this);
     }
 

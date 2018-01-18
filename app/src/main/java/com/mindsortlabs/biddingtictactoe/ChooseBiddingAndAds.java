@@ -25,10 +25,10 @@ import java.util.Random;
 public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Implementable,AdapterView.OnItemSelectedListener {
 
 
-    private static final int REWARDED_COINS = 2;
-    private static final int MAX_REWARD_COINS = 30;
-    private static final int EASY_LEVEL_COINS = 100;
-    private static final int EXTRA_POSSIBLE_COINS = 101;
+    private final int REWARDED_COINS = 2;
+    private final int MAX_REWARD_COINS = 30;
+    private final int EASY_LEVEL_COINS = 100;
+    private final int EXTRA_POSSIBLE_COINS = 101;
 
     Spinner spinner;
     int level = 0, totalRewardedCoins = 0;
@@ -71,7 +71,7 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
         // Create the "show" button, which shows a rewarded video if one is loaded.
         mShowVideoButton = findViewById(R.id.video);
 
-        lazyAds = LazyAds.getInstance(this);
+        lazyAds = LazyAds.getInstance(getApplicationContext());
         lazyAds.initializeInterface(this);
 
         mShowVideoButton.setEnabled(lazyAds.isButtonEnabled());
@@ -152,13 +152,13 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
     @Override
     public void onPause() {
         super.onPause();
-        lazyAds.onPause(this);
+        lazyAds.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        lazyAds.onResume(this);
+        lazyAds.onResume();
     }
 
     private void customToast(String message, int duration) {
@@ -193,4 +193,9 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
         customToast(String.format(" Rewarded! : %d  %s", REWARDED_COINS,"COINS"), Toast.LENGTH_SHORT);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        lazyAds.removeInterface();
+    }
 }
