@@ -620,7 +620,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-
+        releaseSound();
         showcaseView.hide();
         if(status==0) {
             preferences.saveTutorialStatus(TutorialActivity.this,1);
@@ -633,18 +633,25 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         catch (Exception e){
             Log.d("CacheException: ", e+"");
         }
-        TutorialActivity.this.finish();
+        super.onBackPressed();
     }
 
     private void releaseSound() {
         if (turnSound != null) {
+            turnSound.setOnLoadCompleteListener(null);
             turnSound.release();
         }
         if (winSound != null) {
+            winSound.setOnLoadCompleteListener(null);
             winSound.release();
         }
         if (drawSound != null) {
+            drawSound.setOnLoadCompleteListener(null);
             drawSound.release();
+        }
+        if (loseSound != null) {
+            loseSound.setOnLoadCompleteListener(null);
+            loseSound.release();
         }
 
     }

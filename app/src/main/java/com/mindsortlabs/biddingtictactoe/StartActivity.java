@@ -1,5 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,6 +36,9 @@ public class StartActivity extends AppCompatActivity {
     int backPressed = 0;
     LazyAds lazyAds;
     int tutorialStatus = 0;
+
+    private int MAX_MOBILE_RAM_MB_AVAILABLE = 1700;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +95,17 @@ public class StartActivity extends AppCompatActivity {
         timer.start();
     }*/
 
+    private long totalRamMemorySize() {
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        long availableMegs = mi.totalMem / 1048576L;
+        if(LogUtil.islogOn()){
+            Log.d(StartActivity.class.getSimpleName()," "+availableMegs );
+        }
+        return availableMegs;
+    }
+
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
@@ -102,7 +117,13 @@ public class StartActivity extends AppCompatActivity {
                 Log.d("TAGTutorial", tutorialStatus+"");
 
                 if(tutorialStatus==0) {
-                    intent = new Intent(this, TutorialActivity.class);
+                    if(totalRamMemorySize()>MAX_MOBILE_RAM_MB_AVAILABLE) {
+                        intent = new Intent(this, TutorialActivity.class);
+                    }else{
+                        //DIFFERENT TUTORIAL NEEDED
+                        //FOR NOW DecidePlayOptionsBiddingActivity
+                        intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+                    }
                 }
                 else{
                     intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);

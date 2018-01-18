@@ -3147,6 +3147,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         lazyAds = null;
         mRealTimeMultiplayerClient = null;
         mInvitationsClient = null;
+        mInvitationCallback = null;
+        mGoogleSignInClient = null;
         super.onDestroy();
     }
 
