@@ -1,5 +1,6 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -44,7 +45,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.mindsortlabs.biddingtictactoe.ai.BiddingTicTacToeAi;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
+import com.squareup.leakcanary.LeakCanary;
 
+import java.io.File;
 import java.util.Random;
 import java.util.Vector;
 
@@ -102,7 +105,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         hideStatusBar();
         setContentView(R.layout.activity_tutorial);
 //        Log.d("TAG123","onCreate: ");
-
 
         preferences = new MyPreferences();
         status = preferences.getTutorialStatus(TutorialActivity.this);
@@ -625,6 +627,12 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         }
         showcaseView.setShowcase(Target.NONE,false);
         showcaseView = null;
+        try{
+            trimCache(this);
+        }
+        catch (Exception e){
+            Log.d("CacheException: ", e+"");
+        }
         TutorialActivity.this.finish();
     }
 
@@ -1118,6 +1126,32 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         if (mToast != null) {
             mToast.cancel();
         }
+    }
+
+    public void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            if (dir != null && dir.isDirectory()) {
+                deleteDir(dir);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir.delete();
     }
 
     private void startTutorial() {
