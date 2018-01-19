@@ -32,8 +32,6 @@ import java.net.URL;
 public class StartActivity extends AppCompatActivity {
 
     ImageButton biddingGameBtn, primitiveGameBtn, settingsBtn, instructionsBtn, exitBtn, multiplayerBtn;
-    NormalTicTacAi obj;
-    int backPressed = 0;
     LazyAds lazyAds;
     int tutorialStatus = 0;
 

@@ -33,6 +33,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.targets.Target;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -63,6 +64,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.io.IOException;
@@ -195,6 +197,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     private String[] MESSAGES = {"Be right back", "Hellooo, Are you there? ", "Let's play again?"
             , "Opponent left the room"};
 
+    Handler handler = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,6 +216,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
 //        gameOverMessage(1);
         Log.d(TAG,"onCreate : ");
+        handler = new Handler();
         bindViews();
         loadRewardViews();
         initializeGameplayExtras();
@@ -351,7 +356,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     oppSymbol = R.drawable.circletwo;
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -368,7 +372,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     oppSymbol = R.drawable.cross;
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -1358,7 +1361,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     tvTotal1.animate().alpha(0).setDuration(200);
                     tvTotal2.animate().alpha(0).setDuration(200);
                 }
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1562,7 +1564,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 updatedBid2 = false;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -1607,7 +1608,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         updatedBid2 = false;
         tvBid1.animate().alpha(0).setDuration(200);
         tvBid2.animate().alpha(0).setDuration(200);
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -1648,7 +1648,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
                 final int winnerPlayer = gameState[winningPosition[0]];
 
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         gameOverMessage(winnerPlayer);
@@ -1670,7 +1669,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 }
 
                 if (gameIsOver) {
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -2185,19 +2183,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 onConnected(account);
             } catch (ApiException apiException) {
-
-                Log.d("ButtonClicker : ", apiException.getStatusCode()+"");
+                if(LogUtil.islogOn()) {
+                    Log.d(BoardPlayMultiplayerActivity.class.getSimpleName(), apiException.getStatusCode() + "");
+                }
                 String message = apiException.getMessage();
                 if (message == null || message.isEmpty()) {
                     message = getString(R.string.signin_other_error);
                 }
 
                 onDisconnected();
-
+                /*
                 new AlertDialog.Builder(this)
                         .setMessage(message)
                         .setNeutralButton(android.R.string.ok, null)
-                        .show();
+                        .show();*/
             }
         } else if (requestCode == RC_SELECT_PLAYERS) {
             // we got the result from the "select players" UI -- ready to create the room
@@ -2417,6 +2416,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
             return true;
         }
+
         return super.onKeyDown(keyCode, e);
     }
 
@@ -2801,17 +2801,17 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 //        findViewById(R.id.button_click_me).setVisibility(View.VISIBLE);
 
         // run the gameTick() method every second to update the game.
-        final Handler h = new Handler();
-        h.postDelayed(new Runnable() {
+        /*
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (mSecondsLeft <= 0) {
                     return;
                 }
-//                gameTick();
-                h.postDelayed(this, 1000);
+                //                gameTick();
+                handler.postDelayed(this, 1000);
             }
-        }, 1000);
+        }, 1000);*/
     }
 
     // Game tick -- update countdown, check if game ended.
@@ -3143,14 +3143,27 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     @Override
     protected void onDestroy() {
-        lazyAds.removeInterface();
-        lazyAds = null;
-        mRealTimeMultiplayerClient = null;
-        mInvitationsClient = null;
-        mInvitationCallback = null;
-        mGoogleSignInClient = null;
+        removeFromMemory();
         super.onDestroy();
     }
+    private void removeFromMemory() {
+
+        if(lazyAds!=null) {
+            lazyAds.removeInterface();
+        }
+        if(moveTimer!=null) {
+            moveTimer.cancel();
+            moveTimer = null;
+        }
+        if(tvBid1!=null) {
+            tvBid1.setOnClickListener(null);
+        }
+        if (handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
+
+    }
+
 
     @Override
     public void onRewardedAndVideoAdClosed() {

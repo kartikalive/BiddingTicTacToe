@@ -26,6 +26,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.amlcurran.showcaseview.targets.Target;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -74,7 +75,10 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
     int turnSoundId, winSoundId, drawSoundId, loseSoundId;
 
+    Handler handler;
     private InterstitialAd mInterstitialAd;
+
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         board.add("___");
         board.add("___");
 
+        handler = new Handler();
         tvTotal1.setText(String.valueOf(total1));
         tvTotal2.setText(String.valueOf(total2));
 
@@ -186,7 +191,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     tvTotal1.animate().alpha(0).setDuration(200);
                     tvTotal2.animate().alpha(0).setDuration(200);
                 }
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -261,7 +265,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     userSymbol = 'X';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -278,7 +281,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     userSymbol = 'O';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -370,8 +372,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             Log.d("boardConfig: ", board.get(0) + "\n" + board.get(1) + "\n" + board.get(2));
         }
         final int[] flag = {0};
-        Handler handler0 = new Handler();
-        handler0.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (!checkWinner()) {
@@ -385,8 +386,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         updatedBid1 = false;
         updatedBid2 = false;
 
-        Handler handler1 = new Handler();
-        handler1.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 animateCounters(counter, tappedCounter);
@@ -397,8 +397,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         }, 1000);
 
 
-        Handler handler2 = new Handler();
-        handler2.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 tvBid1.animate().alpha(0).setDuration(200);
@@ -407,9 +406,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         }, 1800);
 
 
-        Handler handler3 = new Handler();
         final int finalFlag = flag[0];
-        handler3.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (finalFlag == 1) {
@@ -515,7 +513,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     updatedBid2 = false;
                     tvBid1.animate().alpha(0).setDuration(200);
                     tvBid2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
+
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -567,8 +565,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        releaseSound();
-        biddingAiObj = null;
+        removeFromMemory();
         isBackPressed = true;
         super.onBackPressed();
     }
@@ -632,7 +629,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
                 final int winnerPlayer = gameState[winningPosition[0]];
 
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         gameOverMessage(winnerPlayer);
@@ -654,7 +650,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 }
 
                 if (gameIsOver) {
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -885,8 +880,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
     public void setBid(final int bidNumber) {
 
         if (bidNumber == 1) {
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder = null;
+            builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             final View theView = inflater.inflate(R.layout.dialog_number_picker, null);
 
@@ -923,7 +918,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                                 Log.d("TAG124", "bid1: " + bid1 + "  bid2: " + bid2);
                             }
 
-                            Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -973,14 +967,6 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                     setGoldStackImage(bidSelected);
                 }
             });
-//        final int[] bid = new int[1];
-            np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                    //numPickerBid1.setValue(i);
-                }
-            });
-
             builder.show();
         }
     }
@@ -1050,4 +1036,25 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        removeFromMemory();
+        super.onDestroy();
+    }
+
+    private void removeFromMemory() {
+        releaseSound();
+        biddingAiObj = null;
+        builder = null;
+        if (moveTimer != null) {
+            moveTimer.cancel();
+            moveTimer = null;
+        }
+        if (tvBid1 != null) {
+            tvBid1.setOnClickListener(null);
+        }
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+    }
 }

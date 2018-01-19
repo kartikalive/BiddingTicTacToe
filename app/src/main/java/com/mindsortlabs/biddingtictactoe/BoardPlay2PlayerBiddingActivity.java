@@ -67,7 +67,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
 
-    ShowcaseView showcaseView;
+    Handler handler =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             }
         });
 
-
+        handler = new Handler();
 //        Log.d("TAG123","onCreate: ");
         tvBid1 = findViewById(R.id.tv_bid1);
         tvBid2 = findViewById(R.id.tv_bid2);
@@ -140,7 +140,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                     tvTotal1.animate().alpha(0).setDuration(200);
                     tvTotal2.animate().alpha(0).setDuration(200);
                 }
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -203,7 +202,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                     player1Symbol = 'X';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -219,7 +217,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                     player1Symbol = 'O';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -337,7 +334,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 updatedBid2 = false;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -362,11 +358,37 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        releaseSound();
+        removeFromMemory();
         super.onBackPressed();
 
     }
 
+    @Override
+    protected void onDestroy() {
+        removeFromMemory();
+        super.onDestroy();
+    }
+
+    private void removeFromMemory() {
+        releaseSound();
+
+        if(radioGroupSymbol!=null){
+            radioGroupSymbol.setOnCheckedChangeListener(null);
+            tvBid1.setOnClickListener(null);
+            tvBid2.setOnClickListener(null);
+        }
+        if(moveTimer!=null) {
+            moveTimer.cancel();
+            moveTimer = null;
+        }
+        if(tvBid1!=null) {
+            tvBid1.setOnClickListener(null);
+        }
+        if (handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
+
+    }
 
     private void displayOptions(boolean display) {
         if (display) {
@@ -406,7 +428,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
                 final int winnerPlayer = gameState[winningPosition[0]];
 
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         gameOverMessage(winnerPlayer);
@@ -428,7 +449,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 }
 
                 if (gameIsOver) {
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -731,13 +751,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
             public void onScrollStateChange(NumberPicker view, int scrollState) {
                 int bidSelected = view.getValue();
                 setGoldStackImage(bidSelected);
-            }
-        });
-//        final int[] bid = new int[1];
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                //numPickerBid1.setValue(i);
             }
         });
 

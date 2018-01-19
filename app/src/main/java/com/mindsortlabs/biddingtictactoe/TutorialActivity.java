@@ -2,7 +2,6 @@ package com.mindsortlabs.biddingtictactoe;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
@@ -12,18 +11,14 @@ import android.os.Handler;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextPaint;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,14 +33,9 @@ import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.mindsortlabs.biddingtictactoe.ai.BiddingTicTacToeAi;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
 import java.util.Random;
@@ -55,7 +45,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
 
     TextView tvBid1, tvBid2, tvBidTime, tvTotal1, tvTotal2, tvPlayerTitle, tvBidTitle1, tvBidTitle2;
-    Button btnSetBid;
     ImageView counter, winLine;
     GridLayout gridLayout;
     Toast mToast;
@@ -89,8 +78,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
     int turnSoundId, winSoundId, drawSoundId, loseSoundId;
 
-    private InterstitialAd mInterstitialAd;
-
     ShowcaseView showcaseView;
     int tutorialNumber = 0;
 
@@ -98,6 +85,9 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     int status = 0;
 
     boolean playShown = false;
+    private AlertDialog.Builder builder;
+    Handler handler=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,22 +98,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         preferences = new MyPreferences();
         status = preferences.getTutorialStatus(TutorialActivity.this);
-
-        MobileAds.initialize(this,
-                "ca-app-pub-3940256099942544~3347511713");
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                // Load the next interstitial.
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-            }
-        });
-
 
 
         tvBid1 = findViewById(R.id.tv_bid1);
@@ -169,6 +143,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         tvTotal1.setText(String.valueOf(total1));
         tvTotal2.setText(String.valueOf(total2));
 
+        handler = new Handler();
         startTutorial();
 
 //        Thread thread = new Thread(new Runnable() {
@@ -231,12 +206,11 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     tvTotal1.animate().alpha(0).setDuration(200);
                     tvTotal2.animate().alpha(0).setDuration(200);
                 }
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        if (isBackPressed == true)
+                        if (isBackPressed)
                             return;
 
                         tvBid1 = findViewById(R.id.tv_bid1);
@@ -306,7 +280,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     userSymbol = 'X';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -323,7 +296,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     userSymbol = 'O';
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -389,7 +361,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     private void computerPlaying() {
 
-        char compSymbol = (char) ('X' + 'O' - userSymbol);
         int symbol = R.drawable.circletwo;
         if (userSymbol == 'O') {
             symbol = R.drawable.cross;
@@ -415,8 +386,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             Log.d("boardConfig: ", board.get(0) + "\n" + board.get(1) + "\n" + board.get(2));
         }
         final int[] flag = {0};
-        Handler handler0 = new Handler();
-        handler0.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (!checkWinner()) {
@@ -430,8 +400,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         updatedBid1 = false;
         updatedBid2 = false;
 
-        Handler handler1 = new Handler();
-        handler1.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 animateCounters(counter, tappedCounter);
@@ -442,8 +411,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         }, 1000);
 
 
-        Handler handler2 = new Handler();
-        handler2.postDelayed(new Runnable() {
+
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 tvBid1.animate().alpha(0).setDuration(200);
@@ -452,9 +421,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         }, 1800);
 
 
-        Handler handler3 = new Handler();
         final int finalFlag = flag[0];
-        handler3.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (finalFlag == 1) {
@@ -513,8 +481,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     mToast.show();
                 } else {
 
-                    Handler tutorialHandler = new Handler();
-                    tutorialHandler.postDelayed(new Runnable() {
+                    handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             tutorialPage10();
@@ -568,7 +535,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     updatedBid2 = false;
                     tvBid1.animate().alpha(0).setDuration(200);
                     tvBid2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -620,20 +586,48 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
+        removeFromMemory();
+        super.onBackPressed();
+    }
+
+    private void removeFromMemory() {
         releaseSound();
-        showcaseView.hide();
+        builder = null;
+        if(showcaseView!=null) {
+            showcaseView.setOnClickListener(null);
+            showcaseView.setOnTouchListener(null);
+            showcaseView.setOnShowcaseEventListener(null);
+            showcaseView.hide();
+            showcaseView.setShowcase(Target.NONE,false);
+            showcaseView = null;
+        }
         if(status==0) {
             preferences.saveTutorialStatus(TutorialActivity.this,1);
         }
-        showcaseView.setShowcase(Target.NONE,false);
-        showcaseView = null;
+
+        if(moveTimer!=null) {
+            moveTimer.cancel();
+            moveTimer = null;
+        }
+        if(tvBid1!=null) {
+            tvBid1.setOnClickListener(null);
+        }
+        if (handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        removeFromMemory();
         try{
             trimCache(this);
         }
         catch (Exception e){
             Log.d("CacheException: ", e+"");
         }
-        super.onBackPressed();
+        super.onDestroy();
     }
 
     private void releaseSound() {
@@ -694,7 +688,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
                 final int winnerPlayer = gameState[winningPosition[0]];
 
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         gameOverMessage(winnerPlayer);
@@ -716,7 +709,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 if (gameIsOver) {
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -808,25 +800,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         }
 
         layout.animate().alpha(1).setDuration(300);
-
-
-        MyPreferences myPreferences = new MyPreferences();
-        int gamePlayed = myPreferences.getGamePlayed(this);
-        gamePlayed +=1 ;
-
-        if(gamePlayed>=MyPreferences.SHOW_ADS_AFTER_PLAYED_GAMES){
-            //show AD
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-                gamePlayed = 0;
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
-            }
-
-
-        }
-        myPreferences.saveGamePlayed(this, gamePlayed);
-
 
     }
 
@@ -947,8 +920,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     public void setBid(final int bidNumber) {
 
         if (bidNumber == 1) {
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder = null;
+            builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
             final View theView = inflater.inflate(R.layout.dialog_number_picker, null);
 
@@ -993,15 +966,13 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                                 Log.d("TAG124", "bid1: " + bid1 + "  bid2: " + bid2);
                             }
 
-                            Handler tutorialHandler1 = new Handler();
-                            tutorialHandler1.postDelayed(new Runnable() {
+                            handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     tutorialPage4();
                                 }
                             },3000);
 
-                            Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1017,8 +988,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                                 }
                             }, 4500);
 
-                            Handler tutorialHandler2 = new Handler();
-                            tutorialHandler2.postDelayed(new Runnable() {
+                            handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     callTimer(updatedBid1);
@@ -1058,14 +1028,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                     setGoldStackImage(bidSelected);
                 }
             });
-//        final int[] bid = new int[1];
-            np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-                @Override
-                public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                    //numPickerBid1.setValue(i);
-                }
-            });
-
             builder.show();
         }
     }
@@ -1101,7 +1063,9 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("TAG124", "Calling Timer: ");
             }
             tvBidTime.setVisibility(View.VISIBLE);
-            moveTimer.start();
+            if(moveTimer!=null) {
+                moveTimer.start();
+            }
         }
     }
 
@@ -1215,13 +1179,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                 tutorialPage9();
                 break;
             case 2:
-                showcaseView.hide();
-
-                if(status==0) {
-                    preferences.saveTutorialStatus(TutorialActivity.this,1);
-                }
-                showcaseView.setShowcase(Target.NONE,false);
-                showcaseView = null;
+                removeFromMemory();
                 TutorialActivity.this.finish();
                 break;
         }
@@ -1229,124 +1187,133 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void tutorialPage2() {
-
-        setAlpha(1f, layoutBid, tvBidTitle1, tvBidTitle2);
-        showcaseView.setShowcase(new ViewTarget(tvBid1),false);
-        showcaseView.setContentTitle(getString(R.string.page2_title));
-        showcaseView.setContentText(getString(R.string.page2_text));
-        showcaseView.hideButton();
-    }
-
-    private void tutorialPage3() {
-        showcaseView.setShowcase(new ViewTarget(tvBid1),false);
-        showcaseView.setContentTitle(getString(R.string.page3_title));
-        showcaseView.setContentText(getString(R.string.page3_text));
-    }
-
-    private void tutorialPage4() {
-        showcaseView.setShowcase(new ViewTarget(tvBid2),false);
-        showcaseView.setContentTitle(getString(R.string.page4_title));
-        showcaseView.setContentText(getString(R.string.page4_text));
-    }
-
-    private void tutorialPage5() {
-        showcaseView.setShowcase(new ViewTarget(tvBidTime),false);
-        showcaseView.setContentTitle(getString(R.string.page5_title));
-        showcaseView.setContentText(getString(R.string.page5_text));
-    }
-
-    private void tutorialPage6() {
-        showcaseView.setShowcase(new ViewTarget(tvBid1),false);
-        showcaseView.setContentTitle(getString(R.string.page6_title));
-        showcaseView.setContentText(getString(R.string.page6_text));
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tutorialPage7();
-            }
-        },3500);
-    }
-
-    private void tutorialPage7() {
-        showcaseView.setShowcase(new ViewTarget(tvTotal1),true);
-        showcaseView.setContentTitle(getString(R.string.page7_title));
-        showcaseView.setContentText(getString(R.string.page7_text1)+" "+bid1+" "+getString(R.string.page7_text2));
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tutorialPage8();
-            }
-        },4000);
-    }
-
-    private void tutorialPage8() {
-        showcaseView.setShowcase(new ViewTarget(tvTotal2),true);
-        showcaseView.setContentTitle(getString(R.string.page8_title));
-        showcaseView.setContentText(getString(R.string.page8_text));
-        showcaseView.showButton();
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        // This aligns button to the bottom left side of screen
-        params.addRule(RelativeLayout.ALIGN_LEFT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        // Set margins to the button, we add 16dp margins here
-        int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
-        params.setMargins(margin, margin, margin, margin);
-        showcaseView.setButtonPosition(params);
-    }
-
-    private void tutorialPage9() {
-
-        setAlpha(1f,gridLayout);
-        setAlpha(0.1f,layoutPlayer1,layoutPlayer2, layoutBid);
-        showcaseView.setShowcase(new ViewTarget(gridLayout),true);
-        showcaseView.setContentTitle(getString(R.string.page9_title));
-        showcaseView.setContentText(getString(R.string.page9_text));
-        showcaseView.setShowcaseX(100);
-        showcaseView.setShowcaseY(100);
-        showcaseView.hideButton();
-    }
-
-    private void tutorialPage10() {
-
-        setAlpha(1f,layoutPlayer1,layoutPlayer2);
-        setAlpha(0.1f,fullLayout);
-        showcaseView.setShowcase(Target.NONE,true);
-        showcaseView.setContentTitle(getString(R.string.page10_title));
-        showcaseView.setContentText(getString(R.string.page10_text));
-        showcaseView.showButton();
-        showcaseView.setButtonText("Close");
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        // This aligns button to the bottom left side of screen
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        // Set margins to the button, we add 16dp margins here
-        int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
-        params.setMargins(margin, margin, margin, margin);
-        showcaseView.setButtonPosition(params);
-    }
-
-    private void tutorialPageExtra(){
-        showcaseView.setShowcase(new ViewTarget(tvBid1),true);
-        showcaseView.setContentTitle(getString(R.string.page_extra_title));
-        showcaseView.setContentText(getString(R.string.page_extra_text));
-    }
-
-    private void setAlpha(float alpha, View... views) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            for (View view : views) {
-                view.setAlpha(alpha);
-            }
+        if (showcaseView != null) {
+            setAlpha(1f, layoutBid, tvBidTitle1, tvBidTitle2);
+            showcaseView.setShowcase(new ViewTarget(tvBid1), false);
+            showcaseView.setContentTitle(getString(R.string.page2_title));
+            showcaseView.setContentText(getString(R.string.page2_text));
+            showcaseView.hideButton();
         }
     }
 
+    private void tutorialPage3() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvBid1), false);
+            showcaseView.setContentTitle(getString(R.string.page3_title));
+            showcaseView.setContentText(getString(R.string.page3_text));
+        }
+    }
 
+    private void tutorialPage4() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvBid2), false);
+            showcaseView.setContentTitle(getString(R.string.page4_title));
+            showcaseView.setContentText(getString(R.string.page4_text));
+        }
+    }
 
+    private void tutorialPage5() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvBidTime), false);
+            showcaseView.setContentTitle(getString(R.string.page5_title));
+            showcaseView.setContentText(getString(R.string.page5_text));
+        }
+    }
 
+    private void tutorialPage6() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvBid1), false);
+            showcaseView.setContentTitle(getString(R.string.page6_title));
+            showcaseView.setContentText(getString(R.string.page6_text));
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tutorialPage7();
+                }
+            }, 3500);
+        }
+    }
+
+    private void tutorialPage7() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvTotal1), true);
+            showcaseView.setContentTitle(getString(R.string.page7_title));
+            showcaseView.setContentText(getString(R.string.page7_text1) + " " + bid1 + " " + getString(R.string.page7_text2));
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tutorialPage8();
+                }
+            }, 4000);
+        }
+    }
+
+    private void tutorialPage8() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvTotal2), true);
+            showcaseView.setContentTitle(getString(R.string.page8_title));
+            showcaseView.setContentText(getString(R.string.page8_text));
+            showcaseView.showButton();
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            // This aligns button to the bottom left side of screen
+            params.addRule(RelativeLayout.ALIGN_LEFT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            // Set margins to the button, we add 16dp margins here
+            int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
+            params.setMargins(margin, margin, margin, margin);
+            showcaseView.setButtonPosition(params);
+        }
+    }
+
+    private void tutorialPage9() {
+        if (showcaseView != null) {
+            setAlpha(1f, gridLayout);
+            setAlpha(0.1f, layoutPlayer1, layoutPlayer2, layoutBid);
+            showcaseView.setShowcase(new ViewTarget(gridLayout), true);
+            showcaseView.setContentTitle(getString(R.string.page9_title));
+            showcaseView.setContentText(getString(R.string.page9_text));
+            showcaseView.setShowcaseX(100);
+            showcaseView.setShowcaseY(100);
+            showcaseView.hideButton();
+        }
+    }
+
+    private void tutorialPage10() {
+        if (showcaseView != null) {
+            setAlpha(1f, layoutPlayer1, layoutPlayer2);
+            setAlpha(0.1f, fullLayout);
+            showcaseView.setShowcase(Target.NONE, true);
+            showcaseView.setContentTitle(getString(R.string.page10_title));
+            showcaseView.setContentText(getString(R.string.page10_text));
+            showcaseView.showButton();
+            showcaseView.setButtonText("Close");
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            // This aligns button to the bottom left side of screen
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            // Set margins to the button, we add 16dp margins here
+            int margin = ((Number) (getResources().getDisplayMetrics().density * 16)).intValue();
+            params.setMargins(margin, margin, margin, margin);
+            showcaseView.setButtonPosition(params);
+        }
+    }
+
+    private void tutorialPageExtra() {
+        if (showcaseView != null) {
+            showcaseView.setShowcase(new ViewTarget(tvBid1), true);
+            showcaseView.setContentTitle(getString(R.string.page_extra_title));
+            showcaseView.setContentText(getString(R.string.page_extra_text));
+        }
+    }
+
+    private void setAlpha(float alpha, View... views) {
+        for (View view : views) {
+            view.setAlpha(alpha);
+        }
+    }
 
 }

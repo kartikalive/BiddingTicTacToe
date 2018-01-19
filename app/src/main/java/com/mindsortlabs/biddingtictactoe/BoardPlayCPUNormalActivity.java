@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.github.amlcurran.showcaseview.targets.Target;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -72,6 +73,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     LinearLayout layoutPlayer1, layoutPlayer2;
 
+    Handler handler;
     private InterstitialAd mInterstitialAd;
 
     // To control radio button visibility first player and x and o choose
@@ -148,6 +150,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         board.add("___");
         board.add("___");
 
+        handler = new Handler();
         winLine = findViewById(R.id.win_line);
 
         radioGroupTurn = findViewById(R.id.radiogroup_turn);
@@ -192,7 +195,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -208,7 +210,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                     layoutPlayer1.animate().alpha(0).setDuration(200);
                     layoutPlayer2.animate().alpha(0).setDuration(200);
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -333,7 +334,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                     int tag = 3 * compTurn.first + compTurn.second;
 
                     view = findViewById(R.id.activity_board_play_cpu_normal).findViewWithTag(tag + "");
-                    Handler handler = new Handler();
                     final View finalView = view;
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -391,7 +391,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                 }
 //                Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT).show();
 
-                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         gameOverMessage(1);
@@ -413,7 +412,6 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                 }
 
                 if (gameIsOver) {
-                    Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -586,10 +584,21 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        releaseSound();
+        removeFromMemory();
         super.onBackPressed();
     }
 
+    private void removeFromMemory() {
+        releaseSound();
+        normalAiObj = null;
+        if(radioGroupTurn!=null) {
+            radioGroupTurn.setOnCheckedChangeListener(null);
+        }
+        if (handler!=null){
+            handler.removeCallbacksAndMessages(null);
+        }
+
+    }
 
 
     private void releaseSound() {
