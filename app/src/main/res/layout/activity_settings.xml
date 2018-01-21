@@ -109,7 +109,7 @@
                     android:layout_marginTop="65dp" />
 
                 <TextView
-                    android:text="This feature is supported in phones with Marshmallow(6.0) or above."
+                    android:text="This feature is supported in phones with Marshmallow(6.0) or above.(only in Primitive game - Two players)"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/animate_title"
@@ -125,13 +125,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="10dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
+                    android:padding="5dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/blank_green" />
+                    app:srcCompat="@drawable/btn_tutorial"/>
+                    <!--card_view:srcCompat="@drawable/btn_tutorial" />-->
 
             </RelativeLayout>
 

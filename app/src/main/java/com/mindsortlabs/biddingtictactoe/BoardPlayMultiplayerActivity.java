@@ -154,7 +154,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     int bid1 = 1, bid2 = 1;
     int total1 = 100, total2 = 100;
 
-    String opponentNickname = "Guest";
+    String opponentNickname = "Other";
     int opponentScore = -2;
     int oppWin = -2;
     int oppLoss = -2;
@@ -229,7 +229,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         MyPreferences myPreferences = new MyPreferences();
         String nickname = myPreferences.getNickname(this);
         TextView tvBidTitle1 = findViewById(R.id.tv_bid_title1);
-        if(nickname.equals("")){
+        if(nickname.equals("")||nickname.equals("Guest")){
             tvBidTitle1.setText("My"+" Bid");
         }
         else {
@@ -1968,14 +1968,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     startSignInIntent();
                 }
                 break;
-            case R.id.button_sign_out:
+            case R.id.btn_sign_out:
                 // user wants to sign out
                 // sign out.
                 Log.d(TAG, "Sign-out button clicked");
                 signOut();
                 switchToScreen(R.id.screen_sign_in);
                 break;
-            case R.id.button_invite_players:
+            case R.id.btn_invite_players:
 
                 if(!isNetworkAvailable()){
                     showNetworkError();
@@ -1994,7 +1994,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     ).addOnFailureListener(createFailureListener("There was a problem selecting opponents."));
                 }
                 break;
-            case R.id.button_see_invitations:
+            case R.id.btn_see_invitations:
                 if(!isNetworkAvailable()){
                     showNetworkError();
                 }
@@ -2023,7 +2023,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     mIncomingInvitationId = null;
                 }
                 break;
-            case R.id.button_quick_game:
+            case R.id.btn_quick_game:
                 // user wants to play against a random opponent right now
                 if(!isNetworkAvailable()){
                     showNetworkError();
@@ -2952,9 +2952,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     // This array lists everything that's clickable, so we can install click
     // event handlers.
     final static int[] CLICKABLES = {
-            R.id.button_accept_popup_invitation, R.id.button_invite_players,
-            R.id.button_quick_game, R.id.button_see_invitations, R.id.button_sign_in,
-            R.id.button_sign_out,
+            R.id.button_accept_popup_invitation, R.id.btn_invite_players,
+            R.id.btn_quick_game, R.id.btn_see_invitations, R.id.button_sign_in,
+            R.id.btn_sign_out,
 //            R.id.button_click_me,
             R.id.button_single_player,
             R.id.button_single_player_2,
@@ -3083,7 +3083,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     boolean isRewarded;
 
     private RewardedVideoAd mRewardedVideoAd;
-    private Button mShowVideoButton;
+    private ImageButton mShowVideoButton;
 
 
 

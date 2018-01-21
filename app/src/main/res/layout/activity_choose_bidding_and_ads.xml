@@ -163,14 +163,25 @@ android:background="@drawable/bg_splash">
             android:layout_marginBottom="15dp"
             >
 
-            <Button
+            <ImageButton
                 android:id="@+id/video"
                 android:layout_width="match_parent"
-                android:text="Watch Video tO INCREASE YOUR COINS"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
                 android:layout_weight="1.0"
-                />
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:onClick="startBiddingPlay"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/btn_increase_coins" />
+
+            <!--<Button-->
+                <!--android:id="@+id/video"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:text="Watch Video tO INCREASE YOUR COINS"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:layout_weight="1.0"-->
+                <!--/>-->
 
             <ImageButton
                 android:id="@+id/play"
@@ -181,7 +192,7 @@ android:background="@drawable/bg_splash">
                 android:adjustViewBounds="true"
                 android:onClick="startBiddingPlay"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/img_start" />
+                app:srcCompat="@drawable/btn_start" />
         </LinearLayout>
 
     </RelativeLayout>

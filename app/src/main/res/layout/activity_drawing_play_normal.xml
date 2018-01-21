@@ -15,7 +15,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/img_cleanup"
+        app:srcCompat="@drawable/btn_cleanup"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/btn_cleanup"

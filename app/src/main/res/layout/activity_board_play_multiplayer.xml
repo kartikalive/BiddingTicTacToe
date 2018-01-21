@@ -12,60 +12,67 @@
     <!-- SIGN-IN SCREEN -->
     <LinearLayout
         android:id="@+id/screen_sign_in"
-        style="@style/LLScreen"
-        android:visibility="visible"
-        >
+        style="@style/LLScreen">
+
         <ImageView
+            android:id="@+id/imageView190"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/bidding_tictactoe_small"
-            android:id="@+id/imageView190"
-            android:adjustViewBounds="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bidding_tictactoe_small" />
 
-        <TextView style="@style/GameTitle" />
-
-        <TextView style="@style/GameBlurb"
-           android:padding="16dp"
-            android:textSize="18dp"
-            />
-
-        <Button
-            android:id="@+id/button_single_player"
-            style="@style/MainScreenButton"
-            android:text="@string/single_player" />
+        <TextView
+            style="@style/GameTitle"
+            android:layout_marginTop="10dp" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/button_sign_in"
             style="@style/SignInButton" />
+
+        <TextView
+            style="@style/GameBlurb"
+            android:layout_marginTop="40dp"
+            android:padding="16dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/button_single_player"
+            style="@style/MainScreenButton"
+            android:text="@string/single_player"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <!-- MAIN SCREEN -->
     <LinearLayout
         android:id="@+id/screen_main"
-        style="@style/LLScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_splash"
         android:orientation="vertical"
-        >
+        android:visibility="visible">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@drawable/bidding_tictactoe_small"
             android:id="@+id/imageView100"
-            android:adjustViewBounds="true"
-            android:layout_weight="3.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bidding_tictactoe_small"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="25dp"
-            android:layout_weight="10"
-            android:orientation="vertical"
-            >
-        <!--<Button
+            android:layout_height="match_parent"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
+            <!--<Button
             android:id="@+id/button_single_player_2"
             android:layout_weight="1"
             android:layout_height="0dp"
@@ -79,72 +86,158 @@
             <Button
                 android:id="@+id/button_single_player_2"
 
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/single_player" />
+                android:layout_weight="1"
+                android:text="@string/single_player"
+                android:visibility="gone" />
 
-            <Button
-            android:id="@+id/button_quick_game"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/quick_game" />
+            <ImageButton
+                android:id="@+id/btn_quick_game"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_quick_play" />
 
-            <Button
+            <!--<Button-->
+            <!--android:id="@+id/button_quick_game"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/quick_game" />-->
+
+            <ImageButton
                 android:id="@+id/video"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="INCREASE YOUR COINS" />
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_increase_coins" />
+
+            <!--<Button-->
+            <!--android:id="@+id/video"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Increase Coins" />-->
 
             <!--  <TextView
                   style="@style/MainScreenButtonBlurb"
                   android:text="@string/quick_game_explanation" />
               -->
-        <Button
-            android:id="@+id/button_invite_players"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/invite_players" />
+            <ImageButton
+                android:id="@+id/btn_invite_players"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_invite_friend" />
 
-        <Button
-            android:id="@+id/button_see_invitations"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/see_invitations" />
+            <!--<Button-->
+            <!--android:id="@+id/button_invite_players"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/invite_players" />-->
 
-        <Button
-            android:id="@+id/btn_leaderboard"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:onClick="onClick"
-            android:layout_marginTop="5dp"
-            android:text="Leaderboard" />
+            <ImageButton
+                android:id="@+id/btn_see_invitations"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_invitations" />
 
-        <Button
-            android:id="@+id/button_sign_out"
-            style="@style/SignOutButton"
-            android:layout_weight="1"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/sign_out" />
+            <!--<Button-->
+            <!--android:id="@+id/button_see_invitations"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/see_invitations" />-->
+
+            <ImageButton
+                android:id="@+id/btn_leaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_leaderboard" />
+
+            <!--<Button-->
+            <!--android:id="@+id/btn_leaderboard"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:onClick="onClick"-->
+            <!--android:text="Leaderboard" />-->
+
+            <ImageButton
+                android:id="@+id/btn_sign_out"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:onClick="onClick"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_sign_out" />
+
+            <!--<Button-->
+            <!--android:id="@+id/button_sign_out"-->
+            <!--style="@style/SignOutButton"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/sign_out" />-->
         </LinearLayout>
     </LinearLayout>
 
@@ -177,7 +270,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_basic"
         android:visibility="gone"
-       >
+        >
 
         <LinearLayout
             android:layout_width="match_parent"

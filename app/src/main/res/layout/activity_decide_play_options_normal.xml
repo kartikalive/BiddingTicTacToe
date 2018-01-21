@@ -20,7 +20,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/img_practice"
+        app:srcCompat="@drawable/btn_practice"
         android:layout_alignParentTop="true"
         android:id="@+id/btn_practice"
         android:adjustViewBounds="true"
@@ -36,7 +36,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/img_two_players"
+        app:srcCompat="@drawable/btn_two_players"
         android:layout_below="@+id/btn_practice"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"

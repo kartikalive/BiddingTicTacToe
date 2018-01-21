@@ -24,19 +24,19 @@
         android:layout_marginRight="10dp" />
 
     <ImageButton
+        android:id="@+id/btn_bidding_game"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:srcCompat="@drawable/img_bidding"
-        android:id="@+id/btn_bidding_game"
-        android:baselineAlignBottom="false"
-        android:scaleType="fitCenter"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:onClick="onClick"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:baselineAlignBottom="false"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_bidding_game" />
 
     <ImageButton
         android:id="@+id/btn_multiplayer_game"
@@ -50,21 +50,21 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/blank_green" />
+        android:src="@drawable/btn_online" />
 
     <ImageButton
+        android:id="@+id/btn_primitive_game"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:srcCompat="@drawable/img_primitive"
-        android:id="@+id/btn_primitive_game"
-        android:background="@android:color/transparent"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:onClick="onClick" />
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_normal_game" />
 
     <ImageButton
         android:id="@+id/btn_profile"
@@ -78,7 +78,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/img_instructions" />
+        android:src="@drawable/btn_profile" />
 
     <ImageButton
         android:id="@+id/btn_options"
@@ -92,7 +92,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/img_options" />
+        android:src="@drawable/btn_options" />
 
     <ImageButton
         android:id="@+id/btn_instructions"
@@ -101,7 +101,7 @@
         android:layout_marginLeft="280dp"
         android:background="@android:color/transparent"
         android:onClick="onClick"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        android:src="@android:drawable/ic_dialog_info" />
 
 
 </LinearLayout>
