@@ -343,6 +343,9 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                 }
             }
+//            else{
+//                SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+//            }
         }
 
 
@@ -371,6 +374,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
     private boolean checkWinner() {
         int i = 0;
+        boolean gameIsOver = true;
         for (int[] winningPosition : winningPositions) {
 
             if (gameState[winningPosition[0]] == gameState[winningPosition[1]] &&
@@ -385,7 +389,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                 if (gameState[winningPosition[0]] == 0) {
 
-                    winner = "Player";
+                    winner = "You";
                     //winner = "CPU";
 
                 }
@@ -403,7 +407,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
                 i++;
 
-                boolean gameIsOver = true;
+//                boolean gameIsOver = true;
 
                 for (int counterState : gameState) {
 
@@ -418,7 +422,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                             gameOverMessage(2);
                         }
                     }, 500);
-
+                    gameIsOver = false;
                 }
 
             }
@@ -440,7 +444,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
         }
 
         if (i == 2) {
-//            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
+            SoundActivity.playSound(this,drawSound,drawSoundLoaded,drawSoundId);
             winnerMessage.setText("It's a draw");
         }
 

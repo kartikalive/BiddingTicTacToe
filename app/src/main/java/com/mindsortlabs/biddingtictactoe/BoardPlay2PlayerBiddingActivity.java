@@ -415,6 +415,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     private boolean checkWinner() {
         int i = 0;
+        boolean gameIsOver = true;
         for (int[] winningPosition : winningPositions) {
 
             if (gameState[winningPosition[0]] == gameState[winningPosition[1]] &&
@@ -451,8 +452,6 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
                 i++;
 
-                boolean gameIsOver = true;
-
                 for (int counterState : gameState) {
 
                     if (counterState == 2) gameIsOver = false;
@@ -466,7 +465,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                             gameOverMessage(2);
                         }
                     }, 500);
-
+                    gameIsOver = false;
                 }
 
             }
