@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
+
 public class InstructionActivity extends AppCompatActivity {
 
     @Override
@@ -13,8 +15,11 @@ public class InstructionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_instruction);
-
-
+        MyPreferences preferences = new MyPreferences();
+        int status = preferences.getTutorialStatus(this);
+        if(status==0) {
+            preferences.saveTutorialStatus(this, 1);
+        }
     }
 
     private void hideStatusBar() {
@@ -23,8 +28,6 @@ public class InstructionActivity extends AppCompatActivity {
     }
 
     public void onClose(View view) {
-
         finish();
-
     }
 }

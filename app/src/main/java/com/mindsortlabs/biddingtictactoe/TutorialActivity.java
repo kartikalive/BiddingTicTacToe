@@ -98,6 +98,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         preferences = new MyPreferences();
         status = preferences.getTutorialStatus(TutorialActivity.this);
+        if(status==0)
+            preferences.saveTutorialStatus(TutorialActivity.this,1);
 
 
         tvBid1 = findViewById(R.id.tv_bid1);
@@ -600,9 +602,6 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             showcaseView.hide();
             showcaseView.setShowcase(Target.NONE,false);
             showcaseView = null;
-        }
-        if(status==0) {
-            preferences.saveTutorialStatus(TutorialActivity.this,1);
         }
 
         if(moveTimer!=null) {

@@ -360,6 +360,8 @@
                 android:text="EASY"
                 android:id="@+id/radioEasy"
                 android:checked="true"
+                android:textColor="@color/holo_white2"
+                android:buttonTint="@color/holo_white2"
                 android:layout_weight="1"
                 />
 
@@ -369,6 +371,8 @@
                 android:text="MEDIUM"
                 android:id="@+id/radioMedium"
                 android:checked="false"
+                android:textColor="@color/holo_white2"
+                android:buttonTint="@color/holo_white2"
                 android:layout_weight="1" />
 
             <RadioButton
@@ -377,6 +381,8 @@
                 android:text="HARD"
                 android:id="@+id/radioHard"
                 android:checked="false"
+                android:textColor="@color/holo_white2"
+                android:buttonTint="@color/holo_white2"
                 android:layout_weight="1" />
         </RadioGroup>
     </LinearLayout>

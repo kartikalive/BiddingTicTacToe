@@ -120,7 +120,7 @@ public class StartActivity extends AppCompatActivity {
                     }else{
                         //DIFFERENT TUTORIAL NEEDED
                         //FOR NOW DecidePlayOptionsBiddingActivity
-                        intent = new Intent(this, DecidePlayOptionsBiddingActivity.class);
+                        intent = new Intent(this, InstructionActivity.class);
                     }
                 }
                 else{
@@ -138,7 +138,7 @@ public class StartActivity extends AppCompatActivity {
                     tutorialStatus = preferences.getTutorialStatus(this);
                     Log.d("TAGTutorial", tutorialStatus+"");
 
-                    if(tutorialStatus==0) {
+                    if(tutorialStatus==0&&totalRamMemorySize()>MAX_MOBILE_RAM_MB_AVAILABLE) {
                         intent = new Intent(this, TutorialActivity.class);
                     }
                     else{
