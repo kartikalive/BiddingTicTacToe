@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_multiplayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_multiplayer"
     android:background="@drawable/bg_basic"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.mindsortlabs.biddingtictactoe.BoardPlayMultiplayerActivity">
 
     <!-- SIGN-IN SCREEN -->
@@ -242,16 +242,29 @@
     </LinearLayout>
 
     <!-- INVITATION POPUP -->
-    <LinearLayout android:id="@+id/invitation_popup" style="@style/InvPopup">
-        <TextView android:id="@+id/incoming_invitation_text" style="@style/InvPopupText" />
-        <Button android:id="@+id/button_accept_popup_invitation"
+    <LinearLayout
+        android:id="@+id/invitation_popup"
+        style="@style/InvPopup">
+
+        <TextView
+            android:id="@+id/incoming_invitation_text"
+            style="@style/InvPopupText" />
+
+        <Button
+            android:id="@+id/button_accept_popup_invitation"
             style="@style/InvPopupButton"
             android:text="@string/accept_popup_invite" />
     </LinearLayout>
 
     <!-- "PLEASE WAIT" SCREEN -->
-    <LinearLayout android:id="@+id/screen_wait" style="@style/LLScreen">
-        <TextView style="@style/Blurb" android:text="@string/please_wait" />
+    <LinearLayout
+        android:id="@+id/screen_wait"
+        style="@style/LLScreen"
+        android:background="@drawable/bg_splash">
+
+        <TextView
+            style="@style/Blurb"
+            android:text="@string/please_wait" />
     </LinearLayout>
 
     <!-- GAMEPLAY SCREEN -->
@@ -295,102 +308,102 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_row="0"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_column="0"
-                        android:onClick="dropIn"
-                        android:tag="0"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="8dp"
-                        android:layout_height="70dp"
-                        android:layout_width="70dp" />
+                        android:layout_row="0"
+                        android:onClick="dropIn"
+                        android:tag="0" />
 
                     <ImageView
                         android:id="@+id/imageView2"
-                        android:onClick="dropIn"
-                        android:tag="1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_column="1"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="8dp"
                         android:layout_row="0"
-                        android:layout_column="1"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp" />
+                        android:onClick="dropIn"
+                        android:tag="1" />
 
                     <ImageView
+                        android:id="@+id/imageView3"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:id="@+id/imageView3"
-                        android:layout_row="0"
                         android:layout_column="2"
-                        android:onClick="dropIn"
-                        android:tag="2"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginLeft="30dp" />
+                        android:layout_row="0"
+                        android:onClick="dropIn"
+                        android:tag="2" />
 
                     <ImageView
                         android:id="@+id/imageView4"
-                        android:layout_row="1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_column="0"
-                        android:onClick="dropIn"
-                        android:tag="3"
                         android:layout_marginLeft="10dp"
-                        android:layout_height="70dp"
-                        android:layout_width="70dp"
-                        android:layout_marginTop="30dp" />
+                        android:layout_marginTop="30dp"
+                        android:layout_row="1"
+                        android:onClick="dropIn"
+                        android:tag="3" />
 
                     <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
                         android:id="@+id/imageView5"
-                        android:layout_row="1"
-                        android:layout_column="1"
-                        android:onClick="dropIn"
-                        android:tag="4"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginLeft="30dp" />
-
-                    <ImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
+                        android:layout_column="1"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_row="1"
+                        android:onClick="dropIn"
+                        android:tag="4" />
+
+                    <ImageView
                         android:id="@+id/imageView6"
-                        android:layout_row="1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_column="2"
-                        android:onClick="dropIn"
-                        android:tag="5"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginLeft="30dp" />
+                        android:layout_row="1"
+                        android:onClick="dropIn"
+                        android:tag="5" />
 
                     <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
                         android:id="@+id/imageView7"
-                        android:layout_row="2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_column="0"
-                        android:onClick="dropIn"
-                        android:tag="6"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp" />
+                        android:layout_row="2"
+                        android:onClick="dropIn"
+                        android:tag="6" />
 
                     <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
                         android:id="@+id/imageView8"
-                        android:layout_row="2"
-                        android:layout_column="1"
-                        android:onClick="dropIn"
-                        android:tag="7"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="25dp" />
-
-                    <ImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:id="@+id/imageView9"
-                        android:layout_row="2"
-                        android:layout_column="2"
-                        android:onClick="dropIn"
-                        android:tag="8"
+                        android:layout_column="1"
                         android:layout_marginLeft="30dp"
-                        android:layout_marginTop="25dp" />
+                        android:layout_marginTop="25dp"
+                        android:layout_row="2"
+                        android:onClick="dropIn"
+                        android:tag="7" />
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_column="2"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_row="2"
+                        android:onClick="dropIn"
+                        android:tag="8" />
 
                 </GridLayout>
             </LinearLayout>
@@ -783,9 +796,6 @@
             android:visibility="gone" />
 
     </FrameLayout>
-
-
-
 
 
 </FrameLayout>
