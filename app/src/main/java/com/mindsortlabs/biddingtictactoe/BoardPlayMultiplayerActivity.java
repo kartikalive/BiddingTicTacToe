@@ -198,6 +198,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             , "Opponent left the room"};
 
     Handler handler = null;
+    boolean playShown = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -223,6 +224,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         switchToMainScreen();
         checkPlaceholderIds();
         settingsVariables();
+        btnSettings.setClickable(false);
     }
 
     private void updateMyNickname() {
@@ -1222,6 +1224,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                         customToast(MESSAGES[msgId], Toast.LENGTH_SHORT);
                     }
                     else{
+                        displayOptions(true);
                         resetGameVariables();
                     }
                 }
@@ -1326,7 +1329,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     }
 
     private void initializeTimer() {
-        moveTimer = new CountDownTimer(3300, 1000) {
+        moveTimer = new CountDownTimer(3200, 1000) {
             @Override
             public void onTick(long l) {
 
@@ -1337,8 +1340,16 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 tvBidTime.setAlpha(1f);
                 if (time > 1) {
                     tvBidTime.setText(String.valueOf(time));
-                } else {
-                    tvBidTime.setText("Play");
+                }
+                else {
+                    if(playShown){
+                        tvBidTime.setText("");
+                        tvBidTime.setAlpha(0);
+                    }
+                    if(!playShown) {
+                        tvBidTime.setText("Play");
+                        playShown = true;
+                    }
                 }
 
                 tvBidTime.animate().alpha(0).setDuration(900);
@@ -1347,6 +1358,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             @Override
             public void onFinish() {
 
+                playShown = false;
                 gameActive = true;
 
                 if (!gameStarted) {
@@ -1515,9 +1527,13 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     private void displayOptions(boolean display) {
         if (display) {
+            btnSettings.setClickable(false);
+            btnSettings.animate().alpha(0).setDuration(500);
             radioGroupSymbol.animate().translationYBy(-1000f).setDuration(500);
             tvPlayerTitle.animate().translationYBy(-1000f).setDuration(500);
         } else {
+            btnSettings.setClickable(true);
+            btnSettings.animate().alpha(1).setDuration(500);
             radioGroupSymbol.animate().translationY(1000f).setDuration(500);
             tvPlayerTitle.animate().translationYBy(1000f).setDuration(500);
         }
@@ -1865,6 +1881,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         broadcastMessage(2);
 
         if(oppPlayAgain) {
+            displayOptions(true);
             resetGameVariables();
         }
         else{

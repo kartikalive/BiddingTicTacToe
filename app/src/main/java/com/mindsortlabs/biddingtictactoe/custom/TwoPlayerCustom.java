@@ -295,10 +295,10 @@ public class TwoPlayerCustom extends AppCompatActivity {
         layout.setAlpha(0);
 
         if (i == 1) {
-            winnerMessage.setText("Player 1 wins");
+            winnerMessage.setText("Player 1 won");
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         } else if (i == 2) {
-            winnerMessage.setText("Player 2 wins");
+            winnerMessage.setText("Player 2 won");
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         } else {
             winnerMessage.setText("It's a draw");
@@ -333,9 +333,9 @@ public class TwoPlayerCustom extends AppCompatActivity {
     private void UpdateLayout() {
 
         if (playerTurn == 1) {
-            display.setText(" Player 1  Wins  ");
+            display.setText(" Player 1  Won ");
         } else {
-            display.setText(" Player 2  Wins  ");
+            display.setText(" Player 2  Won ");
         }
 
 

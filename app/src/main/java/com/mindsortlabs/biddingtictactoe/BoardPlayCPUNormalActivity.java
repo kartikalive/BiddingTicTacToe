@@ -436,7 +436,7 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
 
         if (i == 1) {
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
-            winnerMessage.setText(winner + " Wins");
+            winnerMessage.setText(winner + " won");
         }
 
         if (i == 2) {

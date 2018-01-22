@@ -196,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Player 2 Wins"
+                android:text="Player 2 Won"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
 

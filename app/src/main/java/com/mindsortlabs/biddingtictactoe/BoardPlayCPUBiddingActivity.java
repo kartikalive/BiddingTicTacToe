@@ -80,6 +80,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
     private AlertDialog.Builder builder;
 
+    boolean playShown = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +166,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 //        updatedBid2 = true;
         //Set bid prompt.
 
-        moveTimer = new CountDownTimer(3300, 1000) {
+        moveTimer = new CountDownTimer(3200, 1000) {
             @Override
             public void onTick(long l) {
 
@@ -175,8 +177,16 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 tvBidTime.setAlpha(1f);
                 if (time > 1) {
                     tvBidTime.setText(String.valueOf(time));
-                } else {
-                    tvBidTime.setText("Play");
+                }
+                else {
+                    if(playShown){
+                        tvBidTime.setText("");
+                        tvBidTime.setAlpha(0);
+                    }
+                    if(!playShown) {
+                        tvBidTime.setText("Play");
+                        playShown = true;
+                    }
                 }
 
                 tvBidTime.animate().alpha(0).setDuration(900);
@@ -185,6 +195,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
 //                gameActive = true;
+                playShown = false;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
                 if (bid1 != bid2) {
@@ -218,7 +229,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             updatedBid2 = false;
                         } else if (bid1 > bid2) {
                             gameActive = true;
-                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Player turn", Toast.LENGTH_SHORT);
+                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Your turn", Toast.LENGTH_SHORT);
                             mToast.show();
                             total1 = total1 - bid1;
                             total2 = total2 + bid1;
@@ -230,7 +241,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                             tvBid1.setClickable(false);
                         } else {
                             gameActive=false;
-                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "Computer turn", Toast.LENGTH_SHORT);
+                            mToast = Toast.makeText(BoardPlayCPUBiddingActivity.this, "CPU's turn", Toast.LENGTH_SHORT);
                             mToast.show();
                             total1 = total1 + bid2;
                             total2 = total2 - bid2;
@@ -456,8 +467,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             if (activePlayer == 0) {
                 if (!gameStarted) {
                     gameStarted = true;
-                    radioGroupSymbol.setClickable(false);
-                    displayOptions(false);
+//                    radioGroupSymbol.setClickable(false);
+//                    displayOptions(false);
                 }
 
                 if (gameState[tappedCounter] != 2) {
@@ -530,7 +541,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
                 gameActive = false;
             } else {
                 cancelToast();
-                mToast = Toast.makeText(this, "Computer's turn. Please wait.", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(this, "CPU's turn. Please wait.", Toast.LENGTH_SHORT);
                 mToast.show();
             }
         } else {
@@ -615,15 +626,15 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
                 gameActive = false;
 
-                String winner = "Computer";
+                String winner = "CPU";
 
                 if (gameState[winningPosition[0]] == 0) {
 
-                    winner = "Player";
+                    winner = "You";
 
                 }
                 cancelToast();
-                mToast = Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(this, winner + " won.", Toast.LENGTH_SHORT);
                 mToast.show();
 
 
@@ -669,6 +680,7 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
        // releaseSound();
 //        System.gc();
+        displayOptions(true);
         isBackPressed = false;
         gameActive = false;
         gameStarted = false;
@@ -731,12 +743,12 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
 
         if (i == 1) {
             SoundActivity.playSound(this, loseSound, loseSoundLoaded, loseSoundId);
-            winnerMessage.setText("Computer wins");
+            winnerMessage.setText("CPU won");
         } else if (i == 2) {
             SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
             winnerMessage.setText("It's a draw");
         } else {
-            winnerMessage.setText("Player wins");
+            winnerMessage.setText("You won");
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         }
 
@@ -871,8 +883,8 @@ public class BoardPlayCPUBiddingActivity extends AppCompatActivity {
             counter.setTranslationY(1000f);
         }
         if (tappedCounter == 4) {
-            counter.setScaleX(0.1f);
-            counter.setScaleY(0.1f);
+            counter.setScaleX(0f);
+            counter.setScaleY(0f);
         }
 
     }

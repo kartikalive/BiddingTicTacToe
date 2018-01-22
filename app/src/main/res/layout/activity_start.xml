@@ -50,7 +50,7 @@
         android:background="@android:color/transparent"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        android:src="@drawable/btn_online" />
+        android:src="@drawable/btn_online_sea" />
 
     <ImageButton
         android:id="@+id/btn_primitive_game"

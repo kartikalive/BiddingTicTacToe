@@ -245,7 +245,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
                             tvBid1.setClickable(false);
                         } else {
                             gameActive=false;
-                            mToast = Toast.makeText(TutorialActivity.this, "Computer turn", Toast.LENGTH_SHORT);
+                            mToast = Toast.makeText(TutorialActivity.this, "Computer's turn", Toast.LENGTH_SHORT);
                             mToast.show();
                             total1 = total1 + bid2;
                             total2 = total2 - bid2;
@@ -1189,7 +1189,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
     private void tutorialPage2() {
         if (showcaseView != null) {
             setAlpha(1f, layoutBid, tvBidTitle1, tvBidTitle2);
-            showcaseView.setShowcase(new ViewTarget(tvBid1), false);
+            showcaseView.setShowcase(new ViewTarget(tvBid1), true);
             showcaseView.setContentTitle(getString(R.string.page2_title));
             showcaseView.setContentText(getString(R.string.page2_text));
             showcaseView.hideButton();
@@ -1198,7 +1198,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     private void tutorialPage3() {
         if (showcaseView != null) {
-            showcaseView.setShowcase(new ViewTarget(tvBid1), false);
+            showcaseView.setShowcase(new ViewTarget(tvBid1), true);
             showcaseView.setContentTitle(getString(R.string.page3_title));
             showcaseView.setContentText(getString(R.string.page3_text));
         }
@@ -1206,7 +1206,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     private void tutorialPage4() {
         if (showcaseView != null) {
-            showcaseView.setShowcase(new ViewTarget(tvBid2), false);
+            showcaseView.setShowcase(new ViewTarget(tvBid2), true);
             showcaseView.setContentTitle(getString(R.string.page4_title));
             showcaseView.setContentText(getString(R.string.page4_text));
         }
@@ -1214,7 +1214,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     private void tutorialPage5() {
         if (showcaseView != null) {
-            showcaseView.setShowcase(new ViewTarget(tvBidTime), false);
+            showcaseView.setShowcase(new ViewTarget(tvBidTime), true);
             showcaseView.setContentTitle(getString(R.string.page5_title));
             showcaseView.setContentText(getString(R.string.page5_text));
         }
@@ -1222,7 +1222,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
     private void tutorialPage6() {
         if (showcaseView != null) {
-            showcaseView.setShowcase(new ViewTarget(tvBid1), false);
+            showcaseView.setShowcase(new ViewTarget(tvBid1), true);
             showcaseView.setContentTitle(getString(R.string.page6_title));
             showcaseView.setContentText(getString(R.string.page6_text));
 

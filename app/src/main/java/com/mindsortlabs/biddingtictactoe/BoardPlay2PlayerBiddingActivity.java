@@ -69,6 +69,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
     Handler handler =null;
 
+    boolean playShown = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +115,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
         radioBtnCross.setChecked(true);
 
-        moveTimer = new CountDownTimer(3300, 1000) {
+        moveTimer = new CountDownTimer(3200, 1000) {
             @Override
             public void onTick(long l) {
 
@@ -125,7 +127,14 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 if (time > 1) {
                     tvBidTime.setText(String.valueOf(time));
                 } else {
-                    tvBidTime.setText("Play");
+                    if(playShown){
+                        tvBidTime.setText("");
+                        tvBidTime.setAlpha(0);
+                    }
+                    if(!playShown) {
+                        tvBidTime.setText("Play");
+                        playShown = true;
+                    }
                 }
 
                 tvBidTime.animate().alpha(0).setDuration(900);
@@ -133,6 +142,8 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+
+                playShown = false;
                 gameActive = true;
                 tvBid1.animate().alpha(0).setDuration(200);
                 tvBid2.animate().alpha(0).setDuration(200);
@@ -422,7 +433,7 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
                 }
                 cancelToast();
-                mToast = Toast.makeText(this, winner + " wins.", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(this, winner + " won", Toast.LENGTH_SHORT);
                 mToast.show();
 
 
@@ -551,12 +562,12 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
 
         if (i == 1) {
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
-            winnerMessage.setText("Player 2 wins");
+            winnerMessage.setText("Player 2 won");
         } else if (i == 2) {
             winnerMessage.setText("It's a draw");
             SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
         } else {
-            winnerMessage.setText("Player 1 wins");
+            winnerMessage.setText("Player 1 won");
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         }
 

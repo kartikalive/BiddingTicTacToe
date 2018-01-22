@@ -54,7 +54,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_splash"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imageView100"
@@ -268,9 +268,7 @@
         android:id="@+id/screen_gameplay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_basic"
-        android:visibility="gone"
-        >
+        android:background="@drawable/bg_basic">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -452,7 +450,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|end"
                         android:layout_marginRight="20dp"
-                        android:background="@drawable/cast_expanded_controller_bg_gradient_light"
                         android:text="00"
                         android:textAlignment="gravity"
                         android:textColor="@color/holo_white"
@@ -524,6 +521,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:adjustViewBounds="true"
+                    android:alpha="0"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_settings" />
@@ -701,7 +699,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Computer wins"
+                    android:text="CPU won"
                     android:textColor="@android:color/white"
                     android:textSize="22sp" />
 
@@ -730,8 +728,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="70dp"
-            android:layout_marginRight="10dp"
-            android:visibility="gone">
+            android:layout_marginRight="10dp">
 
             <RadioButton
                 android:id="@+id/radiobtn_cross"

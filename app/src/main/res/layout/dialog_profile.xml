@@ -62,7 +62,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:maxEms="10"
-                    android:maxLength="7"
+                    android:maxLength="6"
                     android:text="Guest"
                     android:textColor="@android:color/black"
                     android:visibility="gone" />
