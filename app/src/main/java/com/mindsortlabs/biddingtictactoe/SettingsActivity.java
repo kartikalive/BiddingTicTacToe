@@ -1,10 +1,12 @@
 package com.mindsortlabs.biddingtictactoe;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
+
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String prefKey = "com.mindsortlabs.biddingtictactoe";
@@ -20,10 +24,11 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String animatePrefAccessKey = "com.mindsortlabs.biddingtictactoe.animate";
     public static final String messagesPrefAccessKey = "com.mindsortlabs.biddingtictactoe.messages";
     public static int animatedPlay = 0;
-    public static int soundEffects = 0;
+    public static int soundEffects = 1;
     public static int messageNotifications = 1;
     ToggleButton animatedPlayBtn, soundToggleBtn;
     TextView tvNote;
+    private int MAX_MOBILE_RAM_MB_AVAILABLE = 1700;
 
 
     @Override
@@ -45,13 +50,23 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         ImageButton btnTutorial = findViewById(R.id.btn_tutorial);
+
+        try {
+            if (totalRamMemorySize() <= MAX_MOBILE_RAM_MB_AVAILABLE) {
+                btnTutorial.setVisibility(View.GONE);
+            }
+        }catch (Exception e){
+        }
+
         btnTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(SettingsActivity.this,TutorialActivity.class);
                 startActivity(intent);
             }
         });
+
         animatedPlayBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -87,6 +102,17 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private long totalRamMemorySize() {
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        long availableMegs = mi.totalMem / 1048576L;
+        if(LogUtil.islogOn()){
+            Log.d(StartActivity.class.getSimpleName()," "+availableMegs );
+        }
+        return availableMegs;
     }
 
     private void hideStatusBar() {

@@ -22,18 +22,14 @@
 
 
     <string name="description">
-     \nBidding Tic Tac Toe:\n\nThe only modification in Bidding tic tac toe is that it is not an Alternate turn game.
-Instead, both players start with 100 chips each in their account. Now, as the name suggests,
-        each player needs to place a bid before his turn. None of the player is aware of the
-        opponent’s bid, until both of them chooses their respective bids. Whoever places the
-        higher bid gets to play.\n\nAn interesting twist is that the player with higher bid is
-        required to give his chips (only bidded ones) to the player who bidded less.
-        The motive of the game is same as normal tic tac toe game irrespective of the chips left in the end.\n\nNote - Occasionally, if the two players submit the same bid, they are needed to choose their bids
-        again. If none of the player want to change their bid, it’s concluded as a draw.
+        \n<b>Bidding Tic Tac Toe:</b>\n\nBoth players start with 100 chips each. Unlike normal Tic Tac Toe,
+        in this game you need to choose a Bid first. Opponent\'s bid is revealed only after you select your own bid.
+        Whoever places the higher bid can put his/her mark on the board.\n\nAn interesting twist is that the chips of the higher
+        bidder are transferred to the opponent\'s account. To win the game, aim to make 3 adjacent crosses (or circles) before
+        the opponent does.\n\n<b>Bonus</b> - You can watch Ad videos to gain extra chips, and finally reach at top of the leaderboard.
 
-        \n\nCustom Tic Tac Toe:\n\nSelect board size and objective in 2 player primitive game. Here, objective means the number of
-        continuous marks (X or O) in order to win the game.
-
+        \n\n<b>Custom Tic Tac Toe:</b>\n\nSelect board size and objective in 2 player primitive game. Here, objective means the number of
+        continuous marks (X or O), in order to win the game.
 
 \n\n\n
     </string>
@@ -123,9 +119,9 @@ Instead, both players start with 100 chips each in their account. Now, as the na
     <string name="page9_title">Let\'s begin</string>
     <string name="page9_text">\n\nTouch the board position to mark.</string>
 
-    <string name="page10_title">You\'re all set, Time for Bonus</string>
-    <string name="page10_text">\nTo win the game, aim to make 3 adjacent crosses(or circles) before the opponent does.
-        \n\nTry different level or play with your friends, \'s a perfect Brain Sharping activity:\n\n
+    <string name="page10_title">You\'re all set</string>
+    <string name="page10_text">\nTo win the game, aim to make 3 adjacent crosses (or circles) before the opponent does.
+        \n\nPractice against a brilliant AI, Play and Chat with friends or strangers online.\n\n
                                 </string>
 
     <string name="AD_UNIT_ID">
