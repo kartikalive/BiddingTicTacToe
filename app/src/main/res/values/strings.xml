@@ -130,5 +130,9 @@
     <string name="APP_ID">
         ca-app-pub-3940256099942544~3347511713
     </string>
+    <string name="player1won">Player 1  Won</string>
+    <string name="player2won">Player 2  Won</string>
+    <string name="draw">It\'s a draw</string>
+    <string name="play">Play</string>
 
 </resources>

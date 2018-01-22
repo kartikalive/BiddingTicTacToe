@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.mindsortlabs.biddingtictactoe.DecidePlayOptionsNormalActivity;
 import com.mindsortlabs.biddingtictactoe.R;
 
 public class BoardChooser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {

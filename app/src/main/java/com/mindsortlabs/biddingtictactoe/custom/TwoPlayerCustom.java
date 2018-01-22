@@ -149,7 +149,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
 
                 setImage(img);
 
-                if (checkForSolution(playerTurn, pos)) {
+                if (checkForSolution(pos)) {
                     // This player Wins
                     increamentWins(playerTurn);
                     UpdateLayout();
@@ -184,7 +184,7 @@ public class TwoPlayerCustom extends AppCompatActivity {
                 if (time > 1) {
                     tvView.setText(String.valueOf(time));
                 } else {
-                    tvView.setText("Play");
+                    tvView.setText(R.string.play);
                 }
 
                 tvView.animate().alpha(0).setDuration(900);
@@ -295,13 +295,13 @@ public class TwoPlayerCustom extends AppCompatActivity {
         layout.setAlpha(0);
 
         if (i == 1) {
-            winnerMessage.setText("Player 1 won");
+            winnerMessage.setText(R.string.player1won);
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         } else if (i == 2) {
-            winnerMessage.setText("Player 2 won");
+            winnerMessage.setText(R.string.player2won);
             SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         } else {
-            winnerMessage.setText("It's a draw");
+            winnerMessage.setText(R.string.draw);
             SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
         }
 
@@ -333,9 +333,9 @@ public class TwoPlayerCustom extends AppCompatActivity {
     private void UpdateLayout() {
 
         if (playerTurn == 1) {
-            display.setText(" Player 1  Won ");
+            display.setText(R.string.player1won);
         } else {
-            display.setText(" Player 2  Won ");
+            display.setText(R.string.player2won);
         }
 
 
@@ -354,16 +354,16 @@ public class TwoPlayerCustom extends AppCompatActivity {
             player2Score++;
 
         TextView player2scoretv = findViewById(R.id.player2score);
-        player2scoretv.setText("" + player2Score);
+        player2scoretv.setText(String.valueOf( player2Score));
 
         //Log.d("plaier1",""+player2score);
 
 
         TextView player1scoretv = findViewById(R.id.player1score);
-        player1scoretv.setText("" + player1Score);
+        player1scoretv.setText(String.valueOf( player1Score) );
     }
 
-    private boolean checkForSolution(int playerTurn, Pair pos) {
+    private boolean checkForSolution(Pair pos) {
         int counter = objectives;
         boolean temp = checkForSolutionHelper(pos, counter);
         if (temp) {

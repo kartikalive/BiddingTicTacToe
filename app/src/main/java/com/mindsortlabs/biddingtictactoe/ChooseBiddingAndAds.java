@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 
 import com.mindsortlabs.biddingtictactoe.ads.LazyAds;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 import com.mindsortlabs.biddingtictactoe.preferences.MyPreferences;
 
 import java.util.Random;
@@ -45,7 +46,6 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
         super.onCreate(savedInstanceState);
         hideStatusBar();
         setContentView(R.layout.activity_choose_bidding_and_ads);
-        Log.d("OnCreate is called"," Are u shitting me");
         userTotalCoins = findViewById(R.id.myBid);
         cpuTotalCoins = findViewById(R.id.CpuBid);
 
@@ -83,8 +83,9 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
                 lazyAds.showRewardedVideo();
             }
         });
-
-        Log.d("CREATE ","OK " + userAndCpuTotalCoins);
+        if (LogUtil.islogOn()) {
+            Log.d("CREATE ", "OK " + userAndCpuTotalCoins);
+        }
     }
 
     @Override

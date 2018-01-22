@@ -112,7 +112,9 @@ public class StartActivity extends AppCompatActivity {
 
                 MyPreferences myPreferences = new MyPreferences();
                 tutorialStatus = myPreferences.getTutorialStatus(this);
-                Log.d("TAGTutorial", tutorialStatus+"");
+                if (LogUtil.islogOn()) {
+                    Log.d("TAGTutorial", tutorialStatus+"");
+                }
 
                 if(tutorialStatus==0) {
                     if(totalRamMemorySize()>MAX_MOBILE_RAM_MB_AVAILABLE) {
@@ -136,7 +138,9 @@ public class StartActivity extends AppCompatActivity {
 
                     MyPreferences preferences = new MyPreferences();
                     tutorialStatus = preferences.getTutorialStatus(this);
-                    Log.d("TAGTutorial", tutorialStatus+"");
+                    if (LogUtil.islogOn()) {
+                        Log.d("TAGTutorial", tutorialStatus+"");
+                    }
 
                     if(tutorialStatus==0&&totalRamMemorySize()>MAX_MOBILE_RAM_MB_AVAILABLE) {
                         intent = new Intent(this, TutorialActivity.class);
@@ -269,7 +273,9 @@ public class StartActivity extends AppCompatActivity {
                 Log.e("TAGNetwork", "Error checking internet connection", e);
             }
         } else {
-            Log.d("TAGNetwork", "No network available!");
+            if (LogUtil.islogOn()) {
+                Log.d("TAGNetwork", "No network available!");
+            }
         }
         return false;
     }

@@ -216,7 +216,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 //        findViewById(R.id.button_sign_in).setOnClickListener(this);
 
 //        gameOverMessage(1);
-        Log.d(TAG,"onCreate : ");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG,"onCreate : ");
+        }
         handler = new Handler();
         bindViews();
         loadRewardViews();
@@ -249,7 +251,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     private void updateMyTotalCoins() {
         MyPreferences myPreferences = new MyPreferences();
         total1 += myPreferences.getRewardedCoins(this);
-        Log.d("MultiplayerMyCoins: ", myPreferences.getRewardedCoins(this)+"");
+        if (LogUtil.islogOn()) {
+            Log.d("MultiplayerMyCoins: ", myPreferences.getRewardedCoins(this)+"");
+        }
         tvTotal1.setText(total1+"");
         initialBroadcast(total1);//nickname and total coins
     }
@@ -494,7 +498,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     }
 
     private void showLeaderboard() {
-        Log.d("leaderboard: ", "called");
+        if (LogUtil.islogOn()) {
+            Log.d("leaderboard: ", "called");
+        }
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .getLeaderboardIntent(getString(R.string.leaderboard_id))
                 .addOnSuccessListener(new OnSuccessListener<Intent>() {
@@ -709,7 +715,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
             try {
                 String s = new String(longMsgBuf, "UTF-8");
-                Log.d(TAG, "Message: " + s);
+                if (LogUtil.islogOn()) {
+                    Log.d(TAG, "Message: " + s);
+                }
 //                customToast(s,Toast.LENGTH_SHORT);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -728,16 +736,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                                 @Override
                                 public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                                    Log.d(TAG, "RealTime message sent");
-                                    Log.d(TAG, "  statusCode: " + statusCode);
-                                    Log.d(TAG, "  tokenId: " + tokenId);
-                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "RealTime message sent");
+                                        Log.d(TAG, "  statusCode: " + statusCode);
+                                        Log.d(TAG, "  tokenId: " + tokenId);
+                                        Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    }
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<Integer>() {
                                 @Override
                                 public void onSuccess(Integer tokenId) {
-                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    }
                                 }
                             });
                 }
@@ -764,16 +776,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                         @Override
                         public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                            Log.d(TAG, "RealTime message sent");
-                            Log.d(TAG, "  statusCode: " + statusCode);
-                            Log.d(TAG, "  tokenId: " + tokenId);
-                            Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "RealTime message sent");
+                                Log.d(TAG, "  statusCode: " + statusCode);
+                                Log.d(TAG, "  tokenId: " + tokenId);
+                                Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            }
                         }
                     })
                     .addOnSuccessListener(new OnSuccessListener<Integer>() {
                         @Override
                         public void onSuccess(Integer tokenId) {
-                            Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            }
                         }
                     });
         }
@@ -793,16 +809,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                         @Override
                         public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                            Log.d(TAG, "RealTime message sent");
-                            Log.d(TAG, "  statusCode: " + statusCode);
-                            Log.d(TAG, "  tokenId: " + tokenId);
-                            Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "RealTime message sent");
+                                Log.d(TAG, "  statusCode: " + statusCode);
+                                Log.d(TAG, "  tokenId: " + tokenId);
+                                Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            }
                         }
                     })
                     .addOnSuccessListener(new OnSuccessListener<Integer>() {
                         @Override
                         public void onSuccess(Integer tokenId) {
-                            Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            }
                         }
                     });
         }
@@ -823,16 +843,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                         @Override
                         public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                            Log.d(TAG, "RealTime message sent");
-                            Log.d(TAG, "  statusCode: " + statusCode);
-                            Log.d(TAG, "  tokenId: " + tokenId);
-                            Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "RealTime message sent");
+                                Log.d(TAG, "  statusCode: " + statusCode);
+                                Log.d(TAG, "  tokenId: " + tokenId);
+                                Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            }
                         }
                     })
                     .addOnSuccessListener(new OnSuccessListener<Integer>() {
                         @Override
                         public void onSuccess(Integer tokenId) {
-                            Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            }
                         }
                     });
         }
@@ -864,16 +888,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                         @Override
                         public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                            Log.d(TAG, "RealTime message sent");
-                            Log.d(TAG, "  statusCode: " + statusCode);
-                            Log.d(TAG, "  tokenId: " + tokenId);
-                            Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "RealTime message sent");
+                                Log.d(TAG, "  statusCode: " + statusCode);
+                                Log.d(TAG, "  tokenId: " + tokenId);
+                                Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                            }
                         }
                     })
                     .addOnSuccessListener(new OnSuccessListener<Integer>() {
                         @Override
                         public void onSuccess(Integer tokenId) {
-                            Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                            }
                         }
                     });
         }
@@ -920,16 +948,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                                 @Override
                                 public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                                    Log.d(TAG, "RealTime message sent");
-                                    Log.d(TAG, "  statusCode: " + statusCode);
-                                    Log.d(TAG, "  tokenId: " + tokenId);
-                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "RealTime message sent");
+                                        Log.d(TAG, "  statusCode: " + statusCode);
+                                        Log.d(TAG, "  tokenId: " + tokenId);
+                                        Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    }
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<Integer>() {
                                 @Override
                                 public void onSuccess(Integer tokenId) {
-                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    }
                                 }
                             });
                 }
@@ -983,10 +1015,12 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                                 @Override
                                 public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                                    Log.d(TAG, "RealTime message sent");
-                                    Log.d(TAG, "  statusCode: " + statusCode);
-                                    Log.d(TAG, "  tokenId: " + tokenId);
-                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "RealTime message sent");
+                                        Log.d(TAG, "  statusCode: " + statusCode);
+                                        Log.d(TAG, "  tokenId: " + tokenId);
+                                        Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    }
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<Integer>() {
@@ -1044,16 +1078,21 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                                 @Override
                                 public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                                    Log.d(TAG, "RealTime message sent");
-                                    Log.d(TAG, "  statusCode: " + statusCode);
-                                    Log.d(TAG, "  tokenId: " + tokenId);
-                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "RealTime message sent");
+
+                                        Log.d(TAG, "  statusCode: " + statusCode);
+                                        Log.d(TAG, "  tokenId: " + tokenId);
+                                        Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    }
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<Integer>() {
                                 @Override
                                 public void onSuccess(Integer tokenId) {
-                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    }
                                 }
                             });
                 }
@@ -1103,16 +1142,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                                 @Override
                                 public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                                    Log.d(TAG, "RealTime message sent");
-                                    Log.d(TAG, "  statusCode: " + statusCode);
-                                    Log.d(TAG, "  tokenId: " + tokenId);
-                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "RealTime message sent");
+                                        Log.d(TAG, "  statusCode: " + statusCode);
+                                        Log.d(TAG, "  tokenId: " + tokenId);
+                                        Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                    }
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<Integer>() {
                                 @Override
                                 public void onSuccess(Integer tokenId) {
-                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    if (LogUtil.islogOn()) {
+                                        Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                    }
                                 }
                             });
                 }
@@ -1126,7 +1169,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         public void onRealTimeMessageReceived(@NonNull RealTimeMessage realTimeMessage) {
             byte[] buf = realTimeMessage.getMessageData();
             String sender = realTimeMessage.getSenderParticipantId();
-            Log.d(TAG, "Message received: " + (char) buf[0]+", "+(int) buf[1]);
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "Message received: " + (char) buf[0]+", "+(int) buf[1]);
+            }
 
             if(buf[0]==INITIAL_NICKNAME){
 
@@ -1134,7 +1179,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 try {
                     oppNickname = new String(buf, "UTF-8");
                     oppNickname = oppNickname.substring(1);
-                    Log.d(TAG, "Message received : " + oppNickname);
+                    if (LogUtil.islogOn()) {
+                        Log.d(TAG, "Message received : " + oppNickname);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -1147,7 +1194,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 try {
                     oppTotalCoins = new String(buf, "UTF-8");
                     oppTotalCoins = oppTotalCoins.substring(1);
-                    Log.d(TAG, "Message received : " + oppTotalCoins);
+                    if (LogUtil.islogOn()) {
+                        Log.d(TAG, "Message received : " + oppTotalCoins);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -1160,7 +1209,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 try {
                     oppLeaderboardScore = new String(buf, "UTF-8");
                     oppLeaderboardScore = oppLeaderboardScore.substring(1);
-                    Log.d(TAG, "Message received : " + oppLeaderboardScore);
+                    if (LogUtil.islogOn()) {
+                        Log.d(TAG, "Message received : " + oppLeaderboardScore);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -1173,7 +1224,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 try {
                     gameStats = new String(buf, "UTF-8");
                     gameStats = gameStats.substring(1);
-                    Log.d(TAG, "Message received : " + gameStats);
+                    if (LogUtil.islogOn()) {
+                        Log.d(TAG, "Message received : " + gameStats);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -1235,7 +1288,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 try {
                     String msg = new String(buf, "UTF-8");
                     msg = msg.substring(1);
-                    Log.d(TAG,"Message received : "+ msg);
+                    if (LogUtil.islogOn()) {
+                        Log.d(TAG,"Message received : "+ msg);
+                    }
 
                     //add sound also.
                     if(msg.length()<50) {
@@ -1334,9 +1389,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             public void onTick(long l) {
 
                 int time = (int) (l / 1000);
-//                if (LogUtil.islogOn()) {
-                Log.d("TAG123", (time) + "");
-//                }
+                if (LogUtil.islogOn()) {
+                    Log.d("TAG123", (time) + "");
+                }
                 tvBidTime.setAlpha(1f);
                 if (time > 1) {
                     tvBidTime.setText(String.valueOf(time));
@@ -1560,7 +1615,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 mToast = Toast.makeText(this, "Choose another position", Toast.LENGTH_SHORT);
                 mToast.show();
             } else {
-                Log.d(TAG,"playedPos: " + tappedCounter);
+                if (LogUtil.islogOn()) {
+                    Log.d(TAG, "playedPos: " + tappedCounter);
+                }
                 broadcastPosition(tappedCounter);
                 counter.setImageResource(mySymbol);
 
@@ -1605,7 +1662,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         counter = (ImageView) findViewById(R.id.activity_multiplayer).findViewWithTag(String.valueOf(pos));
         int tappedCounter = pos;
-        Log.d(TAG,"playedPos: " + tappedCounter);
+        if (LogUtil.islogOn()) {
+            Log.d(TAG,"playedPos: " + tappedCounter);
+        }
         counter.setImageResource(oppSymbol);
 
         setInitialPositions(counter, tappedCounter);
@@ -1756,7 +1815,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         if(newScore<0){
             newScore = 0;
         }
-        Log.d("leaderboardScore: ",newScore+"");
+        if (LogUtil.islogOn()) {
+            Log.d("leaderboardScore: ",newScore+"");
+        }
         Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .submitScore(getString(R.string.leaderboard_id), newScore);
         myPreferences.saveLeaderboardScore(this,newScore+"");
@@ -1946,7 +2007,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     protected void onResume() {
         lazyAds.onResume();
         super.onResume();
-        Log.d(TAG, "onResume()");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "onResume()");
+        }
 
         // Since the state of the signed in user can change when the activity is not active
         // it is recommended to try and sign in silently from when the app resumes.
@@ -1959,7 +2022,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     protected void onPause() {
         lazyAds.onPause();
         super.onPause();
-        Log.d(TAG,"onPause: ");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG,"onPause: ");
+        }
         // unregister our listeners.  They will be re-registered via onResume->signInSilently->onConnected.
         if (mInvitationsClient != null) {
             mInvitationsClient.unregisterInvitationCallback(mInvitationCallback);
@@ -1977,7 +2042,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 break;
             case R.id.button_sign_in:
                 // start the sign-in flow
-                Log.d(TAG, "Sign-in button clicked");
+                if (LogUtil.islogOn()) {
+                    Log.d(TAG, "Sign-in button clicked");
+                }
                 if(!isNetworkAvailable()){
                     showNetworkError();
                 }
@@ -1988,7 +2055,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             case R.id.btn_sign_out:
                 // user wants to sign out
                 // sign out.
-                Log.d(TAG, "Sign-out button clicked");
+                if (LogUtil.islogOn()) {
+                    Log.d(TAG, "Sign-out button clicked");
+                }
                 signOut();
                 switchToScreen(R.id.screen_sign_in);
                 break;
@@ -2098,17 +2167,23 @@ public class BoardPlayMultiplayerActivity extends Activity implements
      * If the user has already signed in previously, it will not show dialog.
      */
     public void signInSilently() {
-        Log.d(TAG, "signInSilently()");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "signInSilently()");
+        }
 
         mGoogleSignInClient.silentSignIn().addOnCompleteListener(this,
                 new OnCompleteListener<GoogleSignInAccount>() {
                     @Override
                     public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "signInSilently(): success");
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "signInSilently(): success");
+                            }
                             onConnected(task.getResult());
                         } else {
-                            Log.d(TAG, "signInSilently(): failure", task.getException());
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "signInSilently(): failure", task.getException());
+                            }
                             onDisconnected();
                         }
                     }
@@ -2116,7 +2191,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     }
 
     public void signOut() {
-        Log.d(TAG, "signOut()");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "signOut()");
+        }
 
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
                 new OnCompleteListener<Void>() {
@@ -2124,7 +2201,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     public void onComplete(@NonNull Task<Void> task) {
 
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "signOut(): success");
+                            if (LogUtil.islogOn()) {
+                                Log.d(TAG, "signOut(): success");
+                            }
                         } else {
                             handleException(task.getException(), "signOut() failed!");
                         }
@@ -2228,7 +2307,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             // we got the result from the "waiting room" UI.
             if (resultCode == Activity.RESULT_OK) {
                 // ready to start playing
-                Log.d(TAG, "Starting game (waiting room returned OK).");
+                if (LogUtil.islogOn()) {
+                    Log.d(TAG, "Starting game (waiting room returned OK).");
+                }
                 startBiddingGame(true);
             } else if (resultCode == GamesActivityResultCodes.RESULT_LEFT_ROOM) {
                 // player indicated that they want to leave the room
@@ -2252,13 +2333,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             switchToMainScreen();
             return;
         }
-
-        Log.d(TAG, "Select players UI succeeded.");
-
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Select players UI succeeded.");
+        }
         // get the invitee list
         final ArrayList<String> invitees = data.getStringArrayListExtra(Games.EXTRA_PLAYER_IDS);
-        Log.d(TAG, "Invitee count: " + invitees.size());
-
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Invitee count: " + invitees.size());
+        }
         // get the automatch criteria
         Bundle autoMatchCriteria = null;
         int minAutoMatchPlayers = data.getIntExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 0);
@@ -2266,11 +2348,15 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         if (minAutoMatchPlayers > 0 || maxAutoMatchPlayers > 0) {
             autoMatchCriteria = RoomConfig.createAutoMatchCriteria(
                     minAutoMatchPlayers, maxAutoMatchPlayers, 0);
-            Log.d(TAG, "Automatch criteria: " + autoMatchCriteria);
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "Automatch criteria: " + autoMatchCriteria);
+            }
         }
 
         // create the room
-        Log.d(TAG, "Creating room...");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Creating room...");
+        }
         switchToScreen(R.id.screen_wait);
         keepScreenOn();
         resetGameVars();
@@ -2281,7 +2367,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 .setRoomStatusUpdateCallback(mRoomStatusUpdateCallback)
                 .setAutoMatchCriteria(autoMatchCriteria).build();
         mRealTimeMultiplayerClient.create(mRoomConfig);
-        Log.d(TAG, "Room created, waiting for it to be ready...");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Room created, waiting for it to be ready...");
+        }
     }
 
     // Handle the result of the invitation inbox UI, where the player can pick an invitation
@@ -2292,8 +2380,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             switchToMainScreen();
             return;
         }
-
-        Log.d(TAG, "Invitation inbox UI succeeded.");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Invitation inbox UI succeeded.");
+        }
         Invitation invitation = data.getExtras().getParcelable(Multiplayer.EXTRA_INVITATION);
 
         // accept invitation
@@ -2305,8 +2394,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     // Accept the given invitation.
     void acceptInviteToRoom(String invitationId) {
         // accept the invitation
-        Log.d(TAG, "Accepting invitation: " + invitationId);
-
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Accepting invitation: " + invitationId);
+        }
         mRoomConfig = RoomConfig.builder(mRoomUpdateCallback)
                 .setInvitationIdToAccept(invitationId)
                 .setOnMessageReceivedListener(mOnRealTimeMessageReceivedListener)
@@ -2321,7 +2411,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Room Joined Successfully!");
+                        if (LogUtil.islogOn()) {
+                            Log.d(TAG, "Room Joined Successfully!");
+                        }
                     }
                 });
     }
@@ -2329,7 +2421,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     // Activity is going to the background. We have to leave the current room.
     @Override
     public void onStop() {
-        Log.d(TAG, "**** got onStop");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "**** got onStop");
+        }
 
         try {
             if (mCurScreen== R.id.screen_gameplay) {
@@ -2337,7 +2431,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
         }
         catch (Exception e){
-            Log.d(TAG,"onStop Exception: "+e);
+            if (LogUtil.islogOn()) {
+                Log.d(TAG,"onStop Exception: "+e);
+            }
         }
         // if we're in a room, leave it.
 
@@ -2359,7 +2455,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent e) {
         if (keyCode == KeyEvent.KEYCODE_BACK && mCurScreen == R.id.screen_gameplay) {
-            Log.d("coinsCalc: ", "backPressed.");
+            if (LogUtil.islogOn()) {
+                Log.d("coinsCalc: ", "backPressed.");
+            }
 
             if(winLine.getVisibility()==View.VISIBLE){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -2439,7 +2537,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     // Leave the room.
     void leaveRoom() {
-        Log.d(TAG, "Leaving room.");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "Leaving room.");
+        }
         mSecondsLeft = 0;
         stopKeepingScreenOn();
         if (mRoomId != null) {
@@ -2510,7 +2610,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     GoogleSignInAccount mSignedInAccount = null;
 
     private void onConnected(GoogleSignInAccount googleSignInAccount) {
-        Log.d(TAG, "onConnected(): connected to Google APIs");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "onConnected(): connected to Google APIs");
+        }
         if (mSignedInAccount != googleSignInAccount) {
 
             mSignedInAccount = googleSignInAccount;
@@ -2548,7 +2650,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
                             if (invitation != null && invitation.getInvitationId() != null) {
                                 // retrieve and cache the invitation ID
-                                Log.d(TAG, "onConnected: connection hint has a room invite!");
+                                if (LogUtil.islogOn()) {
+                                    Log.d(TAG, "onConnected: connection hint has a room invite!");
+                                }
                                 acceptInviteToRoom(invitation.getInvitationId());
                             }
                         }
@@ -2569,7 +2673,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     }
 
     public void onDisconnected() {
-        Log.d(TAG, "onDisconnected()");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG, "onDisconnected()");
+        }
 
         mRealTimeMultiplayerClient = null;
         mInvitationsClient = null;
@@ -2582,7 +2688,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         // is connected yet).
         @Override
         public void onConnectedToRoom(Room room) {
-            Log.d(TAG, "onConnectedToRoom.");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "onConnectedToRoom.");
+            }
 
             //get participants and my ID:
             mParticipants = room.getParticipants();
@@ -2594,9 +2702,11 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
 
             // print out the list of participants (for debug purposes)
-            Log.d(TAG, "Room ID: " + mRoomId);
-            Log.d(TAG, "My ID " + mMyId);
-            Log.d(TAG, "<< CONNECTED TO ROOM>>");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "Room ID: " + mRoomId);
+                Log.d(TAG, "My ID " + mMyId);
+                Log.d(TAG, "<< CONNECTED TO ROOM>>");
+            }
         }
 
         // Called when we get disconnected from the room. We return to the main screen.
@@ -2624,7 +2734,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         @Override
         public void onP2PDisconnected(@NonNull String participant) {
-            Log.d(TAG,"P2P DISCONNECTED");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG,"P2P DISCONNECTED");
+            }
         }
 
         @Override
@@ -2638,7 +2750,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         @Override
         public void onPeerLeft(Room room, @NonNull List<String> peersWhoLeft) {
-            Log.d(TAG,"PEER LEFT RESET ALL");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG,"PEER LEFT RESET ALL");
+            }
 
             String s;
             if(winLine.getVisibility()==View.VISIBLE){
@@ -2681,7 +2795,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         @Override
         public void onPeersDisconnected(Room room, @NonNull List<String> peers) {
-            Log.d(TAG,"on PEERs DISCONNECTED");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG,"on PEERs DISCONNECTED");
+            }
             updateRoom(room);
         }
     };
@@ -2733,7 +2849,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         // Called when room has been created
         @Override
         public void onRoomCreated(int statusCode, Room room) {
-            Log.d(TAG, "onRoomCreated(" + statusCode + ", " + room + ")");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "onRoomCreated(" + statusCode + ", " + room + ")");
+            }
             if (statusCode != GamesCallbackStatusCodes.OK) {
                 Log.e(TAG, "*** Error: onRoomCreated, status " + statusCode);
                 showGameError();
@@ -2750,7 +2868,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         // Called when room is fully connected.
         @Override
         public void onRoomConnected(int statusCode, Room room) {
-            Log.d(TAG, "onRoomConnected(" + statusCode + ", " + room + ")");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "onRoomConnected(" + statusCode + ", " + room + ")");
+            }
             if (statusCode != GamesCallbackStatusCodes.OK) {
                 Log.e(TAG, "*** Error: onRoomConnected, status " + statusCode);
                 showGameError();
@@ -2761,7 +2881,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         @Override
         public void onJoinedRoom(int statusCode, Room room) {
-            Log.d(TAG, "onJoinedRoom(" + statusCode + ", " + room + ")");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "onJoinedRoom(" + statusCode + ", " + room + ")");
+            }
             if (statusCode != GamesCallbackStatusCodes.OK) {
                 Log.e(TAG, "*** Error: onRoomConnected, status " + statusCode);
                 showGameError();
@@ -2777,7 +2899,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         @Override
         public void onLeftRoom(int statusCode, @NonNull String roomId) {
             // we have left the room; return to main screen.
-            Log.d(TAG, "onLeftRoom, code " + statusCode);
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "onLeftRoom, code " + statusCode);
+            }
             switchToMainScreen();
         }
     };
@@ -2942,16 +3066,20 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                         mRoomId, p.getParticipantId(), new RealTimeMultiplayerClient.ReliableMessageSentCallback() {
                             @Override
                             public void onRealTimeMessageSent(int statusCode, int tokenId, String recipientParticipantId) {
-                                Log.d(TAG, "RealTime message sent");
-                                Log.d(TAG, "  statusCode: " + statusCode);
-                                Log.d(TAG, "  tokenId: " + tokenId);
-                                Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                if (LogUtil.islogOn()) {
+                                    Log.d(TAG, "RealTime message sent");
+                                    Log.d(TAG, "  statusCode: " + statusCode);
+                                    Log.d(TAG, "  tokenId: " + tokenId);
+                                    Log.d(TAG, "  recipientParticipantId: " + recipientParticipantId);
+                                }
                             }
                         })
                         .addOnSuccessListener(new OnSuccessListener<Integer>() {
                             @Override
                             public void onSuccess(Integer tokenId) {
-                                Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                if (LogUtil.islogOn()) {
+                                    Log.d(TAG, "Created a reliable message with tokenId: " + tokenId);
+                                }
                             }
                         });
             } else {
@@ -2985,7 +3113,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     int mCurScreen = -1;
 
     void switchToScreen(int screenId) {
-        Log.d(TAG,"SWITCH TO MAIN SCREEN");
+        if (LogUtil.islogOn()) {
+            Log.d(TAG,"SWITCH TO MAIN SCREEN");
+        }
         // make the requested screen visible; hide all others.
         for (int id : SCREENS) {
             findViewById(id).setVisibility(screenId == id ? View.VISIBLE : View.GONE);
@@ -3009,10 +3139,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     void switchToMainScreen() {
         if (mRealTimeMultiplayerClient != null) {
-            Log.d(TAG,"onScreen1 : ");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG,"onScreen1 : ");
+            }
             switchToScreen(R.id.screen_main);
         } else {
-            Log.d(TAG,"onScreen2 : ");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG,"onScreen2 : ");
+            }
             switchToScreen(R.id.screen_sign_in);
         }
     }
@@ -3217,7 +3351,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 Log.e(TAG, "Error checking internet connection", e);
             }
         } else {
-            Log.d(TAG, "No network available!");
+            if (LogUtil.islogOn()) {
+                Log.d(TAG, "No network available!");
+            }
         }
         return false;
     }

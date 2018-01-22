@@ -583,7 +583,9 @@ public class BoardPlay2PlayerBiddingActivity extends AppCompatActivity {
                 mInterstitialAd.show();
                 gamePlayed = 0;
             } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
+                if (LogUtil.islogOn()) {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
             }
 
         }

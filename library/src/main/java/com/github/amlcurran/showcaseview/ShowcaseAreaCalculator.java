@@ -42,7 +42,7 @@ class ShowcaseAreaCalculator {
             return false;
         }
 
-        Log.d("ShowcaseView", "Recalculated");
+        //Log.d("ShowcaseView", "Recalculated");
 
         mShowcaseRect.left = cx - dw / 2;
         mShowcaseRect.top = cy - dh / 2;

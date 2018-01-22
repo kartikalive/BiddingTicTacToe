@@ -393,9 +393,7 @@ public class DrawingViewNormal extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (LogUtil.islogOn()) {
-                    if (LogUtil.islogOn()) {
                         Log.d("TAG123", "Action Up : ");
-                    }
                 }
                 touch_up();
                 invalidate();

@@ -268,7 +268,9 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
     }
 
     public void dropIn(View view){
-        Log.d("CPU TRN ", "pPLEASE WAIT");
+        if (LogUtil.islogOn()) {
+            Log.d("CPU TRN ", "pPLEASE WAIT");
+        }
         if(cpuTurn==false){
             dropInFull(view);
         }
@@ -461,13 +463,16 @@ public class BoardPlayCPUNormalActivity extends AppCompatActivity {
                 mInterstitialAd.show();
                 gamePlayed = 0;
             } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
+                if (LogUtil.islogOn()) {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
             }
 
         }
         myPreferences.saveGamePlayed(this, gamePlayed);
-        Log.d("GAME PLAYED", ":::" + gamePlayed);
-
+        if (LogUtil.islogOn()) {
+            Log.d("GAME PLAYED", ":::" + gamePlayed);
+        }
 
     }
 

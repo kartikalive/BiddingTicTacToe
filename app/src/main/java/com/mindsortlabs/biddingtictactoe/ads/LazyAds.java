@@ -8,6 +8,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 
 /**
  * Using Google's Ad-mob Reward Video to load Ads in the app
@@ -55,7 +56,9 @@ public class LazyAds implements RewardedVideoAdListener {
         if (instance == null) {
             instance = new LazyAds();
             context = c ;
-            Log.d(LazyAds.class.getSimpleName(),"mReward NULL");
+            if (LogUtil.islogOn()) {
+                Log.d(LazyAds.class.getSimpleName(), "mReward NULL");
+            }
             // Initialize the Mobile Ads SDK.
             MobileAds.initialize(context, APP_ID);
             mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
