@@ -9,15 +9,16 @@ import android.widget.ImageView;
 
 
 public class SplashScreen extends Activity {
-
+    Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ImageView imageView = findViewById(R.id.imageView);
         imageView.animate().alpha(1f).setDuration(1500);
-        int SPLASH_TIME_OUT = 2000;
-        new Handler().postDelayed(new Runnable() {
+        int SPLASH_TIME_OUT = 1400;
+        handler =new Handler();
+                handler.postDelayed(new Runnable() {
 
             /*
              * Showing splash screen with a timer. This will be useful when you
@@ -39,5 +40,12 @@ public class SplashScreen extends Activity {
             }
         }, SPLASH_TIME_OUT);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(handler != null)
+            handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 }

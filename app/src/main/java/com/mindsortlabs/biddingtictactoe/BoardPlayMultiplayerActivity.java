@@ -3253,6 +3253,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         // Create the "show" button, which shows a rewarded video if one is loaded.
         mShowVideoButton = findViewById(R.id.video);
         mShowVideoButton.setEnabled(lazyAds.isButtonEnabled());
+        mShowVideoButton.setVisibility(lazyAds.isButtonEnabled()?View.VISIBLE:View.INVISIBLE);
 
         mShowVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -3285,11 +3286,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     @Override
     public void enableButton() {
         mShowVideoButton.setEnabled(true);
+        mShowVideoButton.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void disableButton() {
         mShowVideoButton.setEnabled(false);
+        mShowVideoButton.setVisibility(View.INVISIBLE);
     }
 
     @Override

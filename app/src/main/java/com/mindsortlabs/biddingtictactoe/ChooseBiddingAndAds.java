@@ -76,6 +76,7 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
         lazyAds.initializeInterface(this);
 
         mShowVideoButton.setEnabled(lazyAds.isButtonEnabled());
+        mShowVideoButton.setVisibility(lazyAds.isButtonEnabled()?View.VISIBLE:View.INVISIBLE);
 
         mShowVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,11 +184,13 @@ public class ChooseBiddingAndAds extends AppCompatActivity implements LazyAds.Im
     @Override
     public void enableButton() {
         mShowVideoButton.setEnabled(true);
+        mShowVideoButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void disableButton() {
         mShowVideoButton.setEnabled(false);
+        mShowVideoButton.setVisibility(View.INVISIBLE);
     }
 
     @Override

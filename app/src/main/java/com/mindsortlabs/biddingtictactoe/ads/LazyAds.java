@@ -8,6 +8,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.mindsortlabs.biddingtictactoe.R;
 import com.mindsortlabs.biddingtictactoe.log.LogUtil;
 
 /**
@@ -17,11 +18,7 @@ import com.mindsortlabs.biddingtictactoe.log.LogUtil;
  */
 public class LazyAds implements RewardedVideoAdListener {
 
-    /**
-     *  AdMob ID for ads unique for each app. Use testing id's for development purposes
-     */
-    private static final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
-    private static final String APP_ID = "ca-app-pub-3940256099942544~3347511713";
+
 
     /**
      * Single Instance used in app lifetime
@@ -60,7 +57,7 @@ public class LazyAds implements RewardedVideoAdListener {
                 Log.d(LazyAds.class.getSimpleName(), "mReward NULL");
             }
             // Initialize the Mobile Ads SDK.
-            MobileAds.initialize(context, APP_ID);
+            MobileAds.initialize(context, context.getString(R.string.AD_APP_ID));
             mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
             mRewardedVideoAd.setRewardedVideoAdListener(instance);
         }
@@ -72,7 +69,7 @@ public class LazyAds implements RewardedVideoAdListener {
 
     private static void loadRewardedVideoAd() {
         if (!mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.loadAd(AD_UNIT_ID, new AdRequest.Builder().build());
+            mRewardedVideoAd.loadAd(context.getString(R.string.AD_REWARD_UNIT_ID), new AdRequest.Builder().build());
         }
     }
 

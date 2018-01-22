@@ -4,12 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import com.squareup.leakcanary.LeakCanary;
-
-/**
- * Created by kartik1 on 17-01-2018.
- */
-
 public class CustomApplicationClass extends Application {
 
     @Override

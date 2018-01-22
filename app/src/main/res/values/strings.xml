@@ -124,15 +124,14 @@
         \n\nPractice against a brilliant AI, Play and Chat with friends or strangers online.\n\n
                                 </string>
 
-    <string name="AD_UNIT_ID">
-        ca-app-pub-3940256099942544/5224354917
-    </string>
-    <string name="APP_ID">
-        ca-app-pub-3940256099942544~3347511713
-    </string>
     <string name="player1won">Player 1  Won</string>
     <string name="player2won">Player 2  Won</string>
     <string name="draw">It\'s a draw</string>
     <string name="play">Play</string>
+
+    <!-- TEST IDS REPLACE THIS WITH REAL IDS WHILE RELEASING-->
+    <string name="AD_APP_ID">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="AD_APP_INTERSTITIALS_UNIT_ID">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="AD_REWARD_UNIT_ID">ca-app-pub-3940256099942544/5224354917</string>
 
 </resources>
