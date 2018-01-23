@@ -93,7 +93,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
      * the game with the Google Play game services API.
      */
 
-    final static String TAG = "ButtonClicker2000";
+    final static String TAG = BoardPlayMultiplayerActivity.class.getSimpleName();
 
     // Request codes for the UIs that we show with startActivityForResult:
     final static int RC_SELECT_PLAYERS = 10000;
@@ -395,7 +395,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
         });
 
-        radioGroupSymbol = (RadioGroup) findViewById(R.id.radiogroup_symbol);
+        radioGroupSymbol = findViewById(R.id.radiogroup_symbol);
         radioGroupSymbol.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -478,24 +478,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         radioGroupMsg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i==R.id.radiobtn_msg_on){
-                    tempMsg[0] = true;
-                }
-                else{
-                    tempMsg[0] = false;
-                }
+                tempMsg[0] = i == R.id.radiobtn_msg_on;
             }
         });
 
         radioGroupSound.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i==R.id.radiobtn_sound_on){
-                    tempSound[0] = true;
-                }
-                else{
-                    tempSound[0] = false;
-                }
+                tempSound[0] = i == R.id.radiobtn_sound_on;
             }
         });
 
@@ -601,8 +591,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         LayoutInflater inflater = getLayoutInflater();
         View theView = inflater.inflate(R.layout.dialog_number_picker, null);
 
-        np = (NumberPicker) theView.findViewById(R.id.num_picker);
-        imgGoldStack = (ImageView) theView.findViewById(R.id.goldStackImg);
+        np = theView.findViewById(R.id.num_picker);
+        imgGoldStack = theView.findViewById(R.id.goldStackImg);
         builder.setView(theView);
 
         builder.setView(theView)
@@ -610,7 +600,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        tvBid1 = (TextView) findViewById(R.id.tv_bid1);
+                        tvBid1 = findViewById(R.id.tv_bid1);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                         tvBid1.setText("Hidden");
                         tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
@@ -1364,7 +1354,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         View customView = inflater.inflate(R.layout.dialog_custom_toast, null);
 
         ImageView ivMsg = customView.findViewById(R.id.iv_msg);
-        TextView tvMsg = (TextView) customView.findViewById(R.id.tv_msg);
+        TextView tvMsg = customView.findViewById(R.id.tv_msg);
         ivMsg.setImageResource(R.drawable.ic_message_system);
         tvMsg.setText(message+"");
         Toast toast = new Toast(getApplicationContext());
@@ -1399,7 +1389,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         ImageView ivMsg = customView.findViewById(R.id.iv_msg);
         ivMsg.setImageResource(R.drawable.ic_message_btn);
-        TextView tvMsg = (TextView) customView.findViewById(R.id.tv_msg);
+        TextView tvMsg = customView.findViewById(R.id.tv_msg);
         tvMsg.setText(opponentNickname+": " + message+"");
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
@@ -1473,8 +1463,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                        tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+                        tvBid1 = findViewById(R.id.tv_bid1);
+                        tvBid2 = findViewById(R.id.tv_bid2);
 
                         tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                         tvBid2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
@@ -1536,18 +1526,18 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         tvBid1 = findViewById(R.id.tv_bid1);
         tvBid2 = findViewById(R.id.tv_bid2);
         tvBidTime = findViewById(R.id.tv_bid_time);
-        tvPlayerTitle = (TextView) findViewById(R.id.tv_player_title);
+        tvPlayerTitle = findViewById(R.id.tv_player_title);
         tvTotal1 = findViewById(R.id.tv_total1);
         tvTotal2 = findViewById(R.id.tv_total2);
 
-        gridLayout = (GridLayout) findViewById(R.id.gridLayout);
-        winLine = (ImageView) findViewById(R.id.win_line_horizontal2);
+        gridLayout = findViewById(R.id.gridLayout);
+        winLine = findViewById(R.id.win_line_horizontal2);
 
-        radioBtnCross = (RadioButton) findViewById(R.id.radiobtn_cross);
-        radioBtnCircle = (RadioButton) findViewById(R.id.radiobtn_circle);
+        radioBtnCross = findViewById(R.id.radiobtn_cross);
+        radioBtnCircle = findViewById(R.id.radiobtn_circle);
 
-        layoutPlayer1 = (LinearLayout) findViewById(R.id.layout_player1);
-        layoutPlayer2 = (LinearLayout) findViewById(R.id.layout_player2);
+        layoutPlayer1 = findViewById(R.id.layout_player1);
+        layoutPlayer2 = findViewById(R.id.layout_player2);
 
         btnMessage = findViewById(R.id.btn_message);
         btnSettings = findViewById(R.id.btn_settings);
@@ -1595,7 +1585,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         mPlayAgain = false;
         oppPlayAgain = false;
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
         settingsVariables();
         updateMyTotalCoins();
@@ -1668,7 +1658,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 animateCounters(counter, tappedCounter);
 
                 if (!checkWinner()) {
-                    SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+                    if(soundEffects) {
+                        SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+                    }
                     cancelToast();
                     mToast = Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT);
                     mToast.show();
@@ -1682,8 +1674,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                        tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+                        tvBid1 = findViewById(R.id.tv_bid1);
+                        tvBid2 = findViewById(R.id.tv_bid2);
                         tvBid1.setText("00");
                         tvBid1.animate().alpha(1f).setDuration(200);
                         tvBid2.setText("00");
@@ -1745,7 +1737,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     private void peerDropIn(int pos){
 
-        counter = (ImageView) findViewById(R.id.activity_multiplayer).findViewWithTag(String.valueOf(pos));
+        counter =(ImageView)findViewById(R.id.activity_multiplayer).findViewWithTag(String.valueOf(pos));
         int tappedCounter = pos;
         if (LogUtil.islogOn()) {
             Log.d(TAG,"playedPos: " + tappedCounter);
@@ -1757,7 +1749,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         animateCounters(counter, tappedCounter);
 
         if (!checkWinner()) {
-            SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+            if(soundEffects){
+                SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+            }
             cancelToast();
             mToast = Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT);
             mToast.show();
@@ -1771,8 +1765,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                tvBid1 = (TextView) findViewById(R.id.tv_bid1);
-                tvBid2 = (TextView) findViewById(R.id.tv_bid2);
+                tvBid1 = findViewById(R.id.tv_bid1);
+                tvBid2 = findViewById(R.id.tv_bid2);
                 tvBid1.setText("00");
                 tvBid1.animate().alpha(1f).setDuration(200);
                 tvBid2.setText("00");
@@ -1845,21 +1839,27 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     private void gameOverMessage(int i) {
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
-        TextView winnerMessage = (TextView) findViewById(R.id.winnerMessage);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
+        TextView winnerMessage = findViewById(R.id.winnerMessage);
         layout.setVisibility(View.VISIBLE);
         layout.setAlpha(0);
         deductCoins();
 
         if (i == 1) {
-            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            if(soundEffects){
+                SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            }
             winnerMessage.setText(opponentNickname+ " won");
         } else if (i == 2) {
             winnerMessage.setText("It's a draw");
-            SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
+            if(soundEffects){
+                SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
+            }
         } else {
             winnerMessage.setText("You won");
-            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            if(soundEffects){
+                SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            }
         }
 
         layout.animate().alpha(1).setDuration(300);
@@ -1877,10 +1877,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         int newScore = currScore;
         int changeInScore = 0;
         if(status==1&&opponentScore>currScore){
-            changeInScore = -30;
+            changeInScore = -10;
         }
         else if(status==1&&opponentScore<=currScore){
-            changeInScore = -50;
+            changeInScore = -30;
         }
 
         else if(status==2){
@@ -2020,7 +2020,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     public void playAgain(View view) {
 //        releaseSound();
-        LinearLayout layout = (LinearLayout) findViewById(R.id.playAgainLayout);
+        LinearLayout layout = findViewById(R.id.playAgainLayout);
         layout.setVisibility(View.GONE);
         mPlayAgain = true;
         broadcastMessage(2);
@@ -2899,11 +2899,8 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
         }
 
-        if(turnsPlayed>1){
-            return true;
-        }
+        return turnsPlayed > 1;
 
-        return false;
     }
 
     // Show error message about game being cancelled and return to main screen.
@@ -3015,7 +3012,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         mParticipantScore.clear();
         mFinishedParticipants.clear();
     }
-
+/*
     // Start the gameplay phase of the game.
     void startGame(boolean multiplayer) {
         mMultiplayer = multiplayer;
@@ -3036,9 +3033,9 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 //                gameTick();
                 handler.postDelayed(this, 1000);
             }
-        }, 1000);*/
+        }, 1000);
     }
-
+*/
     // Game tick -- update countdown, check if game ended.
 //    void gameTick() {
 //        if (mSecondsLeft > 0) {
@@ -3056,7 +3053,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 //        }
 //    }
 
-    // indicates the player scored one point
+    /* indicates the player scored one point
     void scoreOnePoint() {
         if (mSecondsLeft <= 0) {
             return; // too late!
@@ -3068,6 +3065,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         // broadcast our new score to our peers
         broadcastScore(false);
     }
+    */
 
     /*
      * COMMUNICATIONS SECTION. Methods that implement the game's network
@@ -3122,7 +3120,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 //        }
 //    };
 
-
+    /*
     // Broadcast my score to everybody else.
     void broadcastScore(boolean finalScore) {
         if (!mMultiplayer) {
@@ -3173,7 +3171,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
         }
     }
-
+    */
     /*
      * UI SECTION. Methods that implement the game's UI.
      */
@@ -3307,9 +3305,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     LazyAds lazyAds;
 
-    private final String AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917";
-    private final String APP_ID = "ca-app-pub-3940256099942544~3347511713";
-
     private final int REWARDED_COINS = 2;
     private final int MAX_REWARD_COINS = 10;
     private final int MIN_REWARD_COINS = 0;
@@ -3317,7 +3312,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     int totalRewardedCoins = 0;
     boolean isRewarded;
 
-    private RewardedVideoAd mRewardedVideoAd;
     private ImageButton mShowVideoButton;
 
 

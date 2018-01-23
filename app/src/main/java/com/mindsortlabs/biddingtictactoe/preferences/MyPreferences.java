@@ -129,7 +129,7 @@ public class MyPreferences {
         if(status==1){
             int currentLossStats = Integer.parseInt(getUserLoss(context));
             currentLossStats++;
-            editor.putString(userWin,String.valueOf(currentLossStats));
+            editor.putString(userLoss,String.valueOf(currentLossStats));
         }
         editor.apply();
     }
@@ -171,7 +171,4 @@ public class MyPreferences {
         editor.putInt(tutorialStatusString, status);
         editor.apply();
     }
-
-
-
 }
