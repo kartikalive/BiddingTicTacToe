@@ -16,12 +16,18 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.method.NumberKeyListener;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -206,6 +212,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     SoundPool turnSound, winSound, drawSound, loseSound;
     boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
     int turnSoundId, winSoundId, drawSoundId, loseSoundId;
+
+//    NumberPicker np;
+    EditText mInputText;
+//    android.support.v7.app.AlertDialog bidDialog ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -604,7 +614,11 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                         tvBid1.setText("Hidden");
                         tvBid1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
-                        bid1 = np.getValue();
+//                        bid1 = np.getValue();
+                        mInputText = findInput(np);
+                        mInputText.setFilters(new InputFilter[]{ new InputTextFilter() });
+                        Log.d("TAGNumberPicker: ",mInputText.getText()+"");
+                        bid1 = Integer.parseInt(mInputText.getText()+"");
                         updatedBid1 = true;
 
                         broadcastBid(bid1);
@@ -643,7 +657,24 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
         alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        alertDialog.getWindow().clearFlags(
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    private EditText findInput(ViewGroup np) {
+        int count = np.getChildCount();
+        for (int i = 0; i < count; i++) {
+            final View child = np.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                findInput((ViewGroup) child);
+            } else if (child instanceof EditText) {
+                return (EditText) child;
+            }
+        }
+        return null;
     }
 
     private void setGoldStackImage(int bidSelected) {
@@ -1446,7 +1477,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             public void onFinish() {
 
                 playShown = false;
-                gameActive = true;
+//                gameActive = true;
 
                 if (!gameStarted) {
                     gameStarted = true;
@@ -1482,6 +1513,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             updatedBid1 = false;
                             updatedBid2 = false;
                         } else if (bid1 > bid2) {
+                            gameActive = true;
                             myTurn = true;
                             mToast = Toast.makeText(BoardPlayMultiplayerActivity.this, "Your turn", Toast.LENGTH_SHORT);
                             mToast.show();
@@ -1494,6 +1526,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             tvTotal2.animate().alpha(1f).setDuration(200);
                             tvBid1.setClickable(false);
                         } else {
+                            gameActive = false;
                             myTurn = false;
                             mToast = Toast.makeText(BoardPlayMultiplayerActivity.this, "Opponent's turn", Toast.LENGTH_SHORT);
                             mToast.show();
@@ -3441,6 +3474,84 @@ public class BoardPlayMultiplayerActivity extends Activity implements
             }
         }
         return false;
+    }
+
+    class InputTextFilter extends NumberKeyListener {
+
+        /**
+         * The numbers accepted by the input text's {@link android.view.LayoutInflater.Filter}
+         */
+        private final char[] DIGIT_CHARACTERS = new char[] {
+                // Latin digits are the common case
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                // Arabic-Indic
+                '\u0660', '\u0661', '\u0662', '\u0663', '\u0664', '\u0665', '\u0666', '\u0667', '\u0668'
+                , '\u0669',
+                // Extended Arabic-Indic
+                '\u06f0', '\u06f1', '\u06f2', '\u06f3', '\u06f4', '\u06f5', '\u06f6', '\u06f7', '\u06f8'
+                , '\u06f9',
+                // Hindi and Marathi (Devanagari script)
+                '\u0966', '\u0967', '\u0968', '\u0969', '\u096a', '\u096b', '\u096c', '\u096d', '\u096e'
+                , '\u096f',
+                // Bengali
+                '\u09e6', '\u09e7', '\u09e8', '\u09e9', '\u09ea', '\u09eb', '\u09ec', '\u09ed', '\u09ee'
+                , '\u09ef',
+                // Kannada
+                '\u0ce6', '\u0ce7', '\u0ce8', '\u0ce9', '\u0cea', '\u0ceb', '\u0cec', '\u0ced', '\u0cee'
+                , '\u0cef'
+        };
+
+        // XXX This doesn't allow for range limits when controlled by a
+        // soft input method!
+        public int getInputType() {
+            return InputType.TYPE_CLASS_TEXT;
+        }
+
+        @Override
+        protected char[] getAcceptedChars() {
+            return DIGIT_CHARACTERS;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            Log.v("filter", "source:" + source.toString());
+
+            CharSequence filtered = String.valueOf(source.subSequence(start, end));
+
+            Log.v("filter", "filtered:" + filtered.toString());
+            if (TextUtils.isEmpty(filtered)) {
+                return "";
+            }
+            String result = String.valueOf(dest.subSequence(0, dstart)) + filtered
+                    + dest.subSequence(dend, dest.length());
+            String str = String.valueOf(result).toLowerCase();
+            try{
+                int value = Integer.parseInt(str);
+
+                if(1 <= value && value <= 12) {
+                    return source;
+                }
+            } catch(NumberFormatException e) {
+                //continue with the checking
+            }
+
+            for (String val : np.getDisplayedValues()) {
+                String valLowerCase = val.toLowerCase();
+                if (valLowerCase.startsWith(str)) {
+                    final int selstart = result.length();
+                    final int selend = val.length();
+                    mInputText.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mInputText.setSelection(selstart, selend);
+                        }
+                    });
+                    return val.subSequence(dstart, val.length());
+                }
+            }
+            return "";
+
+        }
     }
 
 
