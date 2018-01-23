@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -200,6 +203,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
     Handler handler = null;
     boolean playShown = false;
 
+    SoundPool turnSound, winSound, drawSound, loseSound;
+    boolean turnSoundLoaded = false, winSoundLoaded = false, drawSoundLoaded = false, loseSoundLoaded = false;
+    int turnSoundId, winSoundId, drawSoundId, loseSoundId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -227,6 +234,41 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         checkPlaceholderIds();
         settingsVariables();
         btnSettings.setClickable(false);
+
+
+//----------------------------------------SOUND---------------------------------------
+        loadSound();
+        turnSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                turnSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        winSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                winSoundLoaded = true;
+            }
+        });
+
+        drawSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                drawSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
+        loseSound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int i, int i1) {
+                loseSoundLoaded = true;
+//                playSound(1);
+            }
+        });
+
     }
 
     private void updateMyNickname() {
@@ -1626,7 +1668,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                 animateCounters(counter, tappedCounter);
 
                 if (!checkWinner()) {
-//                    SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+                    SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
                     cancelToast();
                     mToast = Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT);
                     mToast.show();
@@ -1658,6 +1700,49 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         }
     }
 
+    private void releaseSound() {
+        if (turnSound != null) {
+            turnSound.setOnLoadCompleteListener(null);
+            turnSound.release();
+        }
+        if (winSound != null) {
+            winSound.setOnLoadCompleteListener(null);
+            winSound.release();
+        }
+        if (drawSound != null) {
+            drawSound.setOnLoadCompleteListener(null);
+            drawSound.release();
+        }
+        if (loseSound != null) {
+            loseSound.setOnLoadCompleteListener(null);
+            loseSound.release();
+        }
+
+    }
+
+    private void loadSound() {
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            turnSound = new SoundPool.Builder().build();
+            winSound = new SoundPool.Builder().build();
+            drawSound = new SoundPool.Builder().build();
+            loseSound = new SoundPool.Builder().build();
+        } else {
+            turnSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            winSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            drawSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            loseSound = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        turnSoundId = turnSound.load(this, R.raw.sound1, 1);
+
+        //Change -------------------------------------------------
+        winSoundId = winSound.load(this, R.raw.sound2, 2);
+        drawSoundId = drawSound.load(this, R.raw.sound2, 2);
+        loseSoundId = loseSound.load(this, R.raw.sound2, 2);
+    }
+
     private void peerDropIn(int pos){
 
         counter = (ImageView) findViewById(R.id.activity_multiplayer).findViewWithTag(String.valueOf(pos));
@@ -1672,7 +1757,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         animateCounters(counter, tappedCounter);
 
         if (!checkWinner()) {
-//                    SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
+            SoundActivity.playSound(this, turnSound, turnSoundLoaded, turnSoundId);
             cancelToast();
             mToast = Toast.makeText(this, "Time to Bid", Toast.LENGTH_SHORT);
             mToast.show();
@@ -1700,6 +1785,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
     private boolean checkWinner() {
         int i = 0;
+        boolean gameIsOver = true;
         for (int[] winningPosition : winningPositions) {
 
             if (gameState[winningPosition[0]] == gameState[winningPosition[1]] &&
@@ -1735,8 +1821,6 @@ public class BoardPlayMultiplayerActivity extends Activity implements
 
                 i++;
 
-                boolean gameIsOver = true;
-
                 for (int counterState : gameState) {
 
                     if (counterState == 2) gameIsOver = false;
@@ -1750,7 +1834,7 @@ public class BoardPlayMultiplayerActivity extends Activity implements
                             gameOverMessage(2);
                         }
                     }, 500);
-
+                    gameIsOver = false;
                 }
 
             }
@@ -1768,14 +1852,14 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         deductCoins();
 
         if (i == 1) {
-//            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
             winnerMessage.setText(opponentNickname+ " won");
         } else if (i == 2) {
             winnerMessage.setText("It's a draw");
-//            SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
+            SoundActivity.playSound(this, drawSound, drawSoundLoaded, drawSoundId);
         } else {
             winnerMessage.setText("You won");
-//            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
+            SoundActivity.playSound(this, winSound, winSoundLoaded, winSoundId);
         }
 
         layout.animate().alpha(1).setDuration(300);
@@ -3301,7 +3385,10 @@ public class BoardPlayMultiplayerActivity extends Activity implements
         removeFromMemory();
         super.onDestroy();
     }
+
     private void removeFromMemory() {
+
+        releaseSound();
 
         if(lazyAds!=null) {
             lazyAds.removeInterface();
