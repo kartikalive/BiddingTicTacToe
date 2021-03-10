@@ -28,9 +28,3 @@ Bidding Tic-Tac-Toe is a modified version of the regular Tic-Tac-Toe where playe
   <img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/customplay.png" width="200"/>
   <img src="https://github.com/mindsortlabs/BiddingTicTacToe/blob/master/docs/ScreenShots/drawplay.png" width="200"/>
 </p>
-
-
-## Maintainers
-The project is maintained by
-- Kartik Bhutani ([@kartikalive](https://github.com/kartikalive))
-- Rishabh Jain ([@rishabh30](https://github.com/rishabh30))
